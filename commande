@@ -5,6 +5,8 @@
 - composer require --dev orm-fixtures
 - composer require symfony/validator
 - composer require symfony/form
+- composer require symfonycasts/verify-email-bundle
+- composer require symfony/security-bundle
 
 ensuite composer update.
 
