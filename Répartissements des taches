@@ -1,0 +1,19 @@
+1. Création entité
+Kilian.D : origin, classroom, course, file
+Alexandre : exercise
+Romain : thematic, user
+Kilian.O : exercise_skill, skill
+
+2. Jeu d'essai
+Alexandre
+
+3.
+
+Kilian.D : Page Accueil (non connecté), Page Connexion, Soumettre un exercice
+Alexandre : base.html.twig, Page Rechercher un exercice
+Kilian.O : Page Mathématique
+Romain : Page Mes exercices
+
+page administrations (plus tard) réparties entre nous
+
+page mot de passe oublié (plus tard)
