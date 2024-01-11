@@ -18,24 +18,13 @@ class Skill
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: course::class)]
-    private Collection $course_id;
-
-    public function __construct()
-    {
-        $this->course_id = new ArrayCollection();
-    }
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Course $course_id = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(int $id): static
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -50,26 +39,14 @@ class Skill
         return $this;
     }
 
-    /**
-     * @return Collection<int, course>
-     */
-    public function getCourseId(): Collection
+    public function getCourseId(): ?Course
     {
         return $this->course_id;
     }
 
-    public function addCourseId(course $courseId): static
+    public function setCourseId(?Course $course_id): static
     {
-        if (!$this->course_id->contains($courseId)) {
-            $this->course_id->add($courseId);
-        }
-
-        return $this;
-    }
-
-    public function removeCourseId(course $courseId): static
-    {
-        $this->course_id->removeElement($courseId);
+        $this->course_id = $course_id;
 
         return $this;
     }

@@ -13,3 +13,9 @@ ensuite composer update.
 Créer un controller : symfony console make:controller NomController
 
 Créer une entité : symfony console make:entity NomEntite
+
+Créer la base de donnée en local :
+- php bin/console doctrine:database:create
+- php bin/console doctrine:migrations:migrate
+
+ou alors importer mathindex.sql dans phpmyadmin et lancer les datafixtures avec php bin/console doctrine:fixtures:load

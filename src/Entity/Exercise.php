@@ -31,10 +31,13 @@ class Exercise
     #[ORM\JoinColumn(nullable: false)]
     private ?Thematic $thematic_id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $chapter = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\ManyToOne]
+    private ?ExerciceSkill $exercise_skill_id = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $keywords = null;
 
     #[ORM\Column]
@@ -44,22 +47,22 @@ class Exercise
     private ?float $duration = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Origin $origin_id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $origin_name = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $origin_information = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $proposed_by_type = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $proposed_by_first_name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $proposed_by_last_name = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -73,6 +76,7 @@ class Exercise
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $created_by_id = null;
+
 
     public function getId(): ?int
     {
@@ -135,6 +139,18 @@ class Exercise
     public function setChapter(string $chapter): static
     {
         $this->chapter = $chapter;
+
+        return $this;
+    }
+    
+    public function getExerciseSkillId(): ?ExerciceSkill
+    {
+        return $this->exercise_skill_id;
+    }
+
+    public function setExerciseSkillId(?ExerciceSkill $exercise_skill_id): static
+    {
+        $this->exercise_skill_id = $exercise_skill_id;
 
         return $this;
     }
@@ -282,4 +298,5 @@ class Exercise
 
         return $this;
     }
+
 }
