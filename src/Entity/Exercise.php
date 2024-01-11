@@ -34,9 +34,6 @@ class Exercise
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $chapter = null;
 
-    #[ORM\ManyToOne]
-    private ?ExerciceSkill $exercise_skill_id = null;
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $keywords = null;
 
@@ -76,6 +73,14 @@ class Exercise
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $created_by_id = null;
+
+    #[ORM\ManyToMany(targetEntity: Skill::class)]
+    private Collection $skills;
+
+    public function __construct()
+    {
+        $this->skills = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -139,18 +144,6 @@ class Exercise
     public function setChapter(string $chapter): static
     {
         $this->chapter = $chapter;
-
-        return $this;
-    }
-    
-    public function getExerciseSkillId(): ?ExerciceSkill
-    {
-        return $this->exercise_skill_id;
-    }
-
-    public function setExerciseSkillId(?ExerciceSkill $exercise_skill_id): static
-    {
-        $this->exercise_skill_id = $exercise_skill_id;
 
         return $this;
     }
@@ -295,6 +288,30 @@ class Exercise
     public function setCreatedById(?User $created_by_id): static
     {
         $this->created_by_id = $created_by_id;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Skill>
+     */
+    public function getSkill(): Collection
+    {
+        return $this->skills;
+    }
+
+    public function addSkill(Skill $skill): self
+    {
+        if (!$this->skills->contains($skill)) {
+            $this->skills[] = $skill;
+        }
+
+        return $this;
+    }
+
+    public function removeSkill(Skill $skill): self
+    {
+        $this->skills->removeElement($skill);
 
         return $this;
     }

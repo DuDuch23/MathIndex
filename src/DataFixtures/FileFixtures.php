@@ -8,44 +8,46 @@ use Doctrine\Persistence\ObjectManager;
 
 class FileFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
-    {
-        $dataFile = [
+    public const FILE = [
             [
                 'name' => 'ExerciceMaths_Arithmétique.pdf',
                 'original_name' => '',
                 'extension' => 'pdf',
-                'size' => '',
+                'size' => '500',
             ],
             [
                 'name' => 'ExerciceMaths_Multiplication.docx',
                 'original_name' => '',
                 'extension' => 'docx',
-                'size' => '',
+                'size' => '2',
             ],
             [
                 'name' => 'ExerciceMaths_Fonction_Dérivée.pdf',
                 'original_name' => '',
                 'extension' => 'pdf',
-                'size' => '',
+                'size' => '800',
             ],
             [
                 'name' => 'ExerciceMaths_Variable.pdf',
                 'original_name' => '',
                 'extension' => 'pdf',
-                'size' => '',
+                'size' => '900',
             ],
         ];
 
-        foreach($dataFile as $data)
+    public function load(ObjectManager $manager)
+    {
+        foreach(self::FILE as $data => $attributes)
         {
             $file = new File();
-            $file->setName($data['name']);
-            $file->setOriginalName($data['original_name']);
-            $file->setExtension($data['extension']);
-            $file->setSize($data['size']);
+            $file->setName($attributes['name']);
+            $file->setOriginalName($attributes['original_name']);
+            $file->setExtension($attributes['extension']);
+            $file->setSize($attributes['size']);
 
             $manager->persist($file);
+
+            $this->addReference($data, $file);
         }
 
         $manager->flush();

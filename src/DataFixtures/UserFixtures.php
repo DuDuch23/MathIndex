@@ -8,46 +8,79 @@ use Doctrine\Persistence\ObjectManager;
 
 class UserFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
-    {
-        $dataUser = [
+    public const USER = [
             [
-                'email' => 'ExerciceMaths_Arithmétique.pdf',
-                'last_name' => '',
-                'first_name' => 'pdf',
-                'role' => '',
-                'password' => '',
+                'email' => 'romain@gmail.com',
+                'last_name' => 'Fernandes',
+                'first_name' => 'Romain',
+                'role' => 'Contributeur',
+                'password' => 'motDePasse',
             ],
             [
-                'name' => 'ExerciceMaths_Multiplication.docx',
-                'original_name' => '',
-                'extension' => 'docx',
-                'size' => '',
+                'email' => 'kilian.O@gmail.com',
+                'last_name' => 'Oulekhiari',
+                'first_name' => 'Kilian',
+                'role' => 'Visiteur',
+                'password' => 'password',
             ],
             [
-                'name' => 'ExerciceMaths_Fonction_Dérivée.pdf',
-                'original_name' => '',
-                'extension' => 'pdf',
-                'size' => '',
+                'email' => 'kilian.D@gmail.com',
+                'last_name' => 'Deletraz',
+                'first_name' => 'Kilian',
+                'role' => 'Visiteur',
+                'password' => '1234',
             ],
             [
-                'name' => 'ExerciceMaths_Variable.pdf',
-                'original_name' => '',
-                'extension' => 'pdf',
-                'size' => '',
+                'email' => 'alexandre@gmail.com',
+                'last_name' => 'Duchemin',
+                'first_name' => 'Alexandre',
+                'role' => 'Contributeur',
+                'password' => 'azerty',
+            ],
+            [
+                'email' => 'alexduduch77@gmail.com',
+                'last_name' => 'Duchemin',
+                'first_name' => 'Alexandre',
+                'role' => 'Administrateur',
+                'password' => 'admin1234',
+            ],
+            [
+                'email' => 'kilian.Oulekhiari@gmail.com',
+                'last_name' => 'Oulekhiari',
+                'first_name' => 'Kilian',
+                'role' => 'Administrateur',
+                'password' => 'admin1234',
+            ],
+            [
+                'email' => 'kilian.Deletraz@gmail.com',
+                'last_name' => 'Deletraz',
+                'first_name' => 'Kilian',
+                'role' => 'Administrateur',
+                'password' => 'admin5678',
+            ],
+            [
+                'email' => 'romain.Fernandes@gmail.com',
+                'last_name' => 'Fernandes',
+                'first_name' => 'Romain',
+                'role' => 'Administrateur',
+                'password' => 'admin5678',
             ],
         ];
-
-        foreach($dataUser as $data)
+    
+    public function load(ObjectManager $manager)
+    {
+        foreach(self::USER as $data => $attributes)
         {
             $user = new User();
-            $user->setEmail($data['email']);
-            $user->setLastName($data['last_name']);
-            $user->setFirstName($data['first_name']);
-            $user->setRole($data['role']);
-            $user->setRole($data['password']);
+            $user->setEmail($attributes['email']);
+            $user->setLastName($attributes['last_name']);
+            $user->setFirstName($attributes['first_name']);
+            $user->setRole($attributes['role']);
+            $user->setPassword($attributes['password']);
 
             $manager->persist($user);
+
+            $this->addReference('user_' . $data, $user);
         }
 
         $manager->flush();
