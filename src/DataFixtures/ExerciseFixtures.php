@@ -26,6 +26,8 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
             ],
         ];
 
+        $userData = UserFixtures::USER;
+
         foreach($dataExercise as $data)
         {
             $exercise = new Exercise();
@@ -36,7 +38,8 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
             $originReference = array_rand(OriginFixtures::ORIGIN);
             $fileReferenceExercice = array_rand(FileFixtures::FILE);
             $fileReferenceCorrection = array_rand(FileFixtures::FILE);
-            $userReference = array_rand(UserFixtures::USER);
+            $randomUser = $userData[array_rand($userData)];
+            $userReference = $randomUser['last_name'] . '_' . $randomUser['first_name'];
 
             $exercise->setName($data['name']);
             $exercise->setCourseId($this->getReference($courseReference));

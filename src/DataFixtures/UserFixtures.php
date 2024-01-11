@@ -31,37 +31,16 @@ class UserFixtures extends Fixture
                 'password' => '1234',
             ],
             [
-                'email' => 'alexandre@gmail.com',
-                'last_name' => 'Duchemin',
-                'first_name' => 'Alexandre',
-                'role' => 'Contributeur',
-                'password' => 'azerty',
-            ],
-            [
                 'email' => 'alexduduch77@gmail.com',
                 'last_name' => 'Duchemin',
                 'first_name' => 'Alexandre',
-                'role' => 'Administrateur',
-                'password' => 'admin1234',
+                'role' => 'Visiteur',
+                'password' => '1234',
             ],
             [
-                'email' => 'kilian.Oulekhiari@gmail.com',
-                'last_name' => 'Oulekhiari',
-                'first_name' => 'Kilian',
-                'role' => 'Administrateur',
-                'password' => 'admin1234',
-            ],
-            [
-                'email' => 'kilian.Deletraz@gmail.com',
-                'last_name' => 'Deletraz',
-                'first_name' => 'Kilian',
-                'role' => 'Administrateur',
-                'password' => 'admin5678',
-            ],
-            [
-                'email' => 'romain.Fernandes@gmail.com',
-                'last_name' => 'Fernandes',
-                'first_name' => 'Romain',
+                'email' => 'admin.@gmail@gmail.com',
+                'last_name' => 'Admin_last_name',
+                'first_name' => 'Admin_first_name',
                 'role' => 'Administrateur',
                 'password' => 'admin5678',
             ],
@@ -69,7 +48,7 @@ class UserFixtures extends Fixture
     
     public function load(ObjectManager $manager)
     {
-        foreach(self::USER as $data => $attributes)
+        foreach(self::USER as $attributes)
         {
             $user = new User();
             $user->setEmail($attributes['email']);
@@ -80,7 +59,7 @@ class UserFixtures extends Fixture
 
             $manager->persist($user);
 
-            $this->addReference('user_' . $data, $user);
+            $this->addReference($attributes['last_name'] . '-' . $attributes['first_name'], $user);
         }
 
         $manager->flush();
