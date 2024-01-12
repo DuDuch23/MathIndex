@@ -1,13 +1,13 @@
-1. Création entité
+1. Création entité (fait)
 Kilian.D : origin, classroom, course, file
 Alexandre : exercise
 Romain : thematic, user
 Kilian.O : exercise_skill, skill
 
-2. Jeu d'essai (DataFixtures), base de données
+2. Jeu d'essai (DataFixtures), base de données (fait)
 Alexandre
-3.
 
+3. Création des pages
 Kilian.D : Page Accueil (non connecté), Page Connexion, Soumettre un exercice
 Alexandre : base.html.twig, Page Rechercher un exercice
 Kilian.O : Page Mathématique

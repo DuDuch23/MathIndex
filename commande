@@ -8,7 +8,7 @@
 - composer require symfonycasts/verify-email-bundle
 - composer require symfony/security-bundle
 
-ensuite composer update.
+ensuite, toujours composer update, environ chaque jour.
 
 Créer un controller : symfony console make:controller NomController
 
