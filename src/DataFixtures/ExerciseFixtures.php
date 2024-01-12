@@ -39,7 +39,7 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
             $fileReferenceExercice = array_rand(FileFixtures::FILE);
             $fileReferenceCorrection = array_rand(FileFixtures::FILE);
             $randomUser = $userData[array_rand($userData)];
-            $userReference = $randomUser['last_name'] . '_' . $randomUser['first_name'];
+            $userReference = $randomUser['last_name'] . '-' . $randomUser['first_name'];
 
             $exercise->setName($data['name']);
             $exercise->setCourseId($this->getReference($courseReference));

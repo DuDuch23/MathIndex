@@ -11,25 +11,25 @@ class FileFixtures extends Fixture
     public const FILE = [
             [
                 'name' => 'ExerciceMaths_Arithmétique.pdf',
-                'original_name' => '',
+                'original_name' => 'Exercice Arithmétique',
                 'extension' => 'pdf',
                 'size' => '500',
             ],
             [
                 'name' => 'ExerciceMaths_Multiplication.docx',
-                'original_name' => '',
+                'original_name' => 'Exercice Multiplication',
                 'extension' => 'docx',
                 'size' => '2',
             ],
             [
                 'name' => 'ExerciceMaths_Fonction_Dérivée.pdf',
-                'original_name' => '',
+                'original_name' => 'Exercice fonction dérivée',
                 'extension' => 'pdf',
                 'size' => '800',
             ],
             [
                 'name' => 'ExerciceMaths_Variable.pdf',
-                'original_name' => '',
+                'original_name' => 'Exercie variable',
                 'extension' => 'pdf',
                 'size' => '900',
             ],
