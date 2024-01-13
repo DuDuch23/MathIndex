@@ -8,8 +8,8 @@ Kilian.O : exercise_skill, skill
 Alexandre
 
 3. Création des pages
-Kilian.D : Page Accueil (non connecté), Page Connexion, Soumettre un exercice
-Alexandre : base.html.twig, Page Rechercher un exercice
+Kilian.D : Page Accueil (non connecté), Soumettre un exercice
+Alexandre : base.html.twig, Page Rechercher un exercice, Page Connexion, Administration Contributeurs
 Kilian.O : Page Mathématique
 Romain : Page Mes exercices
 

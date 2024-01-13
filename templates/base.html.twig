@@ -23,57 +23,69 @@
                         <p class="text-logo"><span>Math Index</span>Lycée Saint-Vincent - Senlis</p>
                     </div>
                 </div>
-                <nav class="nav-list">
-                    <li class="nav-item">
-                        <a href="{{ path('home') }}">
-                            <img src="{{ asset('media/img-home.png') }}">
-                            <p>Accueil</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#">
-                            <img src="{{ asset('media/img-recherche.png') }}">
-                            <p>Recherche</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#">
-                            <img src="{{ asset('media/img-maths.png') }}">
-                            <p>Mathématique</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ path('exercice') }}">
-                            <img src="{{ asset('media/exercice.png') }}">
-                            <p>Mes exercices</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#">
-                            <img src="{{ asset('media/soumettre.png') }}">
-                            <p>Soumettre</p>
-                        </a>
-                    </li>
-
-                </nav>
-            </div>
-            <div class="logout">
-                <li class="nav-item">
-                    <a>
-                        <img src="{{ asset('media/deconnexion.png') }}">
-                        <p class="">Déconnexion</p>
-                    </a>
-                </li>
+                <div class="container-nav-logout">
+                    <nav class="nav-list">
+                        <li class="nav-item">
+                            <a href="{{ path('home') }}">
+                                <img src="{{ asset('media/img-home.png') }}">
+                                <p>Accueil</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ path('recherche') }}">
+                                <img src="{{ asset('media/img-recherche.png') }}">
+                                <p>Recherche</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ path('mathematique') }}">
+                                <img src="{{ asset('media/img-maths.png') }}">
+                                <p>Mathématique</p>
+                            </a>
+                        </li>
+                        {% if is_granted('Contributeur, Administrateur') %}
+                            <li class="nav-item">
+                                <a href="{{ path('exercice') }}">
+                                    <img src="{{ asset('media/exercice.png') }}">
+                                    <p>Mes exercices</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('soumettre') }}">
+                                    <img src="{{ asset('media/soumettre.png') }}">
+                                    <p>Soumettre</p>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </nav>
+                    {% if is_granted('Contributeur, Administrateur') %}
+                        <div class="logout">
+                            <li class="nav-item">
+                                <a>
+                                    <img src="{{ asset('media/deconnexion.png') }}">
+                                    <p class="">Déconnexion</p>
+                                </a>
+                            </li>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
-        <header>
-            <div class="container-connexion">
-                <a href="#">
-                    <img src="{{ asset('media/connexion.png') }}">
-                    <p>Connexion</p>
-                </a>
-            </div>
-        </header>
-        {% block body %}{% endblock %}
+            <header>
+                <div class="container-connexion">
+                    {% if is_granted ('Contributeur, Administrateur')%}
+                        <div>
+                        </div>
+                    {% else %}
+                        <a href="{{ path('login') }}">
+                            <img src="{{ asset('media/connexion.png') }}">
+                            <p>Connexion</p>
+                        </a>
+                    {% endif %}
+                </div>
+            </header>
+        <section class="container">
+            {% block body %}{% endblock %}
+        </section>
     </body>
 </html>

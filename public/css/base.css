@@ -53,6 +53,10 @@
     line-height: 22px;
 }
 
+.container-nav-logout{
+    
+}
+
 .nav-list{
     display: grid;
     gap: 15px;
