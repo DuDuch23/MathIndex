@@ -8,10 +8,10 @@ Kilian.O : exercise_skill, skill
 Alexandre
 
 3. Création des pages
-Kilian.D : Page Accueil (non connecté), Soumettre un exercice
-Alexandre : base.html.twig, Page Rechercher un exercice, Page Connexion, Administration Contributeurs
-Kilian.O : Page Mathématique
-Romain : Page Mes exercices
+Kilian.D : Page Accueil (non connecté), Soumettre un exercice, Administration Classes
+Alexandre : base.html.twig, Page Rechercher un exercice, Page Connexion, Administration Contributeurs.
+Kilian.O : Page Mathématique, Administration Exercices, Administration Matières.
+Romain : Page Mes exercices, Administration Compétences, Administration Origines.
 
 page administrations (plus tard) réparties entre nous
 
