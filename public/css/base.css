@@ -132,3 +132,8 @@ header{
     text-align: left;
     color: rgba(0, 0, 0, 1);    
 }
+
+.container{
+    margin-left: calc(25% + 25px);
+    margin-right: 25px;
+}

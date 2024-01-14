@@ -7,6 +7,7 @@
 - composer require symfony/form
 - composer require symfonycasts/verify-email-bundle
 - composer require symfony/security-bundle
+- composer require --dev symfony/profiler-pack
 
 ensuite, toujours composer update, environ chaque jour.
 

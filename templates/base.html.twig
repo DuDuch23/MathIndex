@@ -13,6 +13,12 @@
         {% endblock %}
     </head>
     <body>
+    <style>
+        h1 {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
         <div class="side-nav">
             <div class="brand-nav-list">
                 <div class="nav-brand">
@@ -43,7 +49,7 @@
                                 <p>Mathématique</p>
                             </a>
                         </li>
-                        {% if is_granted('Contributeur, Administrateur') %}
+                        {% if is_granted('ROLE_CONTRIBUTEUR', 'ROLE_ADMIN') %}
                             <li class="nav-item">
                                 <a href="{{ path('exercice') }}">
                                     <img src="{{ asset('media/exercice.png') }}">
@@ -58,10 +64,10 @@
                             </li>
                         {% endif %}
                     </nav>
-                    {% if is_granted('Contributeur, Administrateur') %}
+                    {% if is_granted('ROLE_CONTRIBUTEUR', 'ROLE_ADMIN') %}
                         <div class="logout">
                             <li class="nav-item">
-                                <a>
+                                <a href="{{ path('logout') }}">
                                     <img src="{{ asset('media/deconnexion.png') }}">
                                     <p class="">Déconnexion</p>
                                 </a>
@@ -73,8 +79,9 @@
         </div>
             <header>
                 <div class="container-connexion">
-                    {% if is_granted ('Contributeur, Administrateur')%}
-                        <div>
+                    {% if is_granted ('ROLE_CONTRIBUTEUR', 'ROLE_ADMIN')%}
+                        <div class="profil-username">
+                            <p>{{ app.user.getFirstName }} {{ app.user.getLastName }}
                         </div>
                     {% else %}
                         <a href="{{ path('login') }}">
@@ -85,6 +92,22 @@
                 </div>
             </header>
         <section class="container">
+        {% set routeName = app.request.attributes.get('_route') %}
+            {% if routeName == 'home' %}
+                <h1>Accueil</h1>
+            {% elseif routeName == 'login' %}
+                <h1>Connexion</h1>
+            {% elseif routeName == 'recherche' %}
+                <h1>Rechercher un exercice</h1>
+            {% elseif routeName == 'mathematique' %}
+                <h1>Recherche</h1>
+            {% elseif routeName == 'exercice' %}
+                <h1>Mes exercices</h1>
+            {% elseif routeName == 'soumettre' %}
+                <h1>Soumettre un exercice</h1>
+            {% elseif routeName == 'admin' %}
+                <h1>Administration</h1>
+            {% endif %}
             {% block body %}{% endblock %}
         </section>
     </body>
