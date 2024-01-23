@@ -13,6 +13,7 @@
 
 .form-connexion{
     display: grid;
+    gap: 30px   ;
     font-family: Noto Sans;
     font-size: 16px;
     font-weight: 600;
@@ -54,12 +55,24 @@
 .btn-connexion{
     padding: 16px;
     border-radius: 8px;
-    gap: 10px;
     background-color: rgba(246, 246, 246, 1);
     cursor: pointer;
     border: 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;    
+    color: #757575;
 }
 
 .forget-password{
-
+    font-family: Noto Sans;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: right;
+    display: flex;
+    align-items: center;
 }

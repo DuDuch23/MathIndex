@@ -149,9 +149,16 @@ header{
 }
 
 .content-site{
+    height: 650px;
     background-color: white;
     border-radius: 7px;
     padding: 25px;
+}
+
+footer{
+    height: 50px;
+    display: flex;
+    align-items: center;
 }
 
 footer ul{
@@ -171,6 +178,11 @@ footer ul li{
     letter-spacing: 0.01em;
     text-align: left;
     list-style-type: none;
+}
+
+footer ul li a{
+    text-decoration: none;
+    color: #000000;
 }
 
 footer ul p{
