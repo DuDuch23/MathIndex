@@ -134,7 +134,7 @@ header{
 }
 
 .container{
-    margin-left: calc(20% + 80px);
+    margin-left: calc(20% + 70px);
     margin-right: 25px;
 }
 
@@ -151,6 +151,7 @@ header{
 .content-site{
     background-color: white;
     border-radius: 7px;
+    padding: 25px;
 }
 
 footer ul{
