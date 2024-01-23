@@ -5,20 +5,13 @@
         <title>{% block title %}{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block stylesheets %}
-            <link href="{{asset('css/base.css')}}" type="text/css" rel="stylesheet" />
         {% endblock %}
 
         {% block javascripts %}
-{% block importmap %}{{ importmap('app') }}{% endblock %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
     <body>
-    <style>
-        h1 {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
         <div class="side-nav">
             <div class="brand-nav-list">
                 <div class="nav-brand">
@@ -91,24 +84,46 @@
                     {% endif %}
                 </div>
             </header>
-        <section class="container">
-        {% set routeName = app.request.attributes.get('_route') %}
-            {% if routeName == 'home' %}
-                <h1>Accueil</h1>
-            {% elseif routeName == 'login' %}
-                <h1>Connexion</h1>
-            {% elseif routeName == 'recherche' %}
-                <h1>Rechercher un exercice</h1>
-            {% elseif routeName == 'mathematique' %}
-                <h1>Recherche</h1>
-            {% elseif routeName == 'exercice' %}
-                <h1>Mes exercices</h1>
-            {% elseif routeName == 'soumettre' %}
-                <h1>Soumettre un exercice</h1>
-            {% elseif routeName == 'admin' %}
-                <h1>Administration</h1>
-            {% endif %}
-            {% block body %}{% endblock %}
+        <section class="principal">
+            <div class="container">
+
+                {% set routeName = app.request.attributes.get('_route') %}
+                {% if routeName == 'home' %}
+                    <h1 class="title">Accueil</h1>
+                {% elseif routeName == 'login' %}
+                    <h1 class="title">Connexion</h1>
+                {% elseif routeName == 'recherche' %}
+                    <h1 class="title">Rechercher un exercice</h1>
+                {% elseif routeName == 'mathematique' %}
+                    <h1 class="title">Recherche</h1>
+                {% elseif routeName == 'exercice' %}
+                    <h1 class="title">Mes exercices</h1>
+                {% elseif routeName == 'soumettre' %}
+                    <h1 class="title">Soumettre un exercice</h1>
+                {% elseif routeName == 'admin' %}
+                    <h1 class="title">Administration</h1>
+                {% endif %}
+
+                <div class="content-site">
+                    {% block body %}{% endblock %}
+                </div>
+
+                <footer>
+                    <ul>
+                        <li>
+                            <a href="#">Mentions légales</a>
+                        </li>
+                        <p>&bull;</p>
+                        <li>
+                            <a href="#">Contact</a>
+                        </li>
+                        <p>&bull;</p>
+                        <li>
+                            <a href="#">Lycée Saint-Vincent</a>
+                        </li>
+                    </ul>
+                </footer>
+            </div>
         </section>
     </body>
 </html>

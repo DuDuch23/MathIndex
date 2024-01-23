@@ -1,0 +1,65 @@
+.text-info{
+    font-family: Epilogue;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 25px;
+    letter-spacing: 0em;
+    text-align: left;    
+}
+
+.container-form-connexion{
+    width: 30%;
+}
+
+.form-connexion{
+    display: grid;
+    font-family: Noto Sans;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: rgba(102, 102, 102, 1);
+}
+
+.container-email{
+    display: grid;
+}
+
+.container-email input{
+    padding: 16px;
+    border-radius: 8px;
+    border: 2px;
+    gap: 10px;
+    border: 2px solid rgba(246, 246, 246, 1);
+}
+
+.container-password{
+    display: grid;
+}
+
+.container-password input{
+    padding: 16px;
+    border-radius: 8px;
+    border: 2px;
+    gap: 10px;
+    border: 2px solid rgba(246, 246, 246, 1);
+}
+
+.container-btn-connexion-forget-password{
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-connexion{
+    padding: 16px;
+    border-radius: 8px;
+    gap: 10px;
+    background-color: rgba(246, 246, 246, 1);
+    cursor: pointer;
+    border: 0;
+}
+
+.forget-password{
+
+}
