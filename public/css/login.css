@@ -7,6 +7,11 @@
     text-align: left;    
 }
 
+.text-info a{
+    text-decoration: none;
+    color: rgba(27, 49, 104, 1);      
+}
+
 .container-form-connexion{
     width: 30%;
 }
@@ -75,4 +80,7 @@
     text-align: right;
     display: flex;
     align-items: center;
+    text-decoration: none;
+    color: rgba(102, 102, 102, 1);
+
 }
