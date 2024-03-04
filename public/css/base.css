@@ -71,6 +71,7 @@
 }
 
 .nav-item a{
+    width: 100%;
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -108,6 +109,7 @@
 }
 
 .nav-item-active a{
+    width: 100%;
     display: flex;
     align-items: center;
     text-decoration: none;

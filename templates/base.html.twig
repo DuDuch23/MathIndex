@@ -27,6 +27,9 @@
 
                         {% set routeName = app.request.attributes.get('_route') %}
 
+                        <!--==================
+                                item-nav
+                        =====================-->
                         {% if routeName == 'home' %}
                         <li class="nav-item-active">
                             <a href="{{ path('home') }}">
@@ -44,6 +47,13 @@
                             </a>
                         </li>
                         {% endif %}
+                        <!--==================
+                                end item-nav
+                        =====================-->
+
+                        <!--==================
+                                item-nav
+                        =====================-->
 
                         {% if routeName == 'recherche' %}
                         <li class="nav-item-active">
@@ -62,37 +72,87 @@
                             </a>
                         </li>
                         {% endif %}
+
+                        <!--==================
+                                end item-nav
+                        =====================-->
+
+                        <!--==================
+                                item-nav
+                        =====================-->
+
+                        {% if routeName == "mathematique" %}
+                        <li class="nav-item-active">
+                            <a href="{{ path('mathematique') }}">
+                                <img src="{{ asset('media/img-maths.png') }}">
+                                <p class="nav-item-text-active">Mathématique</p>
+                            </a>
+                        </li>
+                        
+                        {% else %}
+
                         <li class="nav-item">
                             <a href="{{ path('mathematique') }}">
                                 <img src="{{ asset('media/img-maths.png') }}">
-                                {% if routeName == 'mathematique' %}
-                                <p class="nav-item-text-active">Mathématique</p>
-                                {% else %}
                                 <p class="nav-item-text">Mathématique</p>
-                                {% endif %}
                             </a>
                         </li>
+                        {% endif %}
+                        
+                        <!--==================
+                                end item-nav
+                        =====================-->
+
                         {% if is_granted('ROLE_CONTRIBUTEUR', 'ROLE_ADMIN') %}
+
+                        <!--==================
+                                item-nav
+                        =====================-->
+
+                        {% if routeName == "exercice" %}
+                        <li class="nav-item-active">
+                            <a href="{{ path('exercice') }}">
+                                <img src="{{ asset('media/exercice.png') }}">
+                                <p class="nav-item-text-active">Mes exercices</p>
+                            </a>
+                        </li>
+
+                        {% else %}
+
                         <li class="nav-item">
                             <a href="{{ path('exercice') }}">
                                 <img src="{{ asset('media/exercice.png') }}">
-                                {% if routeName == 'exercice' %}
-                                <p class="nav-item-text-active">Mes exercices</p>
-                                {% else %}
                                 <p class="nav-item-text">Mes exercices</p>
-                                {% endif %}
                             </a>
                         </li>
+                        {% endif %}
+
+                        <!--==================
+                                end item-nav
+                        =====================-->
+
+                        <!--==================
+                                item-nav
+                        =====================-->
+
+                        {% if routeName == 'soumettre' %}
+                        <li class="nav-item-active">
+                            <a href="{{ path('soumettre') }}">
+                                <img src="{{ asset('media/soumettre.png') }}">
+                                <p class="nav-item-text-active">Soumettre</p>
+                            </a>
+                        </li>
+
+                        {% else %}
+
                         <li class="nav-item">
                             <a href="{{ path('soumettre') }}">
                                 <img src="{{ asset('media/soumettre.png') }}">
-                                {% if routeName == 'soumettre' %}
-                                <p class="nav-item-text-active">Soumettre</p>
-                                {% else %}
                                 <p class="nav-item-text">Soumettre</p>
-                                {% endif %}
                             </a>
                         </li>
+                        {% endif %}
+
                         {% endif %}
                     </nav>
                     {% if is_granted('ROLE_CONTRIBUTEUR', 'ROLE_ADMIN') %}
@@ -109,6 +169,10 @@
                             </li>
                         </div>
                     {% endif %}
+
+                        <!--==================
+                                end item-nav
+                        =====================-->
                 </div>
             </div>
         </div>
