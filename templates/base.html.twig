@@ -94,10 +94,14 @@
                         <li class="nav-item">
                             <a href="{{ path('mathematique') }}">
                                 <img src="{{ asset('media/img-maths.png') }}">
+                                {% if routeName == 'mathematique' %}
+                                <p class="nav-item-text-active">Mathématique</p>
+                                {% else %}
                                 <p class="nav-item-text">Mathématique</p>
+                                {% endif %}
                             </a>
                         </li>
-                        {% endif %}
+                        {% endif %}                       
                         
                         <!--==================
                                 end item-nav
@@ -122,11 +126,15 @@
                         <li class="nav-item">
                             <a href="{{ path('exercice') }}">
                                 <img src="{{ asset('media/exercice.png') }}">
+                                {% if routeName == 'exercice' %}
+                                <p class="nav-item-text-active">Mes exercices</p>
+                                {% else %}
                                 <p class="nav-item-text">Mes exercices</p>
+                                {% endif %}
                             </a>
                         </li>
                         {% endif %}
-
+                                
                         <!--==================
                                 end item-nav
                         =====================-->
@@ -144,11 +152,15 @@
                         </li>
 
                         {% else %}
-
+                        
                         <li class="nav-item">
                             <a href="{{ path('soumettre') }}">
                                 <img src="{{ asset('media/soumettre.png') }}">
+                                {% if routeName == 'soumettre' %}
+                                <p class="nav-item-text-active">Soumettre</p>
+                                {% else %}
                                 <p class="nav-item-text">Soumettre</p>
+                                {% endif %}
                             </a>
                         </li>
                         {% endif %}
@@ -170,9 +182,9 @@
                         </div>
                     {% endif %}
 
-                        <!--==================
-                                end item-nav
-                        =====================-->
+                    <!--==================
+                            end item-nav
+                    =====================-->
                 </div>
             </div>
         </div>
