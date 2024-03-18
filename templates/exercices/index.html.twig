@@ -2,6 +2,44 @@
 
 {% block title %}Mes exercices{% endblock %}
 
-{% block body %}
+{% block head %}
+    <link rel="stylesheet" href="{{ asset('css/exercise.css') }}">
+{% endblock %}
 
+
+{% block body %}
+<div class="">
+    <h2>Vous pouvez modifier ou supprimer un de vos exercices.</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Matière</th>
+                <th>Niveau</th>
+                <th>Thématique</th>
+                <th>Fichiers</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exercise in exercises %}
+            <tr>
+                <td>{{ exercise.name }}</td>
+                <td>{{ exercise.courseId.name }}</td>
+                <td>{{ exercise.difficulty }}</td>
+                <td>{{ exercise.thematicId.name }}</td>
+                <td>
+                    {% if exercise.correctionFileId %}
+                        <a href="{{ exercise.correctionFileId.name }}">Corrigé</a>
+                    {% endif %}
+                </td>
+                {# <td>
+                    <a href="{{ path('modifier_exercice', {'id': exercise.id}) }}">Modifier</a>
+                    <a href="{{ path('supprimer_exercice', {'id': exercise.id}) }}">Supprimer</a>
+                </td> #}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
