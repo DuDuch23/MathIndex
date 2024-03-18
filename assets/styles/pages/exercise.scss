@@ -2,63 +2,77 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
 
-/* Style for the table */
+/* Ajout des styles de base pour correspondre à la maquette */
+body {
+    font-family: 'Noto Sans', sans-serif;
+    background-color: #f8f9fa; // Modifier cette couleur pour correspondre au fond de la maquette
+    color: #212529; // Cette couleur doit correspondre à la couleur du texte de la maquette
+}
+
+/* Style pour la table */
 .table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    font-size: 14px; // Ajuster en fonction de la maquette
 }
 
-/* Style for table headers */
+.table th,
+.table td {
+    padding: 15px;
+    text-align: left;
+}
+
+/* Style pour les en-têtes de table */
 .table th {
     background-color: #f2f2f2;
     color: #333;
     font-weight: bold;
-    padding: 15px;
     border-bottom: 1px solid #ddd;
 }
 
-/* Style for table rows */
+/* Style pour les lignes de table */
 .table td {
-    padding: 15px;
     border-bottom: 1px solid #ddd;
 }
 
-/* Style for table row on hover */
+/* Style pour le survol des lignes de la table */
 .table tr:hover {
     background-color: #f5f5f5;
 }
 
-/* Style for the heading */
+/* Style pour l'en-tête */
 h2 {
     color: #333;
-    font-size: 24px;
+    font-size: 22px;
+    line-height: 32px;
     margin-bottom: 20px;
+    font-family: "Epilogue", sans-serif; // Modifier si la maquette utilise une police différente pour les titres
 }
 
-/* Style for links in the actions column */
+/* Style pour les liens dans la colonne des actions */
 .table a {
     padding: 6px 12px;
     margin-right: 10px;
     text-decoration: none;
     color: #fff;
-    background-color: #5cb85c; /* Green */
+    background-color: #5cb85c; /* Vert */
     border: none;
     border-radius: 4px;
     font-size: 14px;
 }
 
-/* Style for 'Modifier' button */
+/* Style pour le bouton 'Modifier' */
 .table a.modify-btn {
-    background-color: #5bc0de; /* Blue */
+    background-color: #5bc0de; /* Bleu */
 }
 
-/* Style for 'Supprimer' button */
+/* Style pour le bouton 'Supprimer' */
 .table a.delete-btn {
-    background-color: #d9534f; /* Red */
+    background-color: #d9534f; /* Rouge */
 }
 
-/* Additional styles for responsive design */
+/* Styles additionnels pour le design responsive */
 @media (max-width: 768px) {
     .table, .table thead, .table tbody, .table th, .table td, .table tr {
         display: block;
@@ -81,7 +95,7 @@ h2 {
         font-weight: bold;
     }
 
-    /* Ensure that the buttons stack on smaller screens */
+    /* Assurez-vous que les boutons s'empilent sur les écrans plus petits */
     .table a {
         display: block;
         margin-bottom: 5px;
