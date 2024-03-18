@@ -1,20 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RechercheController!{% endblock %}
+{% block title %}Rechercher des exercices{% endblock %}
 
 {% block body %}
-    <div class="content-rechercher d-flex">
-        <div class="rechercher-niveau">
+    <div class="content-rechercher d-flex justify-content-between">
+        <div class="info-search">
             <span>
                 Niveau :
             </span>
+            <select>
+                {% for classroom in classrooms %}
+                    <option>{{ classroom.name }}</option>
+                {% endfor %}
+            </select>
         </div>
-        <div class="rechercher-thematique">
+        <div class="info-search">
             <span>
                 Thématique :
             </span>
+            <select>
+                {% for thematic in thematics %}
+                    <option>{{ thematic.name }}</option>
+                {% endfor %}
+            </select>
         </div>
-        <div class="rechercher-mot-cle">
+        <div class="info-search">
             <span>
                 Mots Clés :
             </span>
@@ -24,5 +34,51 @@
                 Rechercher
             </button>
         </div>
+    </div>
+    <div class="content-exercice-trouve">
+        <h2>
+            (nbExercise) exercices trouvés
+        </h2>
+        <table class="container-exercises">
+            <thead class="thead-exercises">
+                <tr>
+                    <th>Nom</th>
+                    <th>Difficulté</th>
+                    <th>Mots clés</th>
+                    <th>Durée</th>
+                    <th>Fichiers</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="info-exercise">Les suites suivantes sont-elles croissantes? Décroissantes?</td>
+                    <td class="info-exercise">Niveau 8</td>
+                    <td class="info-exercise">
+                        <span class="keyword">arithmétique</span>
+                        <span class="keyword">base</span>
+                    </td>
+                    <td class="info-exercise">4h00</td>
+                    <td class="info-exercise">
+                        <span><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span>Exercice</span></span>
+                        <span><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span>Corrigé</span></span>
+                    </td>
+                </tr>
+                {% for exercise in exercises %}
+                    <tr>
+                        <td class="info-exercise">{{ exercise.name }}</td>
+                        <td class="info-exercise">Niveau {{ exercise.difficulty }}</td>
+                        <td class="info-exercise">
+                            <span class="keyword">{{ exercise.keywords }}</span>
+                        </td>
+                        <td class="info-exercise">{{ exercise.duration }}h</td>
+                        <td class="info-exercise">
+                            <span class="download-exercise"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span>Exercice</span></span>
+                            <span class="correction-exercise"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span>Corrigé</span></span>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
     </div>
 {% endblock %}

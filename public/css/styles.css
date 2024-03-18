@@ -10,6 +10,52 @@ Accueil
 Recherche
 ===========*/
 
+.info-search{
+    display: grid;
+    gap: 8px;
+    font-family: Noto Sans;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;    
+}
+
+.info-search select{
+    padding: 16px;
+    border-radius: 8px;
+    border: 2px solid #F6F6F6
+}
+
+.container-exercises{
+    border-spacing: 0;
+    border-radius: 8px;
+    border: 1px solid #E7E7E7;
+    font-family: 'Poppins';
+    font-weight: 400;
+}
+
+.thead-exercises{
+    background-color: #F0F0F0;
+    color: #464646;
+}
+
+.thead-exercises tr th{
+    padding: 12px 24px 12px 24px;
+    text-align: left;
+}
+
+.info-exercise{
+    padding: 12px 24px 12px 24px;
+    gap: 17px;
+}
+
+.keyword{
+    background-color: #DBDBDB;
+    border-radius: 20px;
+    padding: 5px 15px;
+}
+
 /*===========
 Mathématique
 ===========*/
@@ -312,7 +358,7 @@ header{
 }
 
 .content-site{
-    height: 650px;
+    height: 440px;
     background-color: white;
     border-radius: 7px;
     padding: 25px;
