@@ -48,6 +48,8 @@ class SkillFixtures extends Fixture implements DependentFixtureInterface
             $skill->setCourseId($this->getReference($courseReference));
 
             $manager->persist($skill);
+
+            $this->addReference($code, $skill);
         }
 
         $manager->flush();
