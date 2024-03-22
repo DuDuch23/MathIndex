@@ -20,7 +20,7 @@ class CourseFixtures extends Fixture
             'name' => 'Français',
         ],
         self::PHYSIQUE => [
-            'name' => 'Phisique',
+            'name' => 'Physique',
         ],
     ];
 

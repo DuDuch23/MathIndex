@@ -1,0 +1,40 @@
+body{
+}
+
+.content-site{
+    padding: 5px;
+}
+
+h1 {
+    color: #333;
+    font-size: 22px;
+    line-height: 32px;
+}
+
+.p1{
+    margin-left: 2%;
+}
+
+.box-size{
+    border-radius: 8px;
+    width: 500px;
+    height: 50px;
+    border: 2px solid #f6f6f6;
+}
+
+label{
+    display: block;
+}
+
+.container_left{
+    width: 50%;
+}
+
+.container_right{
+    width: 50%;
+}
+
+.all_container{
+    display: flex;
+}
+
