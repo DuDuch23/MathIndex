@@ -74,7 +74,7 @@ class Exercise
     #[ORM\JoinColumn(nullable: false)]
     private ?User $created_by_id = null;
 
-    #[ORM\ManyToMany(targetEntity: Skill::class)]
+    #[ORM\ManyToMany(targetEntity: Skill::class, mappedBy:"skills")]
     private Collection $skills;
 
     public function __construct()

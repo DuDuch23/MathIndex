@@ -30,9 +30,9 @@ class UserFixtures extends Fixture
                 'password' => 'password',
             ],
             [
-                'email' => 'kilian.D@gmail.com',
+                'email' => 'killian.D@gmail.com',
                 'last_name' => 'Deletraz',
-                'first_name' => 'Kilian',
+                'first_name' => 'Killian',
                 'role' => ["ROLE_CONTRIBUTEUR"],
                 'password' => '1234',
             ],
