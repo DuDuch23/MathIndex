@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\ExerciseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ExerciseRepository::class)]
@@ -31,10 +30,10 @@ class Exercise
     #[ORM\JoinColumn(nullable: false)]
     private ?Thematic $thematic_id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $chapter = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $keywords = null;
 
     #[ORM\Column]
@@ -44,22 +43,22 @@ class Exercise
     private ?float $duration = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Origin $origin_id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $origin_name = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $origin_information = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $proposed_by_type = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $proposed_by_first_name = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $proposed_by_last_name = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -74,14 +73,13 @@ class Exercise
     #[ORM\JoinColumn(nullable: false)]
     private ?User $created_by_id = null;
 
-    #[ORM\ManyToMany(targetEntity: Skill::class, mappedBy:"skills")]
+    #[ORM\ManyToMany(targetEntity: Skill::class)]
     private Collection $skills;
 
     public function __construct()
     {
         $this->skills = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -261,7 +259,7 @@ class Exercise
         return $this->exercice_file_id;
     }
 
-    public function setExerciceFileId(File $exercice_file_id): static
+    public function setExerciseFileId(File $exercice_file_id): static
     {
         $this->exercice_file_id = $exercice_file_id;
 
@@ -295,25 +293,24 @@ class Exercise
     /**
      * @return Collection<int, Skill>
      */
-    public function getSkill(): Collection
+    public function getSkills(): Collection
     {
         return $this->skills;
     }
 
-    public function addSkill(Skill $skill): self
+    public function addSkill(Skill $skill): static
     {
         if (!$this->skills->contains($skill)) {
-            $this->skills[] = $skill;
+            $this->skills->add($skill);
         }
 
         return $this;
     }
 
-    public function removeSkill(Skill $skill): self
+    public function removeSkill(Skill $skill): static
     {
         $this->skills->removeElement($skill);
 
         return $this;
     }
-
 }
