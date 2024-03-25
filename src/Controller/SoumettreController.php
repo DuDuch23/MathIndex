@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Form\Soumettre2Type;
+use App\Form\SoumettreType;
 use App\Entity\Exercise;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +18,7 @@ class SoumettreController extends AbstractController
     {
         $exercise = new Exercise();
 
-        $form = $this->createForm(Soumettre2Type::class, $exercise);
+        $form = $this->createForm(SoumettreType::class, $exercise);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())

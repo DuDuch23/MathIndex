@@ -11,14 +11,13 @@ use App\Entity\Skill;
 use App\Entity\Thematic;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class Constant{
     public const NIVEAU1 = 'Niveau 1';
@@ -41,6 +40,8 @@ class Constant{
     public const NIVEAU18 = 'Niveau 18';
     public const NIVEAU19 = 'Niveau 19';
     public const NIVEAU20 = 'Niveau 20';
+    public const ETUDIANT = 'Etudiant';
+    public const ENSEIGNANT = 'Enseignant';
 }
 
 class SoumettreType extends AbstractType
@@ -61,29 +62,38 @@ class SoumettreType extends AbstractType
                 'required' => true,
             ])
             ->add('course_id', EntityType::class, [
-                'class' => 'App\Entity\Course',
-                'choice_label' => 'matiere',
+                'class' => Course::class,
+                'choice_label' => 'name',
                 'label' => 'Matière * :',
                 'attr' =>[
-                    'class' => 'course',
+                    'class' => 'form-control',
+                ],
+                'row_attr' => [
+                    'class' => 'form-row',
                 ],
                 'required' => true,
             ])
             ->add('classroom_id', EntityType::class, [
                 'class' => Classroom::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
                 'label' => 'Classe * :',
                 'attr' =>[
-                    'class' => 'classroom'
+                    'class' => 'form-control',
+                ],
+                'row_attr' => [
+                    'class' => 'form-row',
                 ],
                 'required' => true,
             ])
             ->add('thematic_id', EntityType::class, [
                 'class' => Thematic::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
                 'label' => 'Thématique * :',
-                'attr' => [
-                    'class' => 'thematic'
+                'attr' =>[
+                    'class' => 'form-control',
+                ],
+                'row_attr' => [
+                    'class' => 'form-row',
                 ],
                 'required' => true,
             ])
@@ -99,90 +109,151 @@ class SoumettreType extends AbstractType
                 ],
                 'required' => false,
             ])
-            ->add('skills', CheckboxType::class, [
-                'class' => Skill::class,
-                'choice_label' => 'skill',
-                'label' => 'Compétences',
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-            ])
             ->add('keywords', TextType::class, [
                 'label' => 'Mots clés',
                 'attr' => [
                     'class' => 'form-control',
                 ],
+                'row_attr' => [
+                    'class' => 'form-row',
+                ],
                 'required' => false,
             ])
             ->add('difficulty', ChoiceType::class, [
                 'label' => 'Difficulté * :',
-                'class' => Constant::class,
+                'choices' => [
+                    Constant::NIVEAU1 => Constant::NIVEAU1,
+                    Constant::NIVEAU2 => Constant::NIVEAU2,
+                    Constant::NIVEAU3 => Constant::NIVEAU3,
+                    Constant::NIVEAU4 => Constant::NIVEAU4,
+                    Constant::NIVEAU5 => Constant::NIVEAU5,
+                    Constant::NIVEAU6 => Constant::NIVEAU6,
+                    Constant::NIVEAU7 => Constant::NIVEAU7,
+                    Constant::NIVEAU8 => Constant::NIVEAU8,
+                    Constant::NIVEAU9 => Constant::NIVEAU9,
+                    Constant::NIVEAU10 => Constant::NIVEAU10,
+                    Constant::NIVEAU11 => Constant::NIVEAU11,
+                    Constant::NIVEAU12 => Constant::NIVEAU12,
+                    Constant::NIVEAU13 => Constant::NIVEAU13,
+                    Constant::NIVEAU14 => Constant::NIVEAU14,
+                    Constant::NIVEAU15 => Constant::NIVEAU15,
+                    Constant::NIVEAU16 => Constant::NIVEAU16,
+                    Constant::NIVEAU17 => Constant::NIVEAU17,
+                    Constant::NIVEAU18 => Constant::NIVEAU18,
+                    Constant::NIVEAU19 => Constant::NIVEAU19,
+                    Constant::NIVEAU20 => Constant::NIVEAU20,
+                ],
                 'attr' => [
                     'class' => 'form-control',
                     'id' => 'difficulte',
+                ],
+                'row_attr' => [
+                    'class' => 'form-row',
                 ],
                 'required' => true,
             ])
             ->add('duration', IntegerType::class, [
                 'label' => 'Durée (en heure):',
                 'attr' => [
-                    'class' => 'duree',
+                    'class' => 'form-control',
+                ],
+                'row_attr' => [
+                    'class' => 'form-row',
                 ],
             ])
             ->add('origin_id', EntityType::class, [
                 'class' => Origin::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
                 'label' => 'Origine :',
                 'attr' => [
-                    'class' => 'origin',
+                    'class' => 'form-control',
+                ],
+                'row_attr' => [
+                    'class' => 'form-row',
                 ],
                 'required' => false,
             ])
-            ->add('origin_name', EntityType::class, [
+            ->add('origin_name', TextType::class, [
                 'label' => 'Nom du livre/Lien du site :',
                 'attr' => [
-                    'class' => 'origin_name',
+                    'class' => 'form-control',
+                ],
+                'row_attr' => [
+                    'class' => 'form-row',
                 ],
                 'required' => false,
             ])
-            ->add('origin_information', EntityType::class, [
+            ->add('origin_information', TextType::class, [
                 'label' => 'Informations complémentaires :',
                 'attr' => [
-                    'class' => 'origin_info',
+                    'class' => 'form-control',
+                ],
+                'row_attr' => [
+                    'class' => 'form-row',
                 ],
                 'required' => false,
             ])
-            /*->add('created_by_id', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])*/
-            ->add('proposed_by_type',EntityType::class, [
-                'label' => 'ou proposé par un :',
+            ->add('proposed_by_type', ChoiceType::class, [
+                'label' => 'Ou proposé par un :',
+                'choices' => [
+                    Constant::ETUDIANT => Constant::ETUDIANT,
+                    Constant::ENSEIGNANT => Constant::ENSEIGNANT,
+                ],
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'row_attr' => [
+                    'class' => 'form-row',
+                ],
             ])
-            ->add('proposed_by_first_name',EntityType::class,[
+            ->add('proposed_by_first_name', TextType::class,[
                 'label' => 'Nom :',
                 'required' => false,
                 'attr' => [
-                    'class' => 'nom'
+                    'class' => 'form-control',
+                ],
+                'row_attr' => [
+                    'class' => 'form-row',
                 ],
             ])
-            ->add('proposed_by_last_name',EntityType::class,[
+            ->add('proposed_by_last_name', TextType::class,[
                 'label' => 'Prénom :',
                 'required' => false,
                 'attr' => [
-                    'class' => 'prenom'
+                    'class' => 'form-control',
+                ],
+                'row_attr' => [
+                    'class' => 'form-row',
                 ],
             ])
             ->add('exercice_file_id', FileType::class, [
-                'class' => File::class,
-                'choice_label' => 'id',
-                'label' => 'Fiche exercice (PDF,word)* :',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'row_attr' => [
+                    'class' => 'form-row',
+                ],
             ])
             ->add('correction_file_id', FileType::class, [
-                'class' => File::class,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'row_attr' => [
+                    'class' => 'form-row',
+                ],
+            ])
+            ->add('created_by_id', EntityType::class, [
+                'class' => User::class,
                 'choice_label' => 'id',
-                'label' => 'Fiche corrigé(PDF,word)* :',
+            ])
+            ->add('skills', EntityType::class, [
+                'class' => Skill::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true,
+                'row_attr' => [
+                    'class' => 'form-row',
+                ],
             ])
         ;
     }
