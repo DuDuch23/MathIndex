@@ -15,19 +15,13 @@ h1 {
     margin-left: 2%;
 }
 
-.box-size{
-    border-radius: 8px;
-    width: 500px;
-    height: 50px;
-    border: 2px solid #f6f6f6;
-}
-
 label{
     display: block;
 }
 
 .container_left{
     width: 50%;
+    
 }
 
 .container_right{
@@ -38,3 +32,14 @@ label{
     display: flex;
 }
 
+.form-control{
+    border-radius: 8px;
+    width: 500px;
+    height: 50px;
+    border: 2px solid #f6f6f6;
+}
+
+#soumettre_skills{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}

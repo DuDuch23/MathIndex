@@ -247,6 +247,7 @@ class SoumettreType extends AbstractType
                 'choice_label' => 'id',
             ])
             ->add('skills', EntityType::class, [
+                'label' => false,
                 'class' => Skill::class,
                 'choice_label' => 'name',
                 'multiple' => true,
