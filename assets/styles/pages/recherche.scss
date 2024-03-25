@@ -1,4 +1,5 @@
 .info-search{
+    width: 242px;
     display: grid;
     gap: 8px;
     font-family: Noto Sans;
@@ -7,6 +8,11 @@
     line-height: 18px;
     letter-spacing: 0em;
     text-align: left;    
+}
+
+.content-rechercher{
+    display: flex;
+    justify-content: space-around;
 }
 
 .info-search select{
