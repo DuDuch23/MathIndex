@@ -9,8 +9,6 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
-    role_hierarchy:
-        ROLE_VISITEUR: ROLE_USER
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -25,7 +23,7 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
             logout:
-                path: logout
+                path: /logout
             form_login:
                 login_path: login
                 check_path: login
