@@ -1,9 +1,9 @@
 .info-search{
-    width: 242px;
+    width: clamp(20px, 16vw, 242px);
     display: grid;
     gap: 8px;
     font-family: Noto Sans;
-    font-size: 16px;
+    font-size: clamp(10px, 1.5vw, 16px);
     font-weight: 600;
     line-height: 18px;
     letter-spacing: 0em;
@@ -11,14 +11,6 @@
 }
 
 .content-rechercher{
-    display: flex;
-    justify-content: space-around;
-}
-
-.info-search select{
-    padding: 16px;
-    border-radius: 8px;
-    border: 2px solid #F6F6F6
 }
 
 .container-exercises{
@@ -37,11 +29,15 @@
 .thead-exercises tr th{
     padding: 12px 24px 12px 24px;
     text-align: left;
+    font-weight: 400;
+    font-family: 'Poppins';
 }
 
 .info-exercise{
     padding: 12px 24px 12px 24px;
-    gap: 17px;
+    font-weight: 500;
+    color: #74828F;
+    font-family: 'Poppins';
 }
 
 .keyword{

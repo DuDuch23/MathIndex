@@ -3,7 +3,7 @@
 {% block title %}Rechercher des exercices{% endblock %}
 
 {% block body %}
-    <div class="content-rechercher d-flex justify-content-between">
+    <div class="content-rechercher d-flex justify-between mb-14">
         <div class="info-search">
             <span>
                 Niveau :
@@ -28,6 +28,7 @@
             <span>
                 Mots Clés :
             </span>
+            <input type="text">
         </div>
         <div class="rechercher-exercice">
             <button class="btn">
@@ -36,49 +37,51 @@
         </div>
     </div>
     <div class="content-exercice-trouve">
-        <h2>
+        <h2 class="mb-8 mt-4 text-xl color-title font-semibold title-h2-size-clamp">
             (nbExercise) exercices trouvés
         </h2>
-        <table class="container-exercises">
-            <thead class="thead-exercises">
-                <tr>
-                    <th>Nom</th>
-                    <th>Difficulté</th>
-                    <th>Mots clés</th>
-                    <th>Durée</th>
-                    <th>Fichiers</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="info-exercise">Les suites suivantes sont-elles croissantes? Décroissantes?</td>
-                    <td class="info-exercise">Niveau 8</td>
-                    <td class="info-exercise">
-                        <span class="keyword">arithmétique</span>
-                        <span class="keyword">base</span>
-                    </td>
-                    <td class="info-exercise">4h00</td>
-                    <td class="info-exercise">
-                        <span><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span>Exercice</span></span>
-                        <span><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span>Corrigé</span></span>
-                    </td>
-                </tr>
-                {% for exercise in exercises %}
+        <div class="">
+            <table class="container-exercises w-full">
+                <thead class="thead-exercises">
                     <tr>
-                        <td class="info-exercise">{{ exercise.name }}</td>
-                        <td class="info-exercise">Niveau {{ exercise.difficulty }}</td>
-                        <td class="info-exercise">
-                            <span class="keyword">{{ exercise.keywords }}</span>
+                        <th class="table-size-clamp">Nom</th>
+                        <th class="table-size-clamp">Difficulté</th>
+                        <th class="table-size-clamp">Mots clés</th>
+                        <th class="table-size-clamp">Durée</th>
+                        <th class="table-size-clamp">Fichiers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="table-size-clamp info-exercise">Les suites suivantes sont-elles croissantes? Décroissantes?</td>
+                        <td class="table-size-clamp info-exercise">Niveau 8</td>
+                        <td class="grid grid-cols-2 table-size-clamp info-exercise">
+                            <span class="keyword">arithmétique</span>
+                            <span class="keyword">base</span>
                         </td>
-                        <td class="info-exercise">{{ exercise.duration }}h</td>
-                        <td class="info-exercise">
-                            <span class="download-exercise"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span>Exercice</span></span>
-                            <span class="correction-exercise"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span>Corrigé</span></span>
+                        <td class="table-size-clamp info-exercise">4h00</td>
+                        <td class="table-size-clamp info-exercise">
+                            <span><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span>Exercice</span></span>
+                            <span><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span>Corrigé</span></span>
                         </td>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                    {% for exercise in exercises %}
+                        <tr>
+                            <td class="table-size-clamp info-exercise">{{ exercise.name }}</td>
+                            <td class="table-size-clamp info-exercise">Niveau {{ exercise.difficulty }}</td>
+                            <td class="grid grid-cols-2 table-size-clamp info-exercise">
+                                <span class="keyword">{{ exercise.keywords }}</span>
+                            </td>
+                            <td class="table-size-clamp info-exercise">{{ exercise.duration }}h</td>
+                            <td class="table-size-clamp info-exercise">
+                                <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Exercice</span></span>
+                                <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Corrigé</span></span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
         
     </div>
 {% endblock %}
