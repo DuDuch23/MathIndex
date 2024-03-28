@@ -256,6 +256,7 @@ class SoumettreType extends AbstractType
                     'class' => 'form-row',
                 ],
             ])
+            
         ;
     }
 
