@@ -13,11 +13,11 @@
         {% endblock %}
     </head>
     <body>
-        <div class="side-nav">
+        <div class="side-nav md:block hidden">
             <div class="brand-nav-list">
                 <div class="nav-brand">
                     <div class="content-logo">
-                        <img src="{{ asset('media/logo.png') }}">
+                        <img class="img-logo-clamp" src="{{ asset('media/logo.png') }}">
                     </div>
                     <div class="content-text-logo">
                         <p class="text-logo"><span>Math Index</span>Lycée Saint-Vincent - Senlis</p>
@@ -203,8 +203,8 @@
                     {% endif %}
                 </div>
             </header>
-        <section class="flex justify-end">
-            <div class="w-9/12 mr-10">
+        <section class="flex justify-center md:justify-end">
+            <div class="w-11/12 md:mr-10 md:w-9/12">
 
                 {% if routeName == 'home' %}
                     <h1 class="title">Accueil</h1>

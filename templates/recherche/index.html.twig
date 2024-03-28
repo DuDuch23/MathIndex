@@ -3,7 +3,7 @@
 {% block title %}Rechercher des exercices{% endblock %}
 
 {% block body %}
-    <div class="content-rechercher d-flex justify-between mb-14">
+    <div class="content-rechercher d-flex justify-between mb-14 ">
         <div class="info-search">
             <span>
                 Niveau :
@@ -41,7 +41,7 @@
             (nbExercise) exercices trouvés
         </h2>
         <div class="">
-            <table class="container-exercises w-full">
+            <table class="container-exercises w-full table-fixed">
                 <thead class="thead-exercises">
                     <tr>
                         <th class="table-size-clamp">Nom</th>
@@ -55,7 +55,7 @@
                     <tr>
                         <td class="table-size-clamp info-exercise">Les suites suivantes sont-elles croissantes? Décroissantes?</td>
                         <td class="table-size-clamp info-exercise">Niveau 8</td>
-                        <td class="grid grid-cols-2 table-size-clamp info-exercise">
+                        <td class="flex table-size-clamp info-exercise">
                             <span class="keyword">arithmétique</span>
                             <span class="keyword">base</span>
                         </td>
@@ -69,7 +69,7 @@
                         <tr>
                             <td class="table-size-clamp info-exercise">{{ exercise.name }}</td>
                             <td class="table-size-clamp info-exercise">Niveau {{ exercise.difficulty }}</td>
-                            <td class="grid grid-cols-2 table-size-clamp info-exercise">
+                            <td class="flex table-size-clamp info-exercise">
                                 <span class="keyword">{{ exercise.keywords }}</span>
                             </td>
                             <td class="table-size-clamp info-exercise">{{ exercise.duration }}h</td>

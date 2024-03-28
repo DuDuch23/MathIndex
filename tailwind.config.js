@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         '2': 'repeat(2, 1fr)',
+        'custom': 'grid-repeat-2',
       }
     },
   },
