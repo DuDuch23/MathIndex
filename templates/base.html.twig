@@ -13,11 +13,11 @@
         {% endblock %}
     </head>
     <body>
-        <div class="side-nav">
+        <div class="side-nav md:block hidden">
             <div class="brand-nav-list">
                 <div class="nav-brand">
                     <div class="content-logo">
-                        <img src="{{ asset('media/logo.png') }}">
+                        <img class="img-logo-clamp" src="{{ asset('media/logo.png') }}">
                     </div>
                     <div class="content-text-logo">
                         <p class="text-logo"><span>Math Index</span>Lycée Saint-Vincent - Senlis</p>
@@ -34,8 +34,8 @@
                         {% if routeName == 'home' %}
                         <li class="nav-item-active">
                             <a href="{{ path('home') }}">
-                                <img src="{{ asset('media/img-home.png') }}">
-                                <p class="nav-item-text-active">Accueil</p>
+                                <img class="img-nav-clamp" src="{{ asset('media/img-home.png') }}">
+                                <p class="nav-item-text-active nav-size-clamp">Accueil</p>
                             </a>
                         </li>
 
@@ -43,8 +43,8 @@
 
                         <li class="nav-item">
                             <a href="{{ path('home') }}">
-                                <img src="{{ asset('media/img-home.png') }}">
-                                <p class="nav-item-text">Accueil</p>
+                                <img class="img-nav-clamp" src="{{ asset('media/img-home.png') }}">
+                                <p class="nav-item-text nav-size-clamp">Accueil</p>
                             </a>
                         </li>
                         {% endif %}
@@ -59,8 +59,8 @@
                         {% if routeName == 'recherche' %}
                         <li class="nav-item-active">
                             <a href="{{ path('recherche') }}">
-                                <img src="{{ asset('media/img-recherche.png') }}">
-                                <p class="nav-item-text-active">Recherche</p>
+                                <img class="img-nav-clamp" src="{{ asset('media/img-recherche.png') }}">
+                                <p class="nav-item-text-active nav-size-clamp">Recherche</p>
                             </a>
                         </li>
 
@@ -68,8 +68,8 @@
 
                         <li class="nav-item">
                             <a href="{{ path('recherche') }}">
-                                <img src="{{ asset('media/img-recherche.png') }}">
-                                <p class="nav-item-text">Recherche</p>
+                                <img class="img-nav-clamp" src="{{ asset('media/img-recherche.png') }}">
+                                <p class="nav-item-text nav-size-clamp">Recherche</p>
                             </a>
                         </li>
                         {% endif %}
@@ -85,8 +85,8 @@
                         {% if routeName == "mathematique" %}
                         <li class="nav-item-active">
                             <a href="{{ path('mathematique') }}">
-                                <img src="{{ asset('media/img-maths.png') }}">
-                                <p class="nav-item-text-active">Mathématique</p>
+                                <img class="img-nav-clamp" src="{{ asset('media/img-maths.png') }}">
+                                <p class="nav-item-text-active nav-size-clamp">Mathématique</p>
                             </a>
                         </li>
                         
@@ -94,11 +94,11 @@
 
                         <li class="nav-item">
                             <a href="{{ path('mathematique') }}">
-                                <img src="{{ asset('media/img-maths.png') }}">
+                                <img class="img-nav-clamp" src="{{ asset('media/img-maths.png') }}">
                                 {% if routeName == 'mathematique' %}
-                                <p class="nav-item-text-active">Mathématique</p>
+                                <p class="nav-item-text-active nav-size-clamp">Mathématique</p>
                                 {% else %}
-                                <p class="nav-item-text">Mathématique</p>
+                                <p class="nav-item-text nav-size-clamp">Mathématique</p>
                                 {% endif %}
                             </a>
                         </li>
@@ -117,8 +117,8 @@
                         {% if routeName == "exercice" %}
                         <li class="nav-item-active">
                             <a href="{{ path('exercice') }}">
-                                <img src="{{ asset('media/exercice.png') }}">
-                                <p class="nav-item-text-active">Mes exercices</p>
+                                <img class="img-nav-clamp" src="{{ asset('media/exercice.png') }}">
+                                <p class="nav-item-text-active nav-size-clamp">Mes exercices</p>
                             </a>
                         </li>
 
@@ -126,11 +126,11 @@
 
                         <li class="nav-item">
                             <a href="{{ path('exercice') }}">
-                                <img src="{{ asset('media/exercice.png') }}">
+                                <img class="img-nav-clamp" src="{{ asset('media/exercice.png') }}">
                                 {% if routeName == 'exercice' %}
-                                <p class="nav-item-text-active">Mes exercices</p>
+                                <p class="nav-item-text-active nav-size-clamp">Mes exercices</p>
                                 {% else %}
-                                <p class="nav-item-text">Mes exercices</p>
+                                <p class="nav-item-text nav-size-clamp">Mes exercices</p>
                                 {% endif %}
                             </a>
                         </li>
@@ -147,8 +147,8 @@
                         {% if routeName == 'soumettre' %}
                         <li class="nav-item-active">
                             <a href="{{ path('soumettre') }}">
-                                <img src="{{ asset('media/soumettre.png') }}">
-                                <p class="nav-item-text-active">Soumettre</p>
+                                <img class="img-nav-clamp" src="{{ asset('media/soumettre.png') }}">
+                                <p class="nav-item-text-active nav-size-clamp">Soumettre</p>
                             </a>
                         </li>
 
@@ -156,11 +156,11 @@
                         
                         <li class="nav-item">
                             <a href="{{ path('soumettre') }}">
-                                <img src="{{ asset('media/soumettre.png') }}">
+                                <img class="img-nav-clamp" src="{{ asset('media/soumettre.png') }}">
                                 {% if routeName == 'soumettre' %}
-                                <p class="nav-item-text-active">Soumettre</p>
+                                <p class="nav-item-text-active nav-size-clamp">Soumettre</p>
                                 {% else %}
-                                <p class="nav-item-text">Soumettre</p>
+                                <p class="nav-item-text nav-size-clamp">Soumettre</p>
                                 {% endif %}
                             </a>
                         </li>
@@ -172,11 +172,11 @@
                         <div class="logout">
                             <li class="nav-item">
                                 <a href="{{ path('logout') }}">
-                                    <img src="{{ asset('media/deconnexion.png') }}">
+                                    <img class="img-nav-clamp" src="{{ asset('media/deconnexion.png') }}">
                                     {% if routeName == 'logout' %}
-                                    <p class="nav-item-text-active">Déconnexion</p>
+                                    <p class="nav-item-text-active nav-size-clamp">Déconnexion</p>
                                     {% else %}
-                                    <p class="nav-item-text">Déconnexion</p>
+                                    <p class="nav-item-text nav-size-clamp">Déconnexion</p>
                                     {% endif %}
                                 </a>
                             </li>
@@ -197,21 +197,21 @@
                         </div>
                     {% else %}
                         <a href="{{ path('login') }}">
-                            <img src="{{ asset('media/connexion.png') }}">
-                            <p>Connexion</p>
+                            <img class="img-nav-clamp" src="{{ asset('media/connexion.png') }}">
+                            <p class=" nav-size-clamp">Connexion</p>
                         </a>
                     {% endif %}
                 </div>
             </header>
-        <section class="principal">
-            <div class="container">
+        <section class="flex justify-center md:justify-end">
+            <div class="w-11/12 md:mr-10 md:w-9/12">
 
                 {% if routeName == 'home' %}
                     <h1 class="title">Accueil</h1>
                 {% elseif routeName == 'login' %}
                     <h1 class="title">Connexion</h1>
                 {% elseif routeName == 'recherche' %}
-                    <h1 class="title">Rechercher un exercice</h1>
+                    <h1 class="title title-h1-size-clamp">Rechercher un exercice</h1>
                 {% elseif routeName == 'mathematique' %}
                     <h1 class="title">Mathématique</h1>
                 {% elseif routeName == 'exercice' %}
