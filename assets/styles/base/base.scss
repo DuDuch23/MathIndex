@@ -25,6 +25,11 @@ body {
     height: clamp(10px, 2vw, 25px);
 }
 
+.img-logo-clamp{
+    max-width: clamp(10px, 3vw, 32px);
+    height: clamp(10px, 3vw, 34px);
+}
+
 .color-title{
     color: #1B3168;
 }
@@ -62,12 +67,6 @@ body {
     justify-content: center;
 }
 
-.content-logo img{
-    width: 32px;
-    height: 34px;
-}
-
-
 .text-logo{
     color: rgba(93, 114, 133, 1);
     display: grid;
@@ -95,8 +94,20 @@ body {
     display: flex;
     padding: 0 7px 0 7px;
     list-style-type: none;
-    cursor: pointer;
     border-radius: 4px;
+    transition: 50ms ease-in-out;
+}
+
+.nav-item:hover{
+    background-color: #F6F6F6;
+}
+
+.nav-item a:hover p{
+    color: #1B3168;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: 0.01em;
+    transition: 50ms ease-in-out;
 }
 
 .nav-item a{
@@ -118,6 +129,7 @@ body {
     padding: 8px;
     margin: 0;
     color: #757575;
+    transition: 50ms ease-in-out;
 }
 
 .nav-size-clamp{
@@ -257,14 +269,8 @@ footer ul p{
     color: #757575;
 }
 
-@media only screen and (max-width: 696px){
-    .side-nav{
-        display: none;
-    }
-}
-
-@media only screen and (min-width: 696px){
-    .side-nav{
-        display: block;
+@media only screen and (max-width: 1392px) {
+    .text-logo{
+        font-size: 12px;
     }
 }
