@@ -21,6 +21,18 @@ class ExerciseRepository extends ServiceEntityRepository
         parent::__construct($registry, Exercise::class);
     }
 
+    public function searchExercice($classroomName, $thematicName, $keywords){
+        return $this->createQueryBuilder('exercice')
+            ->where('exercice.classroom_id = :classroomName')
+            ->andWhere('exercice.thematic_id = :thematicName')
+            ->andWhere('exercice.keywords LIKE :keywords')
+            ->setParameter('classroomName', $classroomName)
+            ->setParameter('thematicName', $thematicName)
+            ->setParameter('keywords', '%'.$keywords.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Exercise[] Returns an array of Exercise objects
     //     */
