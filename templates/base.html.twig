@@ -11,6 +11,7 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
+        
     </head>
     <body>
         <div class="side-nav md:block hidden">
@@ -108,7 +109,7 @@
                                 end item-nav
                         =====================-->
 
-                        {% if is_granted('ROLE_CONTRIBUTEUR', 'ROLE_ADMIN') %}
+                        {% if is_granted('ROLE_CONTRIBUTEUR') or is_granted('ROLE_ADMIN') %}
 
                         <!--==================
                                 item-nav
@@ -165,10 +166,7 @@
                             </a>
                         </li>
                         {% endif %}
-
-                        {% endif %}
-                    </nav>
-                    {% if is_granted('ROLE_CONTRIBUTEUR', 'ROLE_ADMIN') %}
+                        
                         <div class="logout">
                             <li class="nav-item">
                                 <a href="{{ path('logout') }}">
@@ -181,7 +179,10 @@
                                 </a>
                             </li>
                         </div>
-                    {% endif %}
+
+                        {% endif %}
+                    </nav>
+                    
 
                     <!--==================
                             end item-nav
@@ -191,7 +192,7 @@
         </div>
             <header>
                 <div class="container-connexion">
-                    {% if is_granted ('ROLE_CONTRIBUTEUR', 'ROLE_ADMIN')%}
+                    {% if is_granted ('ROLE_CONTRIBUTEUR') or is_granted('ROLE_ADMIN') %}
                         <div class="profil-username">
                             <p>{{ app.user.getFirstName }} {{ app.user.getLastName }}
                         </div>
@@ -207,20 +208,51 @@
             <div class="w-11/12 md:mr-10 md:w-9/12">
 
                 {% if routeName == 'home' %}
-                    <h1 class="title">Accueil</h1>
+                    <h1 class="title title-h1-size-clamp">Accueil</h1>
                 {% elseif routeName == 'login' %}
-                    <h1 class="title">Connexion</h1>
+                    <h1 class="title title-h1-size-clamp">Connexion</h1>
                 {% elseif routeName == 'recherche' %}
                     <h1 class="title title-h1-size-clamp">Rechercher un exercice</h1>
                 {% elseif routeName == 'mathematique' %}
-                    <h1 class="title">Mathématique</h1>
+                    <h1 class="title title-h1-size-clamp">Mathématique</h1>
                 {% elseif routeName == 'exercice' %}
-                    <h1 class="title">Mes exercices</h1>
+                    <h1 class="title title-h1-size-clamp">Mes exercices</h1>
                 {% elseif routeName == 'soumettre' %}
-                    <h1 class="title">Soumettre un exercice</h1>
-                {% elseif routeName == 'admin' %}
-                    <h1 class="title">Administration</h1>
+                    <h1 class="title title-h1-size-clamp">Soumettre un exercice</h1>
+                {% elseif routeName starts with 'admin_panel_' %}
+                    <h1 class="title title-h1-size-clamp">Administration</h1>
                 {% endif %}
+
+                {% if routeName starts with 'admin_panel_'%}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="content-button">
+                            <button class="contributeur">
+                                Contributeurs
+                            </button>
+                            <button class="exercice">
+                                Exercices
+                            </button>
+                            <button class="matiere">
+                                Matières
+                            </button>
+                            <button class="classe">
+                                Classes
+                            </button>
+                            <button class="thematique">
+                                Thématiques
+                            </button>
+                            <button class="compétence">
+                                Compétences
+                            </button>
+                            <button class="origine">
+                                Origines
+                            </button>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                <div>
+
+                </div>
 
                 <div class="content-site">
                     {% block body %}{% endblock %}

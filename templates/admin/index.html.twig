@@ -1,20 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdminController!{% endblock %}
+{% block title %}Panel admin{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/admin/Documents/MathIndex/src/Controller/AdminController.php'|file_link(0) }}">src/Controller/AdminController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/admin/Documents/MathIndex/templates/admin/index.html.twig'|file_link(0) }}">templates/admin/index.html.twig</a></code></li>
-    </ul>
+<div>
+    <h1 class="mb-4">Gestion des contributeurs</h1>
+    <label>Rechercher un contributeur par nom, prénom ou email :</label>
+    <div>
+        <input class="mb-10">
+        <form class="form-group" action="{{ path('admin_panel_user_add') }}" method="post">
+            <input class="btn btn-add" type="submit" value="Ajouter +">
+        </form>
+    </div>
+    
+    <table class="container-exercises w-full table-fixed">
+        <thead class="thead-exercises">
+            <tr>
+                <th class="table-size-clamp">Nom</th>
+                <th class="table-size-clamp">Prénom</th>
+                <th class="table-size-clamp">Rôle</th>
+                <th class="table-size-clamp">Email</th>
+                <th class="table-size-clamp">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if users is defined %}
+                {% if users is not empty %}
+                    {% for user in users %}
+                    <tr>
+                        <td class="table-size-clamp info-exercise">{{ user.lastName }}</td>
+                        <td class="table-size-clamp info-exercise">{{ user.firstName }}</td>
+                        {% if user.roles is not empty %}
+                            {% for role in user.roles %}
+                                <td class="table-size-clamp info-exercise">{{ role }}</td>
+                            {% endfor %}
+                        {% endif %}
+                        <td class="table-size-clamp info-exercise">{{ user.email }}</td>
+                        <td class="flex align-center">
+                            <a class="flex w-1/2" href="{{ path('admin_panel_user_edit', {id: user.id}) }}" method="post" value="Modifier">
+                                <img class="h-1/5 w-1/5" src="{{ asset('media/editer.png') }}">
+                                <p>Modifier</p>
+                            </a>
+                            <a class="flex w-1/2" href="{{ path('admin_panel_user_delete', {id: user.id}) }}" method="post" value="Supprimer">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token('delete-user') }}">
+                                <img class="h-1/5 w-1/5" src="{{ asset('media/delete.png') }}">
+                                <p>Supprimer</p>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

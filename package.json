@@ -24,6 +24,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@symfony/stimulus-bridge": "^3.2.2"
+        "@symfony/stimulus-bridge": "^3.2.2",
+        "jquery": "^3.7.1"
     }
 }

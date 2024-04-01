@@ -40,7 +40,7 @@ class UserFixtures extends Fixture
                 'email' => 'alexduduch77@gmail.com',
                 'last_name' => 'Duchemin',
                 'first_name' => 'Alexandre',
-                'role' => ["ROLE_CONTRIBUTEUR"],
+                'role' => ["ROLE_ADMIN"],
                 'password' => '1234',
             ],
             [

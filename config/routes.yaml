@@ -1,5 +1,12 @@
-controllers:
+public_controllers:
     resource:
         path: ../src/Controller/
         namespace: App\Controller
+    type: attribute
+
+admin_controllers:
+    resource:
+        path: ../src/Controller/Admin
+        namespace: App\Controller\Admin
+    prefix: 'admin'
     type: attribute

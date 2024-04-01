@@ -25,7 +25,8 @@ class RechercheController extends AbstractController
 
         $foundExercices = [];
 
-        if($getClassroomName && $getThematicName && $getKeywords)
+        if($getClassroomName && $getThematicName && $getKeywords || $getClassroomName && $getThematicName || $getClassroomName && $getKeywords || $getClassroomName
+        || $getThematicName && $getKeywords || $getClassroomName || $getThematicName || $getKeywords)
         {
             $foundExercices = $exerciseRepository->searchExercice($getClassroomName, $getThematicName, $getKeywords);
         }

@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification d'un utilisateur{% endblock %}
+
+{% block body %}
+<form action="{{ path('admin_panel_user') }}">
+    <input class="btn" type="submit" value="    <    Retour à la liste">
+</form>
+<a href="{{ path('admin_panel_user') }}">Retour à la liste</a>
+{% endblock %}

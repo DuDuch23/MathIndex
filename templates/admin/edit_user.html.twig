@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification d'un utilisateur{% endblock %}
+
+{% block body %}
+<div>
+    <h1>Modification de l'utilisateur {{ user.firstName }} {{ user.lastName }}</h1>
+</div>
+<div>
+    {{ form_start(form) }}
+</div>
+{% endblock %}

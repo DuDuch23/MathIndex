@@ -14,7 +14,7 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
         $dataExercise = [
             [
                 'name' => 'Exercice Maths Algèbre',
-                'chapter' => 'Chapitre 1',
+                'chapter' => 'Chapitre 5',
                 'keywords' => 'algèbre',
                 'difficulty' => '5',
                 'duration' => '1',
@@ -23,6 +23,18 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
                 'proposed_by_type' => 'Etudiant',
                 'proposed_by_first_name' => 'Alexandre',
                 'proposed_by_last_name' => 'Duchemin',
+            ],
+            [
+                'name' => 'Exercice Maths Algèbre',
+                'chapter' => 'Chapitre 1',
+                'keywords' => 'algèbre',
+                'difficulty' => '8',
+                'duration' => '2',
+                'origin_name' => 'Manuel Maths',
+                'origin_information' => 'Page 12, 2ème paragraphe',
+                'proposed_by_type' => 'Enseignant',
+                'proposed_by_first_name' => 'Kilian',
+                'proposed_by_last_name' => 'Deletraz',
             ],
         ];
 

@@ -3,82 +3,84 @@
 {% block title %}Rechercher des exercices{% endblock %}
 
 {% block body %}
-    <div class="">
-        <form action="{{ path('recherche') }}" method="get" class="content-rechercher d-flex justify-between mb-14">
-            <div class="input-group content-rechercher d-flex justify-between mb-14">
-                <div class="info-search">
-                    <span>
-                        Niveau :
-                    </span>
-                    <select name="classroomName">
-                        {% for classroom in classrooms %}
-                            <option value="{{ classroom.id }}">{{ classroom.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="info-search">
-                    <span>
-                        Thématique :
-                    </span>
-                    <select name="thematicName">
-                        {% for thematic in thematics %}
-                            <option value="{{ thematic.id }}">{{ thematic.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="info-search">
-                    <span>
-                        Mots Clés :
-                    </span>
-                    <input type="text" name="keywords">
-                </div>
-                <div class="rechercher-exercice">
-                    <button class="btn" type="submit">
-                        Rechercher
-                    </button>
-                </div>
+<div class="">
+    <form action="{{ path('recherche') }}" method="get" class="d-flex justify-between mb-14">
+        <div class="input-group content-rechercher d-flex justify-between mb-14">
+            <div class="info-search">
+                <span>
+                    Niveau :
+                </span>
+                <select name="classroomName">
+                    <option></option>
+                    {% for classroom in classrooms %}
+                        <option value="{{ classroom.id }}">{{ classroom.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
-        </form>
-    </div>
-    <div class="content-exercice-trouve">
-        <h2 class="mb-8 mt-4 text-xl color-title font-semibold title-h2-size-clamp">
-            {% if totalExercise is defined %}
-                {{ totalExercise }} exercices trouvés
-            {% endif %}
-        </h2>
-        <div class="">
-            <table class="container-exercises w-full table-fixed">
-                <thead class="thead-exercises">
-                    <tr>
-                        <th class="table-size-clamp">Nom</th>
-                        <th class="table-size-clamp">Difficulté</th>
-                        <th class="table-size-clamp">Mots clés</th>
-                        <th class="table-size-clamp">Durée</th>
-                        <th class="table-size-clamp">Fichiers</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if exercises is defined %}
-                        {% if exercises is not empty %}
-                            {% for exercise in exercises %}
-                            <tr>
-                                <td class="table-size-clamp info-exercise">{{ exercise.name }}</td>
-                                <td class="table-size-clamp info-exercise">Niveau {{ exercise.difficulty }}</td>
-                                <td class="flex table-size-clamp info-exercise">
-                                    <span class="keyword">{{ exercise.keywords }}</span>
-                                </td>
-                                <td class="table-size-clamp info-exercise">{{ exercise.duration }}h</td>
-                                <td class="table-size-clamp info-exercise">
-                                    <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Exercice</span></span>
-                                    <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Corrigé</span></span>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        {% endif %}
-                    {% endif %}
-                </tbody>
-            </table>
+            <div class="info-search">
+                <span>
+                    Thématique :
+                </span>
+                <select name="thematicName">
+                    <option></option>
+                    {% for thematic in thematics %}
+                        <option value="{{ thematic.id }}">{{ thematic.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="info-search">
+                <span>
+                    Mots Clés :
+                </span>
+                <input type="text" name="keywords">
+            </div>
+            <div class="rechercher-exercice">
+                <button class="btn" type="submit">
+                    Rechercher
+                </button>
+            </div>
         </div>
-        
+    </form>
+</div>
+<div class="content-exercice-trouve">
+    <h2 class="mb-8 mt-4 text-xl color-title font-semibold title-h2-size-clamp">
+        {% if totalExercise is defined %}
+            {{ totalExercise }} exercices trouvés
+        {% endif %}
+    </h2>
+    <div class="">
+        <table class="container-exercises w-full table-fixed">
+            <thead class="thead-exercises">
+                <tr>
+                    <th class="table-size-clamp">Nom</th>
+                    <th class="table-size-clamp">Difficulté</th>
+                    <th class="table-size-clamp">Mots clés</th>
+                    <th class="table-size-clamp">Durée</th>
+                    <th class="table-size-clamp">Fichiers</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if exercises is defined %}
+                    {% if exercises is not empty %}
+                        {% for exercise in exercises %}
+                        <tr>
+                            <td class="table-size-clamp info-exercise">{{ exercise.name }}</td>
+                            <td class="table-size-clamp info-exercise">Niveau {{ exercise.difficulty }}</td>
+                            <td class="flex table-size-clamp info-exercise">
+                                <span class="keyword">{{ exercise.keywords }}</span>
+                            </td>
+                            <td class="table-size-clamp info-exercise">{{ exercise.duration }}h</td>
+                            <td class="table-size-clamp info-exercise">
+                                <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Exercice</span></span>
+                                <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Corrigé</span></span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            </tbody>
+        </table>
     </div>
+    
+</div>
 {% endblock %}
