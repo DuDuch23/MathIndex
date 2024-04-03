@@ -3,7 +3,7 @@
 {% block title %}Mes exercices{% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" href="{{ asset('css/exercise.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/exercise.scss') }}">
 {% endblock %}
 
 
@@ -33,10 +33,10 @@
                         <a href="{{ exercise.correctionFileId.name }}">Corrigé</a>
                     {% endif %}
                 </td>
-                {# <td>
+                <td>
                     <a href="{{ path('modifier_exercice', {'id': exercise.id}) }}">Modifier</a>
                     <a href="{{ path('supprimer_exercice', {'id': exercise.id}) }}">Supprimer</a>
-                </td> #}
+                </td>
             </tr>
             {% endfor %}
         </tbody>
