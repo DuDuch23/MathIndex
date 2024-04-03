@@ -25,10 +25,29 @@ class RechercheController extends AbstractController
 
         $foundExercices = [];
 
-        if($getClassroomName && $getThematicName && $getKeywords || $getClassroomName && $getThematicName || $getClassroomName && $getKeywords || $getClassroomName
-        || $getThematicName && $getKeywords || $getClassroomName || $getThematicName || $getKeywords)
-        {
-            $foundExercices = $exerciseRepository->searchExercice($getClassroomName, $getThematicName, $getKeywords);
+
+        switch (true) {
+            case ($getClassroomName && $getThematicName && $getKeywords):
+                $foundExercices = $exerciseRepository->searchExerciceByClassroomThematicKeywords($getClassroomName, $getThematicName, $getKeywords);
+                break;
+            case ($getClassroomName);
+                $foundExercices = $exerciseRepository->searchExerciceByClassroom($getClassroomName);
+                break;
+            case ($getThematicName);
+                $foundExercices = $exerciseRepository->searchExerciceByThematic($getThematicName);
+                break;  
+            case ($getKeywords);
+                $foundExercices = $exerciseRepository->searchExerciceByKeywords($getKeywords);
+                break;
+            case ($getClassroomName && $getThematicName);
+                $foundExercices = $exerciseRepository->searchExerciceByClassroomThematic($getClassroomName, $getThematicName);
+                break;
+            case ($getClassroomName && $getKeywords);
+                $foundExercices = $exerciseRepository->searchExerciceByClassroomcKeywords($getClassroomName, $getKeywords);
+                break;
+            case ($getThematicName && $getKeywords);
+                $foundExercices = $exerciseRepository->searchExerciceByThematicKeywords($getThematicName, $getKeywords);
+                break;
         }
 
         $totalExerciseFound = count($foundExercices);
