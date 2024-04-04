@@ -54,5 +54,14 @@
             {% endif %}
         </tbody>
     </table>
+    {% if users is not empty %}
+        {% if users is defined %}
+            {% include "components/pagination.html.twig" with {
+                route: 'recherche',
+                currentPage,
+                countPages
+            } only %}
+        {% endif %}
+    {% endif %}
 </div>
 {% endblock %}

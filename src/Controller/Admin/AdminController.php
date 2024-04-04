@@ -18,10 +18,23 @@ class AdminController extends AbstractController
     #[Route(path: '/', name: 'user')]
     public function index(UserRepository $userRepository, Request $request): Response
     {
-        $users = $userRepository->findAll();
+        $countUsers = $userRepository->count([]);
+        $countPerPage = 8;
+
+        $currentPage = $request->query->getInt('page',1);
+        $countPages = ceil($countUsers / $countPerPage);
+
+        // On vérifie que la page renseignée dans l'url est valide, si ce n'est pas le cas on génère une 404.
+        if ($currentPage > $countPages || $currentPage <= 0) {
+            throw $this->createNotFoundException();
+        }
+        
+        $users = $userRepository->paginate('p', $currentPage, $countPerPage);
 
         return $this->render('admin/index.html.twig', [
             'users' => $users,
+            'countPages' => $countPages,
+            'currentPage' => $currentPage,
         ]);
     }
 
