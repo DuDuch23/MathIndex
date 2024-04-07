@@ -85,7 +85,7 @@
         {% if exercises is defined %}
             {% if exercises is not empty %}
                 {% include "components/pagination.html.twig" with {
-                    route: 'admin_panel_user',
+                    route: 'recherche',
                     currentPage,
                     countPages
                 } only %}

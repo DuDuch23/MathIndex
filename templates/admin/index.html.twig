@@ -9,6 +9,9 @@
     <div class="flex">
         <form class="form-group w-3/4 flex" action="{{ path('admin_panel_user') }}">
             <input class="mr-10">
+            <input type="hidden" name="email">
+            <input type="hidden" name="lastName">
+            <input type="hidden" name="firstName">
             <button class="btn" type="submit">
                 Rechercher
             </button>
