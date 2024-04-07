@@ -25,6 +25,7 @@ class AdminController extends AbstractController
         
         // Déclaration du tableau accueillant l'/les utilisateur(s) trouvé(s)
         $foundUsers = [];
+        $users = [];
         
         // Pagination
         $countPerPage = 8;
@@ -39,6 +40,7 @@ class AdminController extends AbstractController
                 $totalUsersFound = count($foundUsers);
                 $countPages = ceil($totalUsersFound / $countPerPage);
                 $activatePaginate = true;
+                $users = $foundUsers;
                 break;
 
             case ($getLastName):
@@ -46,6 +48,7 @@ class AdminController extends AbstractController
                 $totalUsersFound = count($foundUsers);
                 $countPages = ceil($totalUsersFound / $countPerPage);
                 $activatePaginate = true;
+                $users = $foundUsers;
                 break;
             
             case ($getFirstName):
@@ -53,9 +56,12 @@ class AdminController extends AbstractController
                 $totalUsersFound = count($foundUsers);
                 $countPages = ceil($totalUsersFound / $countPerPage);
                 $activatePaginate = true;
+                $users = $foundUsers;
                 break;
             default:
                 $users = $userRepository->paginate('p', $currentPage, $countPerPage);
+                $totalUsers = count($users);
+                $countPages = ceil($totalUsers / $countPerPage);
                 break;
         }
 
