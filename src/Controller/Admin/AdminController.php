@@ -15,21 +15,60 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/panel', name: 'admin_panel_')]
 class AdminController extends AbstractController
 {
-    #[Route(path: '/', name: 'user')]
+    #[Route(path: '/', name: 'user', methods: ['GET'])]
     public function index(UserRepository $userRepository, Request $request): Response
     {
-        $countUsers = $userRepository->count([]);
-        $countPerPage = 8;
-
-        $currentPage = $request->query->getInt('page',1);
-        $countPages = ceil($countUsers / $countPerPage);
-
-        // On vérifie que la page renseignée dans l'url est valide, si ce n'est pas le cas on génère une 404.
-        if ($currentPage > $countPages || $currentPage <= 0) {
-            throw $this->createNotFoundException();
-        }
+        // Initialisation de la recherche
+        $getEmail = $request->query->get('email');
+        $getLastName = $request->query->get('lastName');
+        $getFirstName = $request->query->get('firstName');
         
-        $users = $userRepository->paginate('p', $currentPage, $countPerPage);
+        // Déclaration du tableau accueillant l'/les utilisateur(s) trouvé(s)
+        $foundUsers = [];
+        
+        // Pagination
+        $countPerPage = 8;
+        $countPages = 0;
+        $totalUsersFound = 0;
+        $currentPage = $request->query->getInt('page', 1);
+        $activatePaginate = false;
+
+        switch (true) {
+            case ($getEmail):
+                $foundUsers = $userRepository->searchUserByEmail($getEmail, $currentPage, $countPerPage);
+                $totalUsersFound = count($foundUsers);
+                $countPages = ceil($totalUsersFound / $countPerPage);
+                $activatePaginate = true;
+                break;
+
+            case ($getLastName):
+                $foundUsers = $userRepository->searchUserByLastName($getLastName, $currentPage, $countPerPage);
+                $totalUsersFound = count($foundUsers);
+                $countPages = ceil($totalUsersFound / $countPerPage);
+                $activatePaginate = true;
+                break;
+            
+            case ($getFirstName):
+                $foundUsers = $userRepository->searchUserByFirstName($getFirstName, $currentPage, $countPerPage);
+                $totalUsersFound = count($foundUsers);
+                $countPages = ceil($totalUsersFound / $countPerPage);
+                $activatePaginate = true;
+                break;
+            default:
+                $users = $userRepository->paginate('p', $currentPage, $countPerPage);
+                break;
+        }
+
+        if($activatePaginate)
+        {
+            if($currentPage > $countPages || $currentPage <= 0)
+            {
+                throw $this->createNotFoundException();
+            }
+        }
+
+        //dd($totalUsersFound, $foundUsers, $users, $currentPage, $countPages, $countPerPage);
+        
 
         return $this->render('admin/index.html.twig', [
             'users' => $users,
@@ -110,4 +149,14 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('admin_panel_user');
     }
+
+    // #[Route(path: '/recherche', name: 'user_recherche', methods: ['GET'])]
+    // public function recherche(UserRepository $userRepository, Request $request): Response
+    // {
+
+    //     // Déclaration du tableau accueillant l'/les exercice(s) trouvé(s)
+    //     $foundUsers = [];
+
+
+    // }
 }

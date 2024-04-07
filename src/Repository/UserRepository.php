@@ -40,6 +40,36 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
+    public function searchUserByLastName($lastName, $page, $itemsPerPage){
+        return $this->createQueryBuilder('user')
+            ->andWhere('user.lastName LIKE :lastName')
+            ->setParameter('lastName', '%'.$lastName.'%')
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function searchUserByFirstName($firstName, $page, $itemsPerPage){
+        return $this->createQueryBuilder('user')
+            ->andWhere('user.firstName LIKE :firstName')
+            ->setParameter('firstName', '%'.$firstName.'%')
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function searchUserByEmail($email, $page, $itemsPerPage){
+        return $this->createQueryBuilder('user')
+            ->andWhere('user.email LIKE :email')
+            ->setParameter('email', '%'.$email.'%')
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
+            ->getQuery()
+            ->getResult();
+    }
+
     use PaginateTrait;
 
 //    /**
