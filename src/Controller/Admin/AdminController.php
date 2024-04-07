@@ -67,7 +67,7 @@ class AdminController extends AbstractController
             }
         }
 
-        dd($totalUsersFound, $foundUsers, $users, $currentPage);
+        //dd($totalUsersFound, $foundUsers, $users, $currentPage, $countPages, $countPerPage);
         
 
         return $this->render('admin/index.html.twig', [
