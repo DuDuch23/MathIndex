@@ -3,18 +3,42 @@
 {% block title %}Hello MathematiqueController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/admin/Documents/MathIndex/src/Controller/MathematiqueController.php'|file_link(0) }}">src/Controller/MathematiqueController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/admin/Documents/MathIndex/templates/mathematique/index.html.twig'|file_link(0) }}">templates/mathematique/index.html.twig</a></code></li>
-    </ul>
-</div>
+<div class="">
+        <table class="container-exercises w-full table-fixed">
+            <thead class="thead-exercises">
+                <tr>
+                    <th class="table-size-clamp">Nom</th>
+                    <th class="table-size-clamp">Niveau</th>
+                    <th class="table-size-clamp">Thématique</th>
+                    <th class="table-size-clamp">Difficulté</th>
+                    <th class="table-size-clamp">Durée</th>
+                    <th class="table-size-clamp">Mots clés</th>
+                    <th class="table-size-clamp">Fichiers</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if exercises is defined %}
+                    {% if exercises is not empty %}
+                        {% for exercise in exercises %}
+                        <tr>
+                            <td class="table-size-clamp info-exercise">{{ exercise.name }}</td>
+                            <td class="table-size-clamp info-exercise">{{ exercise.classroomId.name }}</td>
+                            <td class="table-size-clamp info-exercise">{{ exercise.thematicId.name }}</td>
+                            <td class="table-size-clamp info-exercise">{{ exercise.difficulty }}</td>
+                            <td class="table-size-clamp info-exercise">{{ exercise.duration }}h</td>
+                            <td class="flex table-size-clamp info-exercise">
+                                <span class="keyword">{{ exercise.keywords }}</span>
+                            </td>
+                            
+                            <td class="table-size-clamp info-exercise">
+                                <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Exercice</span></span>
+                                <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Corrigé</span></span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

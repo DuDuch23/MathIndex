@@ -45,7 +45,9 @@
 <div class="content-exercice-trouve">
     <h2 class="mb-8 mt-4 text-xl color-title font-semibold title-h2-size-clamp">
         {% if totalExercise is defined %}
-            {{ totalExercise }} exercices trouvés
+            {% if totalExercise != 0 %}
+                {{ totalExercise }} exercices trouvés
+            {% endif %}
         {% endif %}
     </h2>
     <div class="">
@@ -80,6 +82,15 @@
                 {% endif %}
             </tbody>
         </table>
+        {% if exercises is defined %}
+            {% if exercises is not empty %}
+                {% include "components/pagination.html.twig" with {
+                    route: 'recherche',
+                    currentPage,
+                    countPages
+                } only %}
+            {% endif %}
+        {% endif %}
     </div>
     
 </div>

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Repository\Traits\PaginateTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -38,6 +39,38 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+
+    public function searchUserByLastName($lastName, $page, $itemsPerPage){
+        return $this->createQueryBuilder('user')
+            ->andWhere('user.lastName LIKE :lastName')
+            ->setParameter('lastName', '%'.$lastName.'%')
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function searchUserByFirstName($firstName, $page, $itemsPerPage){
+        return $this->createQueryBuilder('user')
+            ->andWhere('user.firstName LIKE :firstName')
+            ->setParameter('firstName', '%'.$firstName.'%')
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function searchUserByEmail($email, $page, $itemsPerPage){
+        return $this->createQueryBuilder('user')
+            ->andWhere('user.email LIKE :email')
+            ->setParameter('email', '%'.$email.'%')
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
+            ->getQuery()
+            ->getResult();
+    }
+
+    use PaginateTrait;
 
 //    /**
 //     * @return User[] Returns an array of User objects

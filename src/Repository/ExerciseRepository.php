@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Exercise;
+use App\Repository\Traits\PaginateTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,7 +22,7 @@ class ExerciseRepository extends ServiceEntityRepository
         parent::__construct($registry, Exercise::class);
     }
 
-    public function searchExerciceByClassroomThematicKeywords($classroomName, $thematicName, $keywords){
+    public function searchExerciceByClassroomThematicKeywords($classroomName, $thematicName, $keywords, $page, $itemsPerPage){
         return $this->createQueryBuilder('exercice')
             ->where('exercice.classroom_id = :classroomName')
             ->andWhere('exercice.thematic_id = :thematicName')
@@ -33,58 +34,86 @@ class ExerciseRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function searchExerciceByClassroom($classroomName){
-        return $this->createQueryBuilder('exercice')
-            ->where('exercice.classroom_id = :classroomName')
-            ->setParameter('classroomName', $classroomName)
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function searchExerciceByThematic($thematicName){
-        return $this->createQueryBuilder('exercice')
-            ->andWhere('exercice.thematic_id = :thematicName')
-            ->setParameter('thematicName', $thematicName)
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function searchExerciceByKeywords($keywords){
-        return $this->createQueryBuilder('exercice')
-            ->andWhere('exercice.keywords LIKE :keywords')
-            ->setParameter('keywords', '%'.$keywords.'%')
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function searchExerciceByClassroomThematic($classroomName, $thematicName){
+    public function searchExerciceByClassroomThematicKeywordsPaginated($classroomName, $thematicName, $keywords, $page, $itemsPerPage){
         return $this->createQueryBuilder('exercice')
             ->where('exercice.classroom_id = :classroomName')
             ->andWhere('exercice.thematic_id = :thematicName')
+            ->andWhere('exercice.keywords LIKE :keywords')
             ->setParameter('classroomName', $classroomName)
             ->setParameter('thematicName', $thematicName)
+            ->setParameter('keywords', '%'.$keywords.'%')
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
             ->getQuery()
             ->getResult();
     }
 
-    public function searchExerciceByClassroomcKeywords($classroomName, $keywords){
+    public function searchExerciceByClassroom($classroomName, $page, $itemsPerPage){
+        return $this->createQueryBuilder('exercice')
+            ->where('exercice.classroom_id = :classroomName')
+            ->setParameter('classroomName', $classroomName)
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function searchExerciceByThematic($thematicName, $page, $itemsPerPage){
+        return $this->createQueryBuilder('exercice')
+            ->andWhere('exercice.thematic_id = :thematicName')
+            ->setParameter('thematicName', $thematicName)
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function searchExerciceByKeywords($keywords, $page, $itemsPerPage){
+        return $this->createQueryBuilder('exercice')
+            ->andWhere('exercice.keywords LIKE :keywords')
+            ->setParameter('keywords', '%'.$keywords.'%')
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function searchExerciceByClassroomThematic($classroomName, $thematicName, $page, $itemsPerPage){
+        return $this->createQueryBuilder('exercice')
+            ->where('exercice.classroom_id = :classroomName')
+            ->andWhere('exercice.thematic_id = :thematicName')
+            ->setParameter('classroomName', $classroomName)
+            ->setParameter('thematicName', $thematicName)
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function searchExerciceByClassroomcKeywords($classroomName, $keywords, $page, $itemsPerPage){
         return $this->createQueryBuilder('exercice')
             ->where('exercice.classroom_id = :classroomName')
             ->andWhere('exercice.keywords LIKE :keywords')
             ->setParameter('classroomName', $classroomName)
             ->setParameter('keywords', '%'.$keywords.'%')
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
             ->getQuery()
             ->getResult();
     }
-    public function searchExerciceByThematicKeywords($thematicName, $keywords){
+    public function searchExerciceByThematicKeywords($thematicName, $keywords, $page, $itemsPerPage){
         return $this->createQueryBuilder('exercice')
             ->andWhere('exercice.thematic_id = :thematicName')
             ->andWhere('exercice.keywords LIKE :keywords')
             ->setParameter('thematicName', $thematicName)
             ->setParameter('keywords', '%'.$keywords.'%')
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
             ->getQuery()
             ->getResult();
     }
+
+    use PaginateTrait;
 
     //    /**
     //     * @return Exercise[] Returns an array of Exercise objects
