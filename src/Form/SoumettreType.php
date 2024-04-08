@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class Constant{
     public const NIVEAU1 = 'Niveau 1';
@@ -122,26 +123,26 @@ class SoumettreType extends AbstractType
             ->add('difficulty', ChoiceType::class, [
                 'label' => 'Difficulté * :',
                 'choices' => [
-                    Constant::NIVEAU1 => Constant::NIVEAU1,
-                    Constant::NIVEAU2 => Constant::NIVEAU2,
-                    Constant::NIVEAU3 => Constant::NIVEAU3,
-                    Constant::NIVEAU4 => Constant::NIVEAU4,
-                    Constant::NIVEAU5 => Constant::NIVEAU5,
-                    Constant::NIVEAU6 => Constant::NIVEAU6,
-                    Constant::NIVEAU7 => Constant::NIVEAU7,
-                    Constant::NIVEAU8 => Constant::NIVEAU8,
-                    Constant::NIVEAU9 => Constant::NIVEAU9,
-                    Constant::NIVEAU10 => Constant::NIVEAU10,
-                    Constant::NIVEAU11 => Constant::NIVEAU11,
-                    Constant::NIVEAU12 => Constant::NIVEAU12,
-                    Constant::NIVEAU13 => Constant::NIVEAU13,
-                    Constant::NIVEAU14 => Constant::NIVEAU14,
-                    Constant::NIVEAU15 => Constant::NIVEAU15,
-                    Constant::NIVEAU16 => Constant::NIVEAU16,
-                    Constant::NIVEAU17 => Constant::NIVEAU17,
-                    Constant::NIVEAU18 => Constant::NIVEAU18,
-                    Constant::NIVEAU19 => Constant::NIVEAU19,
-                    Constant::NIVEAU20 => Constant::NIVEAU20,
+                    Constant::NIVEAU1 => 1,
+                    Constant::NIVEAU2 => 2,
+                    Constant::NIVEAU3 => 3,
+                    Constant::NIVEAU4 => 4,
+                    Constant::NIVEAU5 => 5,
+                    Constant::NIVEAU6 => 6,
+                    Constant::NIVEAU7 => 7,
+                    Constant::NIVEAU8 => 8,
+                    Constant::NIVEAU9 => 9,
+                    Constant::NIVEAU10 => 10,
+                    Constant::NIVEAU11 => 11,
+                    Constant::NIVEAU12 => 12,
+                    Constant::NIVEAU13 => 13,
+                    Constant::NIVEAU14 => 14,
+                    Constant::NIVEAU15 => 15,
+                    Constant::NIVEAU16 => 16,
+                    Constant::NIVEAU17 => 17,
+                    Constant::NIVEAU18 => 18,
+                    Constant::NIVEAU19 => 19,
+                    Constant::NIVEAU20 => 20,
                 ],
                 'attr' => [
                     'class' => 'form-control',
@@ -226,7 +227,8 @@ class SoumettreType extends AbstractType
                     'class' => 'form-row',
                 ],
             ])
-            ->add('exercice_file_id', FileType::class, [
+            ->add('exercice_file_id', EntityType::class, [
+                'class' => File::class,
                 'attr' => [
                     'class' => 'form-control',
                 ],
@@ -234,7 +236,8 @@ class SoumettreType extends AbstractType
                     'class' => 'form-row',
                 ],
             ])
-            ->add('correction_file_id', FileType::class, [
+            ->add('correction_file_id', EntityType::class, [
+                'class' => File::class,
                 'attr' => [
                     'class' => 'form-control',
                 ],
@@ -252,11 +255,22 @@ class SoumettreType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
-                'row_attr' => [
-                    'class' => 'form-row',
+            ])
+            ->add('BtnSubmit', SubmitType::class, [
+                'label' => 'Enregistrer',
+                'attr' => [
+                'class' => 'btn',
+                ],
+            ])
+            ->add('BtnContinue', SubmitType::class, [
+                'label' => 'Continuer',
+                'attr' => [
+                'class' => 'btn',
                 ],
             ])
             
+            ;
+
         ;
     }
 

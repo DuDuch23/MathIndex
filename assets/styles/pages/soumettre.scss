@@ -9,6 +9,7 @@ h1 {
 
 .p1{
     margin-left: 2%;
+    margin-bottom: 3%;
 }
 
 label{
@@ -31,11 +32,17 @@ label{
 .form-control{
     border-radius: 8px;
     width: 500px;
-    height: 50px;
+    height: 55px;
     border: 2px solid #f6f6f6;
 }
 
 #soumettre_skills{
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: start;
+    width: 80%;
+}
+
+.form-row, .mb-6{
+    margin-bottom: 5%;
 }
