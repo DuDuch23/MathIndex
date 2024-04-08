@@ -3,18 +3,67 @@
 {% block title %}Hello AdminClassroomController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/admin/Documents/MathIndex/src/Controller/AdminClassroomController.php</code></li>
-        <li>Your template at <code>C:/Users/admin/Documents/MathIndex/templates/admin_classroom/index.html.twig</code></li>
-    </ul>
-</div>
+    <h1 class="mb-4">Gestion des Classes</h1>
+    <label>Rechercher une classe par son nom :</label>
+    <div class="flex">
+        <form class="form-group w-3/4 flex" action="{{ path('admin_panel_user') }}">
+            <input class="mr-10">
+            <input type="hidden" name="email">
+            <input type="hidden" name="lastName">
+            <input type="hidden" name="firstName">
+            <button class="btn" type="submit">
+                Rechercher
+            </button>
+        </form>
+        <form class="form-group w-1/4 flex justify-center" action="#" method="post">
+            <button class="btn_add btn-add" type="submit">
+                Ajouter +
+            </button>
+        </form>
+    </div>
+    <div class="bg-white shadow-md rounded my-6">
+    <table class="container-exercises w-full table-fixed mt-10">
+        <thead class="thead-exercises">
+            <tr>
+                <th class="table-size-clamp">Nom</th>
+                <th class="table-size-clamp">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="text-gray-600">
+            {% if classrooms is defined %}
+                {% if classrooms is not empty %}
+                    {% for classroom in classrooms %}
+                    <tr class="hover:bg-gray-100">
+                        <td class="table-size-clamp info-exercise">{{ classroom.name }}</td>
+                        <td class="flex align-center">
+                            <form action="{{ path('admin_panel_classroom_edit', {id: classroom.id}) }}" method="get" class="mr-2">
+                                <button type="submit" class="flex items-center px-2 py-1 text-sm font-medium leading-5 text-gray-700 transition-colors duration-150 active:bg-gray-200 hover:bg-gray-100 focus:outline-none focus:shadow-outline-gray">
+                                    <img src="{{ asset('media/editer.png') }}" alt="Modifier" class="w-4 h-4 mr-2">
+                                    <span>Modifier</span>
+                                </button>
+                            </form>
+                            <form action="{{ path('admin_panel_classroom_delete', {id: classroom.id}) }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette classe ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ classroom.id) }}">
+                                <button type="submit" class="flex items-center px-2 py-1 text-sm font-medium leading-5 text-gray-700 transition-colors duration-150 active:bg-gray-200 hover:bg-gray-100 focus:outline-none focus:shadow-outline-gray">
+                                    <img src="{{ asset('media/delete.png') }}" alt="Supprimer" class="w-4 h-4 mr-2">
+                                    <span>Supprimer</span>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        </tbody>
+    </table>
+    {% if classrooms is not empty %}
+        {% if classrooms is defined %}
+            {% include "components/pagination.html.twig" with {
+                route: 'admin_panel_classroom',
+                currentPage,
+                countPages
+            } only %}
+        {% endif %}
+    </div>
+    {% endif %}
 {% endblock %}
