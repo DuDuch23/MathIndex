@@ -61,18 +61,6 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
                 'proposed_by_last_name' => 'Duchemin',
             ],
             [
-                'name' => 'Exercice Maths arithmétique',
-                'chapter' => 'Chapitre 9',
-                'keywords' => 'equation',
-                'difficulty' => '15',
-                'duration' => '3',
-                'origin_name' => 'Manuel Maths',
-                'origin_information' => 'Page 1-19',
-                'proposed_by_type' => 'Enseignant',
-                'proposed_by_first_name' => 'Romain',
-                'proposed_by_last_name' => 'Fernandes',
-            ],
-            [
                 'name' => 'Exercice Maths integration',
                 'chapter' => 'Chapitre 9',
                 'keywords' => 'equation',
