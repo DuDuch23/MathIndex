@@ -1,0 +1,7 @@
+<form action="{{ path('admin_panel_skill_delete', {'id': skill.id}) }}" method="post">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ skill.id) }}">
+    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Supprimer
+    </button>
+</form>
