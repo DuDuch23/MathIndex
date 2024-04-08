@@ -21,8 +21,9 @@
     <div class="container_right">
         {{ form_row(form.skills) }}
         {{ form_row(form.keywords) }}
-        {{ form_row(form.difficulty) }}
+        {{ form_row(form.difficulty) }}{#} blocage #}
         {{ form_row(form.duration) }}
+        
     </div>
 
 </div>
@@ -34,4 +35,6 @@
 {{ form_row(form.proposed_by_last_name) }}
 {{ form_row(form.exercice_file_id) }}
 {{ form_row(form.correction_file_id) }}
+{{form_row(form.BtnSubmit)}}
+{# {{form_row(form.BtnContinue)}} #}
 {% endblock %}

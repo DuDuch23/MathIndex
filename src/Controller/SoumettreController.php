@@ -21,8 +21,10 @@ class SoumettreController extends AbstractController
         $form = $this->createForm(SoumettreType::class, $exercise);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
+        if($form->isSubmitted())
         {
+                    dd($exercise);
+
             try{
                 $entityManager->persist($exercise);
                 $entityManager->flush();
@@ -35,6 +37,7 @@ class SoumettreController extends AbstractController
                 ]);
             }
         }
+
 
         return $this->render('soumettre/index.html.twig', [
             'form' => $form->createView(),
