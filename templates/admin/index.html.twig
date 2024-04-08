@@ -8,10 +8,7 @@
     <label>Rechercher un contributeur par nom, prénom ou email :</label>
     <div class="flex">
         <form class="form-group w-3/4 flex" action="{{ path('admin_panel_user') }}">
-            <input class="mr-10">
-            <input type="hidden" name="email">
-            <input type="hidden" name="lastName">
-            <input type="hidden" name="firstName">
+            <input class="mr-10" name="searchTerm">
             <button class="btn" type="submit">
                 Rechercher
             </button>
