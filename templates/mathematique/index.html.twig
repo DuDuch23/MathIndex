@@ -11,8 +11,8 @@
                     <th class="table-size-clamp">Niveau</th>
                     <th class="table-size-clamp">Thématique</th>
                     <th class="table-size-clamp">Difficulté</th>
-                    <th class="table-size-clamp">Mots clés</th>
                     <th class="table-size-clamp">Durée</th>
+                    <th class="table-size-clamp">Mots clés</th>
                     <th class="table-size-clamp">Fichiers</th>
                 </tr>
             </thead>
@@ -22,11 +22,14 @@
                         {% for exercise in exercises %}
                         <tr>
                             <td class="table-size-clamp info-exercise">{{ exercise.name }}</td>
-                            <td class="table-size-clamp info-exercise">Niveau {{ exercise.difficulty }}</td>
+                            <td class="table-size-clamp info-exercise">{{ exercise.classroomId.name }}</td>
+                            <td class="table-size-clamp info-exercise">{{ exercise.thematicId.name }}</td>
+                            <td class="table-size-clamp info-exercise">{{ exercise.difficulty }}</td>
+                            <td class="table-size-clamp info-exercise">{{ exercise.duration }}h</td>
                             <td class="flex table-size-clamp info-exercise">
                                 <span class="keyword">{{ exercise.keywords }}</span>
                             </td>
-                            <td class="table-size-clamp info-exercise">{{ exercise.duration }}h</td>
+                            
                             <td class="table-size-clamp info-exercise">
                                 <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Exercice</span></span>
                                 <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Corrigé</span></span>
