@@ -9,20 +9,10 @@ body {
     color: #212529;
 }
 
-.benefits-list {
-    list-style: none;
-    padding: 0;
-}
 
 .benefits-list li {
     margin-bottom: 1rem;
     font-size: 1rem;
-}
-
-.benefits-list li::before {
-    content: '• ';
-    color: #5cb85c; /* Utilisez la couleur appropriée de votre palette graphique */
-    font-weight: bold; /* Ajoutez si vous voulez un symbole de puce en gras */
 }
 
 .benefits-list li a {
