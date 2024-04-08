@@ -14,7 +14,7 @@ class MathematiqueController extends AbstractController
     {
         $exercises = $exerciseRepository->findAll();
 
-        return $this->render('mathematiqu ;le/index.html.twig', [
+        return $this->render('mathematique/index.html.twig', [
             'exercises' => $exercises,
         ]);
     }
