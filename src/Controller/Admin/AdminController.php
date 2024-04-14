@@ -52,7 +52,7 @@ class AdminController extends AbstractController
         // dd($countPages, $currentPage, $countUsers);
         
 
-        return $this->render('admin/index.html.twig', [
+        return $this->render('admin/user/index.html.twig', [
             'users' => $users, // Tout les utilisateurs affiché
             'countPages' => $countPages,
             'currentPage' => $currentPage,
@@ -82,7 +82,7 @@ class AdminController extends AbstractController
             }
         }
 
-        return $this->render('admin/add_user.html.twig');
+        return $this->render('admin/user/add_user.html.twig');
     }
 
     #[Route(path: '/edit/{id}', name: 'user_edit')]
@@ -106,7 +106,7 @@ class AdminController extends AbstractController
             $this->addFlash('error', 'Le formulaire contient des erreurs');
         }
 
-        return $this->render('admin/edit_user.html.twig', [
+        return $this->render('admin/user/edit_user.html.twig', [
             'form' => $form,
             'user' => $user,
         ]);

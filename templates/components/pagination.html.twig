@@ -56,6 +56,7 @@
             ">{{ currentPage + countPages - 3 }}
                 </a>
             </li>
+            {% if currentPage != countPages - 1 %}
             <li class="page-item page-current+2">
                 <a class="page-link" href="{{ path(route, {
                     page: currentPage + countPages - 2
@@ -63,6 +64,10 @@
             ">{{ currentPage + countPages - 2 }}
                 </a>
             </li>
+            {% else %}
+            
+            {% endif %}
+
         {% endif %}
         {% if countPages < 1 %}
         <li class="page-item page-current+countpage">
