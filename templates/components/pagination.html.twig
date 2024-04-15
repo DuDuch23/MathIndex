@@ -49,6 +49,12 @@
                 }) }}">{{ currentPage }}
                 </a>
             </li>
+            <li class="page-item page-current">
+                <a class="page-link" href="{{ path(route, {
+                    page: currentPage
+                }) }}">...
+                </a>
+            </li>
             <li class="page-item page-current+1">
                 <a class="page-link" href="{{ path(route, {
                     page: currentPage + countPages - 3
