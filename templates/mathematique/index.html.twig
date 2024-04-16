@@ -4,41 +4,90 @@
 
 {% block body %}
 <div class="">
-        <table class="container-exercises w-full table-fixed">
-            <thead class="thead-exercises">
-                <tr>
-                    <th class="table-size-clamp">Nom</th>
-                    <th class="table-size-clamp">Niveau</th>
-                    <th class="table-size-clamp">Thématique</th>
-                    <th class="table-size-clamp">Difficulté</th>
-                    <th class="table-size-clamp">Durée</th>
-                    <th class="table-size-clamp">Mots clés</th>
-                    <th class="table-size-clamp">Fichiers</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if exercises is defined %}
-                    {% if exercises is not empty %}
-                        {% for exercise in exercises %}
-                        <tr>
-                            <td class="table-size-clamp info-exercise">{{ exercise.name }}</td>
-                            <td class="table-size-clamp info-exercise">{{ exercise.classroomId.name }}</td>
-                            <td class="table-size-clamp info-exercise">{{ exercise.thematicId.name }}</td>
-                            <td class="table-size-clamp info-exercise">{{ exercise.difficulty }}</td>
-                            <td class="table-size-clamp info-exercise">{{ exercise.duration }}h</td>
-                            <td class="flex table-size-clamp info-exercise">
-                                <span class="keyword">{{ exercise.keywords }}</span>
-                            </td>
-                            
-                            <td class="table-size-clamp info-exercise">
-                                <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Exercice</span></span>
-                                <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Corrigé</span></span>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    {% endif %}
+    <h2>Nouveautés<h2>
+    <table class="container-exercises w-full table-fixed">
+        <thead class="thead-exercises">
+            <tr>
+                <th class="table-size-clamp">Nom</th>
+                <th class="table-size-clamp">Niveau</th>
+                <th class="table-size-clamp">Thématique</th>
+                <th class="table-size-clamp">Difficulté</th>
+                <th class="table-size-clamp">Durée</th>
+                <th class="table-size-clamp">Mots clés</th>
+                <th class="table-size-clamp">Fichiers</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if nouveautes is defined %}
+                {% if nouveautes is not empty %}
+                    {% for nouveaute in nouveautes %}
+                    <tr>
+                        <td class="table-size-clamp info-exercise">{{ nouveaute.name }}</td>
+                        <td class="table-size-clamp info-exercise">{{ nouveaute.classroomId.name }}</td>
+                        <td class="table-size-clamp info-exercise">{{ nouveaute.thematicId.name }}</td>
+                        <td class="table-size-clamp info-exercise">{{ nouveaute.difficulty }}</td>
+                        <td class="table-size-clamp info-exercise">{{ nouveaute.duration }}h</td>
+                        <td class="flex table-size-clamp info-exercise">
+                            <span class="keyword">{{ nouveaute.keywords }}</span>
+                        </td>
+                        
+                        <td class="table-size-clamp info-exercise">
+                            <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Exercice</span></span>
+                            <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Corrigé</span></span>
+                        </td>
+                    </tr>
+                    {% endfor %}
                 {% endif %}
-            </tbody>
-        </table>
-    </div>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+<div class="mt-9">
+    <h2>Tous les exercises<h2>
+    <table class="container-exercises w-full table-fixed">
+        <thead class="thead-exercises">
+            <tr>
+                <th class="table-size-clamp">Nom</th>
+                <th class="table-size-clamp">Niveau</th>
+                <th class="table-size-clamp">Thématique</th>
+                <th class="table-size-clamp">Difficulté</th>
+                <th class="table-size-clamp">Durée</th>
+                <th class="table-size-clamp">Mots clés</th>
+                <th class="table-size-clamp">Fichiers</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if exercises is defined %}
+                {% if exercises is not empty %}
+                    {% for exercise in exercises %}
+                    <tr>
+                        <td class="table-size-clamp info-exercise">{{ exercise.name }}</td>
+                        <td class="table-size-clamp info-exercise">{{ exercise.classroomId.name }}</td>
+                        <td class="table-size-clamp info-exercise">{{ exercise.thematicId.name }}</td>
+                        <td class="table-size-clamp info-exercise">{{ exercise.difficulty }}</td>
+                        <td class="table-size-clamp info-exercise">{{ exercise.duration }}h</td>
+                        <td class="flex table-size-clamp info-exercise">
+                            <span class="keyword">{{ exercise.keywords }}</span>
+                        </td>
+                        
+                        <td class="table-size-clamp info-exercise">
+                            <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Exercice</span></span>
+                            <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Corrigé</span></span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        </tbody>
+    </table>
+    {% if exercises is not empty %}
+        {% if exercises is defined %}
+            {% include "components/pagination.html.twig" with {
+                route: 'admin_panel_mathematique',
+                currentPage,
+                countPages
+            } only %}
+        {% endif %}
+    {% endif %}
+</div>
 {% endblock %}
