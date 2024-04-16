@@ -109,7 +109,7 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
                 'proposed_by_last_name' => 'Fernandes',
             ],
             [
-                'name' => 'Exercice Maths Equation différentiel',
+                'name' => 'Exercice Maths algèbre linéaire ',
                 'chapter' => 'Chapitre 9',
                 'keywords' => 'equation',
                 'difficulty' => '15',
