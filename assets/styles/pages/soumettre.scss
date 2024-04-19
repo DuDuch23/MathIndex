@@ -29,13 +29,6 @@ label{
     display: flex;
 }
 
-.form-control{
-    border-radius: 8px;
-    width: 500px;
-    height: 55px;
-    border: 2px solid #f6f6f6;
-}
-
 #soumettre_skills{
     display: grid;
     grid-template-columns: repeat(2, 1fr);

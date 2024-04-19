@@ -5,8 +5,7 @@
 {% block body %}
 <div>
     <h1>Modification de l'utilisateur {{ user.firstName }} {{ user.lastName }}</h1>
+    <a href="{{ path('admin_panel_user') }}">Retour à la liste des utilisateurs</a>
 </div>
-<div>
-    {{ form_start(form) }}
-</div>
+{% include "admin/user/form_user.html.twig" %}
 {% endblock %}

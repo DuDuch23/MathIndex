@@ -3,7 +3,8 @@
 {% block title %}Modification d'un utilisateur{% endblock %}
 
 {% block body %}
-<form action="{{ path('admin_panel_user') }}">
-    <input class="btn" type="submit" value="Retour à la liste">
-</form>
+<h1 class="title title-h1-size-clamp">
+    Ajouter un contributeur
+</h1>
+{% include "admin/user/form_user.html.twig" %}
 {% endblock %}
