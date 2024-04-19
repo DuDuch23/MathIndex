@@ -11,13 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/panel', name: 'admin_panel_')]
+#[Route(path: '/panel', name: 'admin_panel_')]
 class SkillsController extends AbstractController
 {
     #[Route('/skills', name: 'skills')]
     public function index(SkillRepository $skillRepository): Response
     {
         $skills = $skillRepository->findAll();
+
 
         return $this->render('admin/skills/index.html.twig', [
             'skills' => $skills,
@@ -27,7 +28,10 @@ class SkillsController extends AbstractController
     #[Route('/skill/edit/{id}', name: 'skill_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Skill $skill, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(SkillType::class, $skill);
+        $form = $this->createForm(SkillType::class, $skill, [
+            'method' => 'POST',
+        ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -37,6 +41,8 @@ class SkillsController extends AbstractController
 
             return $this->redirectToRoute('admin_panel_skills');
         }
+
+        dd($form);
 
         return $this->render('admin/skills/edit.html.twig', [
             'skill' => $skill,

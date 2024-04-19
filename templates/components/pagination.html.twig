@@ -16,64 +16,59 @@
         
         {% set availablePages = countPages > 2 ? 2 : countPages %}
 
-        {% if currentPage >= 1 and currentPage <= 2 %}
-            {% for i in range (1, availablePages) %}
-                <li class="page-item {{ currentPage == i ? 'active' }} bouton-jsaipas">
-                    <a class="page-link" href="{{ path(route, {
-                        page: i
-                    }) }}">{{ i }}
-                    </a>
-                </li>
-                {% if currentPage > 2 and currentPage %}
-                <li class="page-item {{ currentPage == i ? 'active' }} bouton-jsaipas">
-                    <a class="page-link" href="{{ path(route, {
-                        page: i
-                    }) }}">{{ i }}
-                    </a>
-                </li>
-                {% endif %}
-            {% endfor %}
-        {% elseif currentPage > 2 %}
-            {% for i in range (1, availablePages) %}
-            <li class="page-item {{ currentPage == i ? 'active' }} bouton-jsaipas">
+        {% if currentPage >= availablePages - 1 and currentPage <= availablePages %}
+            <li class="page-item {{ currentPage == 1 ? 'active' }} bouton-jsaipas 1">
                 <a class="page-link" href="{{ path(route, {
-                    page: i
-                }) }}">{{ i + 1 }}
+                    page: 1
+                }) }}">1
                 </a>
             </li>
+            <li class="page-item {{ currentPage == availablePages ? 'active' }} bouton-jsaipas 2">
+                <a class="page-link" href="{{ path(route, {
+                    page: availablePages
+                }) }}">{{availablePages}}
+                </a>
+            </li>
+        {% elseif currentPage > 2 %}
+            {% for i in range (1, availablePages) %}
+                <li class="page-item {{ currentPage == i ? 'active' }} bouton-jsaipas 1">
+                    <a class="page-link" href="{{ path(route, {
+                        page: 1
+                    }) }}">{{ i }}
+                    </a>
+                </li>
             {% endfor %}
         {% endif %}
 
         <li class="page-item page-current">
-            <a class="page-link" href="{{ path(route, {
-                page: currentPage
-            }) }}">...
+            <a class="page-link" href="">...
             </a>
         </li>
 
-        <li class="page-item page-current {{ currentPage == 1 ? 'active' }}">
-            <a class="page-link" href="{{ path(route, {
-                page: countPages - 1
-            }) }}">{{ countPages - 1 }}
-            </a>
-        </li>
+        {% if currentPage == countPages or currentPage < countPages%}
+            <li class="page-item {{ currentPage == countPages - 1 ? 'active' }} bouton-jsaipas 1">
+                <a class="page-link" href="{{ path(route, {
+                    page: countPages - 1
+                }) }}">{{ countPages - 1 }}
+                </a>
+            </li>
+            <li class="page-item {{ currentPage == countPages ? 'active' }} bouton-jsaipas 2">
+                <a class="page-link" href="{{ path(route, {
+                    page: countPages
+                }) }}">{{ countPages }}
+                </a>
+            </li>
+        {% endif %}
 
-        <li class="page-item page-current">
-            <a class="page-link" href="{{ path(route, {
-                page: countPages
-            }) }}">{{ countPages }}
-            </a>
-        </li>
-
-        <li class="page-item prev bouton-next {{ currentPage == countPages ? 'disable' }}">
+        <li class="page-item next bouton-next {{ currentPage == countPages ? 'disable' }}">
             {% if currentPage == countPages %}
-            <a class="page-link" href="{{ path(route, {
-                page: currentPage + 1
-            }) }}" aria-label="Next">
+            <a class="page-link" aria-label="Next">
             >
             </a>
             {% else %}
-            <a class="page-link" aria-label="Next">
+            <a class="page-link" href="{{ path(route, {
+                page: currentPage + 1
+            }) }}" aria-label="Next">
             >
             </a>
             {% endif %}

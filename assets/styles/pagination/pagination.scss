@@ -1,6 +1,6 @@
 .disable{
     background-color: #919EAB;
-    border: solid 2px #919EAB;
+    border: 0;
     cursor: not-allowed;
     color: #C4CDD5;
 }
@@ -13,6 +13,14 @@
     border: solid 2px #DFE3E8;
     color: black;
     font-weight: bolder;
+}
+
+.prev{
+    color: #C4CDD5;
+}
+
+.next{
+    color: #C4CDD5;
 }
 
 .page-item a{

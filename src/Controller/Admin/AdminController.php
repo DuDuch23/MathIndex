@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/panel', name: 'admin_panel_')]
 class AdminController extends AbstractController
 {
-    #[Route(path: '/', name: 'user', methods: ['GET'])]
+    #[Route(path: '/user', name: 'user', methods: ['GET'])]
     public function index(UserRepository $userRepository, Request $request): Response
     {
         
@@ -82,10 +82,12 @@ class AdminController extends AbstractController
             }
         }
 
-        return $this->render('admin/user/add_user.html.twig');
+        return $this->render('admin/user/add_user.html.twig', [
+            'form' => $form,
+        ]);
     }
 
-    #[Route(path: '/edit/{id}', name: 'user_edit')]
+    #[Route(path: '/edit/{id}', name: 'user_edit', methods: ['GET', 'POST'])]
     public function editUser(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(UserType::class, $user, [
@@ -98,16 +100,15 @@ class AdminController extends AbstractController
         {
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin_panel_user', [
-                'id' => $user->getId(),
-            ]);
+            return $this->redirectToRoute('admin_panel_user');
         }
         else{
             $this->addFlash('error', 'Le formulaire contient des erreurs');
         }
 
+
         return $this->render('admin/user/edit_user.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
             'user' => $user,
         ]);
     }
