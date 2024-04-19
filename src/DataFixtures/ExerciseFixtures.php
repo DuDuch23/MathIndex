@@ -411,7 +411,7 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
                 'proposed_by_type' => 'Etudiant',
                 'proposed_by_first_name' => 'Kilian',
                 'proposed_by_last_name' => 'Delatraz',
-            ]
+            ],
         ];
 
         $userData = UserFixtures::USER;
