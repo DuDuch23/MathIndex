@@ -18,13 +18,8 @@ class AdminController extends AbstractController
     #[Route(path: '/', name: 'user', methods: ['GET'])]
     public function index(UserRepository $userRepository, Request $request): Response
     {
-        // Initialisation de la recherche
-        $getEmail = $request->query->get('email');
-        $getLastName = $request->query->get('lastName');
-        $getFirstName = $request->query->get('firstName');
         
         // Déclaration du tableau accueillant l'/les utilisateur(s) trouvé(s)
-        $foundUsers = [];
         $users = [];
         
         // Pagination
@@ -32,52 +27,33 @@ class AdminController extends AbstractController
         $countPages = 0;
         $totalUsersFound = 0;
         $currentPage = $request->query->getInt('page', 1);
-        $activatePaginate = false;
+        
+        // Initialisation de la recherche
+        $searchTerm = $request->query->get('searchTerm');
 
-        switch (true) {
-            case ($getEmail):
-                $foundUsers = $userRepository->searchUserByEmail($getEmail, $currentPage, $countPerPage);
-                $totalUsersFound = count($foundUsers);
-                $countPages = ceil($totalUsersFound / $countPerPage);
-                $activatePaginate = true;
-                $users = $foundUsers;
-                break;
-
-            case ($getLastName):
-                $foundUsers = $userRepository->searchUserByLastName($getLastName, $currentPage, $countPerPage);
-                $totalUsersFound = count($foundUsers);
-                $countPages = ceil($totalUsersFound / $countPerPage);
-                $activatePaginate = true;
-                $users = $foundUsers;
-                break;
-            
-            case ($getFirstName):
-                $foundUsers = $userRepository->searchUserByFirstName($getFirstName, $currentPage, $countPerPage);
-                $totalUsersFound = count($foundUsers);
-                $countPages = ceil($totalUsersFound / $countPerPage);
-                $activatePaginate = true;
-                $users = $foundUsers;
-                break;
-            default:
-                $users = $userRepository->paginate('p', $currentPage, $countPerPage);
-                $totalUsers = count($users);
-                $countPages = ceil($totalUsers / $countPerPage);
-                break;
-        }
-
-        if($activatePaginate)
+        if($searchTerm)
         {
-            if($currentPage > $countPages || $currentPage <= 0)
-            {
-                throw $this->createNotFoundException();
-            }
+            $users = $userRepository->searchByEmailOrLastNameOrFirstName($searchTerm, $currentPage, $countPerPage);
+            $totalUsersFound = count($users);
+            $countPages = ceil($totalUsersFound / $countPerPage);
+            $activatePaginate = true;
+        }
+        else {
+            $countUsers = $userRepository->count([]);
+            $countPages = ceil($countUsers / $countPerPage);
+            $users = $userRepository->paginate('p', $currentPage, $countPerPage);
+        }
+    
+        if($currentPage > $countPages || $currentPage <= 0)
+        {
+            throw $this->createNotFoundException();
         }
 
-        //dd($totalUsersFound, $foundUsers, $users, $currentPage, $countPages, $countPerPage);
+        // dd($countPages, $currentPage, $countUsers);
         
 
-        return $this->render('admin/index.html.twig', [
-            'users' => $users,
+        return $this->render('admin/user/index.html.twig', [
+            'users' => $users, // Tout les utilisateurs affiché
             'countPages' => $countPages,
             'currentPage' => $currentPage,
         ]);
@@ -106,7 +82,7 @@ class AdminController extends AbstractController
             }
         }
 
-        return $this->render('admin/add_user.html.twig');
+        return $this->render('admin/user/add_user.html.twig');
     }
 
     #[Route(path: '/edit/{id}', name: 'user_edit')]
@@ -130,7 +106,7 @@ class AdminController extends AbstractController
             $this->addFlash('error', 'Le formulaire contient des erreurs');
         }
 
-        return $this->render('admin/edit_user.html.twig', [
+        return $this->render('admin/user/edit_user.html.twig', [
             'form' => $form,
             'user' => $user,
         ]);

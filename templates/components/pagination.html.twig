@@ -1,57 +1,82 @@
 <nav aria-label="Pagination" style="width: 100%;display: flex;justify-content: center;">
     <ul class="pagination" style=" width: 50%; display: flex; justify-content: space-around;">
-        {% if currentPage > 1 %}
-            <li class="page-item">
-                <a class="page-link" href="{{ path(route, {
-                    page: currentPage - 1
-                }) }}" aria-label="Previous">
-                    <span class="sr-only"><</span>
-                </a>
-            </li>
-        {% endif %}
+        <li class="page-item prev bouton-prec {{ currentPage == 1 ? 'disable' }}">
+            {% if currentPage > 1 %}
+            <a class="page-link" href="{{ path(route, {
+                page: currentPage - 1
+            }) }}" aria-label="Previous">
+            <
+            </a>
+            {% else %}
+            <a class="page-link" aria-label="Previous">
+            <
+            </a>
+            {% endif %}
+        </li>
+        
+        {% set availablePages = countPages > 2 ? 2 : countPages %}
 
-        {% set availablePages = countPages > 3 ? 3 : countPages %}
-
-        {% if currentPage == 1 %}
+        {% if currentPage >= 1 and currentPage <= 2 %}
             {% for i in range (1, availablePages) %}
-                <li class="page-item {{ currentPage == i ? 'active' }}"><a class="page-link" href="{{ path(route, {
-                        page: i
-                    }) }}">{{ i }}</a></li>
-            {% endfor %}
-
-        {% elseif currentPage == countPages %}
-            {% for i in range (countPages - (availablePages - 1), countPages|reverse) %}
-                <li class="page-item {{ currentPage == i ? 'active' }}">
+                <li class="page-item {{ currentPage == i ? 'active' }} bouton-jsaipas">
                     <a class="page-link" href="{{ path(route, {
                         page: i
-                    }) }}">{{ i }}</a>
+                    }) }}">{{ i }}
+                    </a>
                 </li>
+                {% if currentPage > 2 and currentPage %}
+                <li class="page-item {{ currentPage == i ? 'active' }} bouton-jsaipas">
+                    <a class="page-link" href="{{ path(route, {
+                        page: i
+                    }) }}">{{ i }}
+                    </a>
+                </li>
+                {% endif %}
             {% endfor %}
-
-        {% else %}
-            <li class="page-item">
+        {% elseif currentPage > 2 %}
+            {% for i in range (1, availablePages) %}
+            <li class="page-item {{ currentPage == i ? 'active' }} bouton-jsaipas">
                 <a class="page-link" href="{{ path(route, {
-                    page: currentPage - 1
-                }) }}">{{ currentPage - 1}}</a>
-            </li>
-            <li class="page-item active"><a class="page-link" href="{{ path(route, {
-                    page: currentPage
-                }) }}">{{ currentPage }}</a></li>
-            <li class="page-item"><a class="page-link" href="{{ path(route, {
-                    page: currentPage + 1
-                }) }}
-            ">{{ currentPage + 1 }}</a></li>
-        {% endif %}
-
-        {% if currentPage < countPages %}
-            <li class="page-item">
-                <a class="page-link" href="{{ path(route, {
-                    page: currentPage + 1
-                }) }}" aria-label="Next">
-                    <span class="sr-only">></span>
+                    page: i
+                }) }}">{{ i + 1 }}
                 </a>
             </li>
+            {% endfor %}
         {% endif %}
-        
+
+        <li class="page-item page-current">
+            <a class="page-link" href="{{ path(route, {
+                page: currentPage
+            }) }}">...
+            </a>
+        </li>
+
+        <li class="page-item page-current {{ currentPage == 1 ? 'active' }}">
+            <a class="page-link" href="{{ path(route, {
+                page: countPages - 1
+            }) }}">{{ countPages - 1 }}
+            </a>
+        </li>
+
+        <li class="page-item page-current">
+            <a class="page-link" href="{{ path(route, {
+                page: countPages
+            }) }}">{{ countPages }}
+            </a>
+        </li>
+
+        <li class="page-item prev bouton-next {{ currentPage == countPages ? 'disable' }}">
+            {% if currentPage == countPages %}
+            <a class="page-link" href="{{ path(route, {
+                page: currentPage + 1
+            }) }}" aria-label="Next">
+            >
+            </a>
+            {% else %}
+            <a class="page-link" aria-label="Next">
+            >
+            </a>
+            {% endif %}
+        </li>
     </ul>
 </nav>
