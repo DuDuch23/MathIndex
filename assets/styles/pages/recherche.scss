@@ -1,9 +1,7 @@
 .info-search{
-    width: clamp(20px, 16vw, 242px);
     display: grid;
     gap: 8px;
     font-family: Noto Sans;
-    font-size: clamp(10px, 1.5vw, 16px);
     font-weight: 600;
     line-height: 18px;
     letter-spacing: 0em;
@@ -45,15 +43,4 @@
     background-color: #DBDBDB;
     border-radius: 20px;
     padding: 5px 15px;
-}
-
-@media only screen and (max-width: 1240px){
-    .content-rechercher{
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .info-search{
-        width: 100%;
-    }
 }

@@ -4,9 +4,9 @@
 
 {% block body %}
 <div class="">
-    <form action="{{ path('recherche') }}" method="get" class="d-flex justify-between mb-14">
-        <div class="input-group content-rechercher d-flex justify-between mb-14">
-            <div class="info-search">
+    <form action="{{ path('recherche') }}" method="get" class="mb-14 ">
+        <div class="input-group content-rechercher xl:flex md:justify-between mb-14 md:grid md:grid-cols-repeat-2">
+            <div class="info-search w-full">
                 <span>
                     Niveau :
                 </span>
@@ -17,7 +17,7 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="info-search">
+            <div class="info-search w-full">
                 <span>
                     Thématique :
                 </span>
@@ -28,13 +28,13 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="info-search">
+            <div class="info-search w-full">
                 <span>
                     Mots Clés :
                 </span>
                 <input type="text" name="keywords">
             </div>
-            <div class="rechercher-exercice">
+            <div class="flex items-end justify-center">
                 <button class="btn" type="submit">
                     Rechercher
                 </button>
@@ -73,8 +73,18 @@
                             </td>
                             <td class="table-size-clamp info-exercise">{{ exercise.duration }}h</td>
                             <td class="table-size-clamp info-exercise">
-                                <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Exercice</span></span>
-                                <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Corrigé</span></span>
+                            <form action="#" class="mr-2">
+                                <button type="submit" class="flex items-center px-2 py-1 text-sm font-medium leading-5 text-gray-700 transition-colors duration-150 active:bg-gray-200 hover:bg-gray-100 focus:outline-none focus:shadow-outline-gray">
+                                    <img src="{{ asset('media/telecharger.png') }}" alt="telecharger" class="w-4 h-4 mr-2">
+                                    <span>Exercice</span>
+                                </button>
+                            </form>
+                            <form action="#" class="mr-2">
+                                <button type="submit" class="flex items-center px-2 py-1 text-sm font-medium leading-5 text-gray-700 transition-colors duration-150 active:bg-gray-200 hover:bg-gray-100 focus:outline-none focus:shadow-outline-gray">
+                                    <img src="{{ asset('media/telecharger.png') }}" alt="telecharger" class="w-4 h-4 mr-2">
+                                    <span>Corrigé</span>
+                                </button>
+                            </form>
                             </td>
                         </tr>
                         {% endfor %}
