@@ -40,9 +40,9 @@ class ClassroomController extends AbstractController
     }
 
     #[Route(path: '/classroom/edit/{id}', name: 'classroom_edit')]
-    public function editClassroom(Request $request, classroom $classroom, EntityManagerInterface $entityManager): Response
+    public function editClassroom(Request $request, Classroom $classroom, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(classroomType::class, $classroom, [
+        $form = $this->createForm(ClassroomType::class, $classroom, [
             'method' => 'POST',
         ]);
 
@@ -62,13 +62,12 @@ class ClassroomController extends AbstractController
 
         return $this->render('admin/classroom/edit.html.twig', [
             'form' => $form,
-            'clasroom' => $classroom,
-            'edit_form' => $form->createView(),
+            'classroom' => $classroom,
         ]);
     }
 
     #[Route('/classroom/delete/{id}', name: 'classroom_delete', methods: ['POST'])]
-    public function delete(Request $request, classroom $classroom, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Classroom $classroom, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$classroom->getId(), $request->request->get('_token'))) {
             $entityManager->remove($classroom);
@@ -82,4 +81,31 @@ class ClassroomController extends AbstractController
         return $this->redirectToRoute('admin_panel_classroom');
     }
 
+    #[Route(path: '/classroom/add', name: 'classroom_add')]
+    public function addClassroom(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $classroom = new classroom();
+        $form = $this->createForm(ClassroomType::class, $classroom);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted())
+        {
+            if($form->isValid())
+            {
+                $entityManager->persist($classroom);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('admin_panel_classroom', [
+                    'id' => $classroom->getId(),
+                ]);
+            }
+            else{
+                $this->addFlash('error', 'Le formulaire contient des erreurs');
+            }
+        }
+
+        return $this->render('admin/classroom/add.html.twig', [
+            'form' => $form,
+        ]);
+    }
 }

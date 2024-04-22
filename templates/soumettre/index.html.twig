@@ -33,8 +33,10 @@
 {{ form_row(form.proposed_by_type) }}
 {{ form_row(form.proposed_by_first_name) }}
 {{ form_row(form.proposed_by_last_name) }}
-{{ form_row(form.exercice_file_id) }}
-{{ form_row(form.correction_file_id) }}
+{{ form_row(form.exerciceFile) }}
+{{ form_row(form.correctionFile) }}
 {{form_row(form.BtnSubmit)}}
 {# {{form_row(form.BtnContinue)}} #}
+
+{{ form_end(form)}}
 {% endblock %}
