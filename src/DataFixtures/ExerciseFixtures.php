@@ -73,7 +73,19 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
                 'proposed_by_last_name' => 'Fernandes',
             ],
             [
-                'name' => 'Exercice Maths algèbre linéaire ',
+                'name' => 'Exercice Maths Equation différentiel',
+                'chapter' => 'Chapitre 9',
+                'keywords' => 'equation',
+                'difficulty' => '15',
+                'duration' => '3',
+                'origin_name' => 'Manuel Maths',
+                'origin_information' => 'Page 1-19',
+                'proposed_by_type' => 'Enseignant',
+                'proposed_by_first_name' => 'Romain',
+                'proposed_by_last_name' => 'Fernandes',
+            ],
+            [
+                'name' => 'Exercice Maths Equation différentiel',
                 'chapter' => 'Chapitre 9',
                 'keywords' => 'equation',
                 'difficulty' => '15',
@@ -87,20 +99,21 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
         ];
 
         $userData = UserFixtures::USER;
-
+        $i=0;
         foreach($dataExercise as $data)
         {
             $exercise = new Exercise();
-
+            $i++;
             $courseReference = array_rand(CourseFixtures::COURSE);
             $classroomReference = array_rand(ClassroomFixtures::CLASSROOM);
             $thematicReference = array_rand(ThematicFixtures::THEMATIC);
             $originReference = array_rand(OriginFixtures::ORIGIN);
-            $fileReferenceExercice = array_rand(FileFixtures::FILE);
-            $fileReferenceCorrection = array_rand(FileFixtures::FILE);
+            $enonce = $i;
+            $i++;
+            $correction = $i;
+
             $randomUser = $userData[array_rand($userData)];
             $userReference = $randomUser['last_name'] . '-' . $randomUser['first_name'];
-
             $exercise->setName($data['name']);
             $exercise->setCourseId($this->getReference($courseReference));
             $exercise->setClassroomId($this->getReference($classroomReference));
@@ -115,8 +128,8 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
             $exercise->setProposedByType($data['proposed_by_type']);
             $exercise->setProposedByFirstName($data['proposed_by_first_name']);
             $exercise->setProposedByLastName($data['proposed_by_last_name']);
-            $exercise->setExerciseFileId($this->getReference($fileReferenceExercice));
-            $exercise->setCorrectionFileId($this->getReference($fileReferenceCorrection));
+            $exercise->setExerciseFileId($this->getReference($enonce));
+            $exercise->setCorrectionFileId($this->getReference($correction));
             $exercise->setCreatedById($this->getReference($userReference));
 
             $manager->persist($exercise);
