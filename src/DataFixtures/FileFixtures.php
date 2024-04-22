@@ -5,6 +5,8 @@ namespace App\DataFixtures;
 use App\Entity\File;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileFixtures extends Fixture
 {
@@ -455,16 +457,25 @@ class FileFixtures extends Fixture
         ],
     ];
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
+        $fileSystem = new Filesystem();
+        $fileSystem->remove(__DIR__.'/../../public/fichier/exercice');
         foreach(self::FILE as $data => $attributes)
         {
-            $file = new File();
-            $file->setName($attributes['name']);
-            $file->setOriginalName($attributes['original_name']);
+            $fileSystem->copy(__DIR__.'/medias/exercise-file1.pdf', __DIR__.'/medias/tmp/exercise-file1.pdf');
 
-            $file->setExtension($attributes['extension']);
-            $file->setSize($attributes['size']);
+            $uploadedFile = new UploadedFile(
+                __DIR__.'/medias/tmp/exercise-file1.pdf',
+                'exercise_file1.pdf',
+                'application/pdf',
+                null,
+                true
+            );
+
+            $file = new File();
+            $file->setFile($uploadedFile);
+            $file->setUpdateAt(new \DateTimeImmutable());
 
             $manager->persist($file);
 
