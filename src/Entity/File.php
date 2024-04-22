@@ -4,8 +4,11 @@ namespace App\Entity;
 
 use App\Repository\FileRepository;
 use Doctrine\ORM\Mapping as ORM;
+// use Symfony\Component\HttpFoundation\File\File as FileVich;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: FileRepository::class)]
+#[Vich\Uploadable]
 class File
 {
     #[ORM\Id]
@@ -15,6 +18,12 @@ class File
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    #[Vich\UploadableField(mapping: 'fichier', fileNameProperty: 'name', size: 'size', originalName: 'original_name')]
+    private ?\Vich\UploaderBundle\Entity\File $nameFile = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(length: 255)]
     private ?string $original_name = null;
@@ -76,5 +85,22 @@ class File
         $this->size = $size;
 
         return $this;
+    }
+
+    public function setFile(\Vich\UploaderBundle\Entity\File $nameFile = null): void
+    {
+        $this->nameFile = $nameFile;
+
+        if (null !== $nameFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+
+    }
+
+    public function getFile(): ?\Vich\UploaderBundle\Entity\File
+    {
+        return $this->nameFile;
     }
 }

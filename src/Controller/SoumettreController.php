@@ -23,7 +23,6 @@ class SoumettreController extends AbstractController
 
         if($form->isSubmitted())
         {
-                    dd($exercise);
 
             try{
                 $entityManager->persist($exercise);

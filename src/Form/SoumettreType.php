@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class Constant{
     public const NIVEAU1 = 'Niveau 1';
@@ -227,17 +228,16 @@ class SoumettreType extends AbstractType
                     'class' => 'form-row',
                 ],
             ])
-            ->add('exercice_file_id', EntityType::class, [
-                'class' => File::class,
+            ->add('exercice_file_id', VichFileType::class, [
                 'attr' => [
                     'class' => 'form-control',
                 ],
                 'row_attr' => [
                     'class' => 'form-row',
                 ],
+                'mapped' => false,
             ])
-            ->add('correction_file_id', EntityType::class, [
-                'class' => File::class,
+            ->add('correction_file_id', VichFileType::class, [
                 'attr' => [
                     'class' => 'form-control',
                 ],

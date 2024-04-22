@@ -462,6 +462,7 @@ class FileFixtures extends Fixture
             $file = new File();
             $file->setName($attributes['name']);
             $file->setOriginalName($attributes['original_name']);
+
             $file->setExtension($attributes['extension']);
             $file->setSize($attributes['size']);
 
