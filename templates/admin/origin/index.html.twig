@@ -1,6 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Panel admin{% endblock %}
+{% block title %}Panel admin - Gestion des origines{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/searchOriginAdmin.js') }}"></script>
+{% endblock %}
 
 {% block body %}
-{% endblock %}
+<div>
+    <h1 class="mb-4">Gestion des origines</h1>
+    <label>Rechercher une origine par nom :</label>
+    <div class="flex">
+        <form class="form-group w-3/4 flex" action="{{ path('admin_panel_origin') }}">
+            <input type="text" id="searchInput" placeholder="Rechercher une origine..." class="px-4 py-2 mr-2 border rounded">
+            <button class="btn" type="submit">
+                Rechercher
+            </button>
+        </form>
+        <form class="form-group w-1/4 flex justify-center" action="{{ path('admin_panel_user_add') }}" method="post"> <!-- Adjust the path as necessary -->
+            <button class="btn_add btn-add" type="submit">
+                Ajouter +
+            </button>
+        </form>
+    </div>
+
+    <div class="bg-white shadow-md rounded my-6">
+        <table class="container-exercises w-full table-fixed mt-10">
+            <thead class="thead-exercises">
+                <tr>
+                    <th class="table-size-clamp">ID</th>
+                    <th class="table-size-clamp">Nom de l'origine</th>
+                    <th class="table-size-clamp">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-600">
+                {% for origin in origins %}
+                <tr class="hover:bg-gray-100 origin-item" data-name="{{ origin.name|lower }}">
+                    <td class="table-size-clamp info-exercise">{{ origin.id }}</td>
+                    <td class="table-size-clamp info-exercise">{{ origin.name }}</td>
+                    <td class="flex justify-around py-3 px-6 text-center">
+                        <div class="flex items-center justify-center">
+                            <form action="{{ path('admin_panel_origin_edit', {id: origin.id}) }}" method="get" class="mr-2">
+                                <button type="submit" class="flex items-center px-2 py-1 text-sm font-medium leading-5 text-gray-700 transition-colors duration-150 active:bg-gray-200 hover:bg-gray-100 focus:outline-none focus:shadow-outline-gray">
+                                    <img src="{{ asset('media/editer.png') }}" alt="Modifier" class="w-4 h-4 mr-2">
+                                    <span>Modifier</span>
+                                </button>
+                            </form>
+                            <form action="{{ path('admin_panel_origin_delete', {id: origin.id}) }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette origine ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ origin.id) }}">
+                                <button type="submit" class="flex items-center px-2 py-1 text-sm font-medium leading-5 text-gray-700 transition-colors duration-150 active:bg-gray-200 hover:bg-gray-100 focus:outline-none focus:shadow-outline-gray">
+                                    <img src="{{ asset('media/delete.png') }}" alt="Supprimer" class="w-4 h-4 mr-2">
+                                    <span>Supprimer</span>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="text-center py-3 px-6">Aucune origine trouvée</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

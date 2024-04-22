@@ -21,18 +21,19 @@ class SoumettreController extends AbstractController
         $form = $this->createForm(SoumettreType::class, $exercise);
         $form->handleRequest($request);
 
-        if($form->isSubmitted())
+        if($form->isSubmitted() && $form->isValid())
         {
-                    dd($exercise);
 
             try{
+                $exercise->setCreatedById($this->getUser());
                 $entityManager->persist($exercise);
                 $entityManager->flush();
 
                 $this->addFlash('Erreur', 'Exercice soumis');
             }
             catch(Exception $e){
-                return $this->redirectToRoute('index', [
+                dd($e);
+                return $this->redirectToRoute('soumettre', [
                     'erreur' => "Erreur lors de la création de l'exercice.",
                 ]);
             }

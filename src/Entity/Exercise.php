@@ -6,8 +6,11 @@ use App\Repository\ExerciseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\File;
+use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 
 #[ORM\Entity(repositoryClass: ExerciseRepository::class)]
+#[Uploadable]
 class Exercise
 {
     #[ORM\Id]
@@ -22,7 +25,7 @@ class Exercise
     #[ORM\JoinColumn(nullable: false)]
     private ?Course $course_id = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Classroom $classroom_id = null;
 
@@ -63,11 +66,11 @@ class Exercise
 
     #[ORM\OneToOne(targetEntity:File::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?File $exercice_file_id = null;
-
+    private ?File $exerciceFile = null;
+    
     #[ORM\OneToOne(targetEntity:File::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?File $correction_file_id = null;
+    private ?File $correctionFile = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -254,26 +257,26 @@ class Exercise
         return $this;
     }
 
-    public function getExerciceFileId(): ?File
+    public function getExerciceFile(): ?File
     {
-        return $this->exercice_file_id;
+        return $this->exerciceFile;
     }
 
-    public function setExerciseFileId(File $exercice_file_id): static
+    public function setExerciceFile(File $file): static
     {
-        $this->exercice_file_id = $exercice_file_id;
+        $this->exerciceFile = $file;
 
         return $this;
     }
 
-    public function getCorrectionFileId(): ?File
+    public function getCorrectionFile(): ?File
     {
-        return $this->correction_file_id;
+        return $this->correctionFile;
     }
 
-    public function setCorrectionFileId(File $correction_file_id): static
+    public function setCorrectionFile(File $correctionFile): static
     {
-        $this->correction_file_id = $correction_file_id;
+        $this->correctionFile = $correctionFile;
 
         return $this;
     }

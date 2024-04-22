@@ -17,7 +17,7 @@ class SkillType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom de la compétence',
-                'attr' => ['class' => 'form-control'], // Ajoutez les classes CSS selon votre besoin
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('course_id', EntityType::class, [
                 'class' => Course::class,
