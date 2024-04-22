@@ -3,4 +3,63 @@
 {% block title %}Panel exercices{% endblock %}
 
 {% block body %}
+{# <p>dans la table exercices : name, classroom, thematique, keywords, origine name, created_by_id (type: users) -> afficher </p> #}
+<div>
+    <h1 class="mb-4">Gestion des contributeurs</h1>
+    <label>Rechercher un contributeur par nom, prénom ou email :</label>
+    <div class="flex">
+        <form class="form-group w-3/4 flex" action="{{ path('admin_panel_user') }}">
+            <input class="mr-10" name="searchTerm">
+            <button class="btn" type="submit">
+                Rechercher
+            </button>
+        </form>
+        <form class="form-group w-1/4 flex justify-center" action="{{ path('admin_panel_user_add') }}" method="post">
+            <button class="btn btn-add" type="submit">
+                Ajouter +
+            </button>
+        </form>
+    </div>
+    
+    <table class="container-exercises w-full table-fixed mt-10">
+        <thead class="thead-exercises">
+            <tr>
+                <th class="table-size-clamp">Nom</th>
+                <th class="table-size-clamp">Classe</th>
+                <th class="table-size-clamp">Thématique</th>
+                <th class="table-size-clamp">Mots Clés</th>
+                <th class="table-size-clamp">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if exercises is defined %}
+                {% if exercises is not empty %}
+                    {% for exercise in exercises %}
+                    <tr>
+                        <td class="table-size-clamp info-exercise">{{ exercise.name }}</td>
+                        <td class="table-size-clamp info-exercise">{{ exercise.classroomId.name }}</td>
+                        <td class="table-size-clamp info-exercise">{{ exercise.thematicId.name }}</td>
+                        <td class="flex table-size-clamp info-exercise">
+                            <span class="keyword">{{ exercise.keywords }}</span>
+                        </td>
+                        <td class="table-size-clamp info-exercise">
+                            <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Exercice</span></span>
+                            <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Corrigé</span></span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        </tbody>
+    </table>
+    {% if exercises is not empty %}
+        {% if exercises is defined %}
+            {% include "components/pagination.html.twig" with {
+                route: 'mathematique',
+                currentPage,
+                countPages
+            } only %}
+        {% endif %}
+    {% endif %}
+</div>
 {% endblock %}
