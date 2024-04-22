@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Éditer Origine{% endblock %}
+
+{% block body %}
+<div class="container mx-auto mt-8">
+    <h1 class="text-2xl font-bold mb-4">Éditer Origine</h1>
+    {{ form_start(edit_form, {'attr': {'class': 'w-full'}}) }}
+        <div class="mb-4">
+            {{ form_label(edit_form.name, 'Nom de l\'origine', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+            {{ form_widget(edit_form.name, {'attr': {'class': 'shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full'}}) }}
+            {{ form_errors(edit_form.name, {'attr': {'class': 'text-red-500 text-xs italic'}}) }}
+        </div>
+        <div class="flex items-center justify-between">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                Sauvegarder les modifications
+            </button>
+        </div>
+    {{ form_end(edit_form) }}
+</div>
+{% endblock %}

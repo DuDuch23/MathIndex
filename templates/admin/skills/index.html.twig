@@ -2,16 +2,18 @@
 
 {% block title %}Panel admin - Gestion des compétences{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/searchSkillsAdmin.js') }}"></script>
+{% endblock %}
+
 {% block body %}
 <div>
     <h1 class="mb-4">Gestion des compétences</h1>
     <label>Rechercher une compétence par nom :</label>
     <div class="flex">
-        <form class="form-group w-3/4 flex" action="{{ path('admin_panel_user') }}">
-            <input class="mr-10">
-            <input type="hidden" name="email">
-            <input type="hidden" name="lastName">
-            <input type="hidden" name="firstName">
+        <form class="form-group w-3/4 flex" action="{{ path('admin_panel_skills') }}">
+            <input type="text" id="searchInput" placeholder="Rechercher une compétence..." class="px-4 py-2 mr-2 border rounded">
             <button class="btn" type="submit">
                 Rechercher
             </button>
@@ -35,7 +37,7 @@
             </thead>
             <tbody class="text-gray-600">
                 {% for skill in skills %}
-                <tr class="hover:bg-gray-100">
+                <tr class="hover:bg-gray-100 skill-item" data-name="{{ skill.name|lower }}">
                     <td class="table-size-clamp info-exercise">{{ skill.id }}</td>
                     <td class="table-size-clamp info-exercise">{{ skill.name }}</td>
                     <td class="table-size-clamp info-exercise">{{ skill.courseId.name }}</td>
@@ -66,4 +68,5 @@
         </table>
     </div>
 </div>
+
 {% endblock %}
