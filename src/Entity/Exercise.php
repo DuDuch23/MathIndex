@@ -6,8 +6,13 @@ use App\Repository\ExerciseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\File;
+use Symfony\Component\HttpFoundation\File\File as FileVich;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 
 #[ORM\Entity(repositoryClass: ExerciseRepository::class)]
+#[Uploadable]
 class Exercise
 {
     #[ORM\Id]
@@ -63,10 +68,12 @@ class Exercise
 
     #[ORM\OneToOne(targetEntity:File::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
+    #[Vich\UploadableField(mapping: 'fichier', fileNameProperty: 'name')]
     private ?File $exercice_file_id = null;
-
+    
     #[ORM\OneToOne(targetEntity:File::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
+    #[Vich\UploadableField(mapping: 'fichier', fileNameProperty: 'name')]
     private ?File $correction_file_id = null;
 
     #[ORM\ManyToOne]
@@ -254,24 +261,24 @@ class Exercise
         return $this;
     }
 
-    public function getExerciceFileId(): ?File
+    public function getExerciceFileId(): ?FileVich
     {
         return $this->exercice_file_id;
     }
 
-    public function setExerciseFileId(File $exercice_file_id): static
+    public function setExerciseFileId(FileVich $exercice_file_id): static
     {
         $this->exercice_file_id = $exercice_file_id;
 
         return $this;
     }
 
-    public function getCorrectionFileId(): ?File
+    public function getCorrectionFileId(): ?FileVich
     {
         return $this->correction_file_id;
     }
 
-    public function setCorrectionFileId(File $correction_file_id): static
+    public function setCorrectionFileId(FileVich $correction_file_id): static
     {
         $this->correction_file_id = $correction_file_id;
 

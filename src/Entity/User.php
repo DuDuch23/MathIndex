@@ -27,6 +27,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
+    private ?string $role = null;
+
     /**
      * @var string The hashed password
      */
@@ -92,7 +94,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
 
-        return array_unique($roles);
+        return array_values($roles);
     }
 
     public function setRoles(array $roles): static
@@ -125,4 +127,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): static
+    {
+        if (!in_array($role, $this->roles)) {
+            $this->roles[] = $role;
+        }
+    
+        return $this;
+    }
 }
+

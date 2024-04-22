@@ -226,27 +226,27 @@
                 {% if routeName starts with 'admin_panel_'%}
                     {% if is_granted('ROLE_ADMIN') %}
                         <div class="content-button">
-                            <button class="contributeur">
+                            <a href="{{ path('admin_panel_user') }}" class="contributeur">
                                 Contributeurs
-                            </button>
-                            <button class="exercice">
+                            </a>
+                            <a href="{{ path('admin_panel_exercice') }}" class="exercice">
                                 Exercices
-                            </button>
-                            <button class="matiere">
+                            </a>
+                            <a href="{{ path('admin_panel_course') }}" class="matiere">
                                 Matières
-                            </button>
-                            <button class="classe">
+                            </a>
+                            <a href="{{ path('admin_panel_classroom') }}" class="classe">
                                 Classes
-                            </button>
-                            <button class="thematique">
+                            </a>
+                            <a href="{{ path('admin_panel_thematic') }}" class="thematique">
                                 Thématiques
-                            </button>
-                            <button class="compétence">
+                            </a>
+                            <a href="{{ path('admin_panel_skills') }}" class="compétence">
                                 Compétences
-                            </button>
-                            <button class="origine">
+                            </a>
+                            <a href="{{ path('admin_panel_origin') }}" class="origine">
                                 Origines
-                            </button>
+                            </a>
                         </div>
                     {% endif %}
                 {% endif %}

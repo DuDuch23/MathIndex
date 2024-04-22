@@ -8,10 +8,7 @@
     <label>Rechercher un contributeur par nom, prénom ou email :</label>
     <div class="flex">
         <form class="form-group w-3/4 flex" action="{{ path('admin_panel_user') }}">
-            <input class="mr-10">
-            <input type="hidden" name="email">
-            <input type="hidden" name="lastName">
-            <input type="hidden" name="firstName">
+            <input class="mr-10" name="searchTerm">
             <button class="btn" type="submit">
                 Rechercher
             </button>
@@ -47,16 +44,19 @@
                         {% endif %}
                         <td class="table-size-clamp info-exercise">{{ user.email }}</td>
                         <td class="flex align-center">
-                            <a class="flex w-1/2" href="{{ path('admin_panel_user_edit', {id: user.id}) }}" method="post" value="Modifier">
-                                <img class="h-1/5 w-1/5" src="{{ asset('media/editer.png') }}">
-                                <p>Modifier</p>
-                            </a>
-                            <a class="flex w-1/2" href="{{ path('admin_panel_user_delete', {id: user.id}) }}" method="post" value="Supprimer">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="csrf_token" value="{{ csrf_token('delete-user') }}">
-                                <img class="h-1/5 w-1/5" src="{{ asset('media/delete.png') }}">
-                                <p>Supprimer</p>
-                            </a>
+                            <form action="{{ path('admin_panel_user_edit', {id: user.id}) }}" method="get" class="mr-2">
+                                <button type="submit" class="flex items-center px-2 py-1 text-sm font-medium leading-5 text-gray-700 transition-colors duration-150 active:bg-gray-200 hover:bg-gray-100 focus:outline-none focus:shadow-outline-gray">
+                                    <img src="{{ asset('media/editer.png') }}" alt="Modifier" class="w-4 h-4 mr-2">
+                                    <span>Modifier</span>
+                                </button>
+                            </form>
+                            <form action="{{ path('admin_panel_user_delete', {id: user.id}) }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette utilisateur ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                                <button type="submit" class="flex items-center px-2 py-1 text-sm font-medium leading-5 text-gray-700 transition-colors duration-150 active:bg-gray-200 hover:bg-gray-100 focus:outline-none focus:shadow-outline-gray">
+                                    <img src="{{ asset('media/delete.png') }}" alt="Supprimer" class="w-4 h-4 mr-2">
+                                    <span>Supprimer</span>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     {% endfor %}

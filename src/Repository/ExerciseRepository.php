@@ -113,6 +113,14 @@ class ExerciseRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function exerciseByThree(){
+        return $this->createQueryBuilder('e')
+        ->orderBy('e.id', 'DESC')
+        ->setMaxResults(3)
+        ->getQuery()
+        ->getResult();
+    }
+
     use PaginateTrait;
 
     //    /**
