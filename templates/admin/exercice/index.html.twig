@@ -5,8 +5,8 @@
 {% block body %}
 {# <p>dans la table exercices : name, classroom, thematique, keywords, origine name, created_by_id (type: users) -> afficher </p> #}
 <div>
-    <h1 class="mb-4">Gestion des contributeurs</h1>
-    <label>Rechercher un contributeur par nom, prénom ou email :</label>
+    <h1 class="mb-4">Gestion des exercices</h1>
+    <label>Rechercher un exercice:</label>
     <div class="flex">
         <form class="form-group w-3/4 flex" action="{{ path('admin_panel_user') }}">
             <input class="mr-10" name="searchTerm">
@@ -14,7 +14,7 @@
                 Rechercher
             </button>
         </form>
-        <form class="form-group w-1/4 flex justify-center" action="{{ path('admin_panel_user_add') }}" method="post">
+        <form class="form-group w-1/4 flex justify-center" action="{{ path('soumettre') }}" method="post">
             <button class="btn btn-add" type="submit">
                 Ajouter +
             </button>

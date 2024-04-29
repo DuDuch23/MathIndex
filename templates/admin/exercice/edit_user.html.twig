@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification d'une Matières{% endblock %}
+
+{% block body %}
+<div>
+    <h1>Modification de la matières {{ course.name }}</h1>
+    <a href={{ path('admin_panel_course') }}>Retour à la liste des matières</a>
+</div>
+{% include "soumettre/index.html.twig" %}
+{% endblock %}
