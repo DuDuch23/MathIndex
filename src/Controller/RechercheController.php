@@ -91,12 +91,7 @@ class RechercheController extends AbstractController
             {
                 throw $this->createNotFoundException();
             }
-        }
-//dd($totalExerciseFound, $foundExercices);
-//         $paginateExericses = $exerciseRepository->paginate('p', $currentPage, $countPerPage);
-        
-// dd($paginateExericses);
-        
+        }        
 
         return $this->render('recherche/index.html.twig', [
             'classrooms' => $classerooms,

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240408131348 extends AbstractMigration
+final class Version20240429155014 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -22,9 +22,9 @@ final class Version20240408131348 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE classroom (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE course (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE exercise (id INT AUTO_INCREMENT NOT NULL, course_id_id INT NOT NULL, classroom_id_id INT NOT NULL, thematic_id_id INT NOT NULL, origin_id_id INT NOT NULL, exercice_file_id_id INT NOT NULL, correction_file_id_id INT NOT NULL, created_by_id_id INT NOT NULL, name VARCHAR(255) NOT NULL, chapter VARCHAR(255) NOT NULL, keywords VARCHAR(255) NOT NULL, difficulty INT NOT NULL, duration DOUBLE PRECISION NOT NULL, origin_name VARCHAR(255) NOT NULL, origin_information VARCHAR(255) NOT NULL, proposed_by_type VARCHAR(255) NOT NULL, proposed_by_first_name VARCHAR(255) NOT NULL, proposed_by_last_name VARCHAR(255) NOT NULL, INDEX IDX_AEDAD51C96EF99BF (course_id_id), INDEX IDX_AEDAD51C13BB01DE (classroom_id_id), INDEX IDX_AEDAD51CFF174F9A (thematic_id_id), INDEX IDX_AEDAD51CC23E42B3 (origin_id_id), UNIQUE INDEX UNIQ_AEDAD51C21B154DA (exercice_file_id_id), UNIQUE INDEX UNIQ_AEDAD51CC6EC65A9 (correction_file_id_id), INDEX IDX_AEDAD51C555BB088 (created_by_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE exercise (id INT AUTO_INCREMENT NOT NULL, course_id_id INT DEFAULT NULL, classroom_id_id INT DEFAULT NULL, thematic_id_id INT DEFAULT NULL, origin_id_id INT DEFAULT NULL, exercice_file_id INT DEFAULT NULL, correction_file_id INT DEFAULT NULL, created_by_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, chapter VARCHAR(255) NOT NULL, keywords VARCHAR(255) NOT NULL, difficulty INT NOT NULL, duration DOUBLE PRECISION NOT NULL, origin_name VARCHAR(255) NOT NULL, origin_information VARCHAR(255) NOT NULL, proposed_by_type VARCHAR(255) NOT NULL, proposed_by_first_name VARCHAR(255) NOT NULL, proposed_by_last_name VARCHAR(255) NOT NULL, INDEX IDX_AEDAD51C96EF99BF (course_id_id), INDEX IDX_AEDAD51C13BB01DE (classroom_id_id), INDEX IDX_AEDAD51CFF174F9A (thematic_id_id), INDEX IDX_AEDAD51CC23E42B3 (origin_id_id), UNIQUE INDEX UNIQ_AEDAD51C6E700FC1 (exercice_file_id), UNIQUE INDEX UNIQ_AEDAD51CA85344B2 (correction_file_id), INDEX IDX_AEDAD51CB03A8386 (created_by_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE exercise_skill (exercise_id INT NOT NULL, skill_id INT NOT NULL, INDEX IDX_7B0B13B5E934951A (exercise_id), INDEX IDX_7B0B13B55585C142 (skill_id), PRIMARY KEY(exercise_id, skill_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE file (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, original_name VARCHAR(255) NOT NULL, extension VARCHAR(255) NOT NULL, size INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE file (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, updated_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', original_name VARCHAR(255) NOT NULL, extension VARCHAR(255) NOT NULL, size INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE origin (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE skill (id INT AUTO_INCREMENT NOT NULL, course_id_id INT NOT NULL, name VARCHAR(255) NOT NULL, INDEX IDX_5E3DE47796EF99BF (course_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE thematic (id INT AUTO_INCREMENT NOT NULL, course_id_id INT NOT NULL, name VARCHAR(255) NOT NULL, INDEX IDX_7C1CDF7296EF99BF (course_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -34,10 +34,10 @@ final class Version20240408131348 extends AbstractMigration
         $this->addSql('ALTER TABLE exercise ADD CONSTRAINT FK_AEDAD51C13BB01DE FOREIGN KEY (classroom_id_id) REFERENCES classroom (id)');
         $this->addSql('ALTER TABLE exercise ADD CONSTRAINT FK_AEDAD51CFF174F9A FOREIGN KEY (thematic_id_id) REFERENCES thematic (id)');
         $this->addSql('ALTER TABLE exercise ADD CONSTRAINT FK_AEDAD51CC23E42B3 FOREIGN KEY (origin_id_id) REFERENCES origin (id)');
-        $this->addSql('ALTER TABLE exercise ADD CONSTRAINT FK_AEDAD51C21B154DA FOREIGN KEY (exercice_file_id_id) REFERENCES file (id)');
-        $this->addSql('ALTER TABLE exercise ADD CONSTRAINT FK_AEDAD51CC6EC65A9 FOREIGN KEY (correction_file_id_id) REFERENCES file (id)');
-        $this->addSql('ALTER TABLE exercise ADD CONSTRAINT FK_AEDAD51C555BB088 FOREIGN KEY (created_by_id_id) REFERENCES user (id)');
-        $this->addSql('ALTER TABLE exercise_skill ADD CONSTRAINT FK_7B0B13B5E934951A FOREIGN KEY (exercise_id) REFERENCES exercise (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE exercise ADD CONSTRAINT FK_AEDAD51C6E700FC1 FOREIGN KEY (exercice_file_id) REFERENCES file (id)');
+        $this->addSql('ALTER TABLE exercise ADD CONSTRAINT FK_AEDAD51CA85344B2 FOREIGN KEY (correction_file_id) REFERENCES file (id)');
+        $this->addSql('ALTER TABLE exercise ADD CONSTRAINT FK_AEDAD51CB03A8386 FOREIGN KEY (created_by_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE exercise_skill ADD CONSTRAINT FK_7B0B13B5E934951A FOREIGN KEY (exercise_id) REFERENCES exercise (id)');
         $this->addSql('ALTER TABLE exercise_skill ADD CONSTRAINT FK_7B0B13B55585C142 FOREIGN KEY (skill_id) REFERENCES skill (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE skill ADD CONSTRAINT FK_5E3DE47796EF99BF FOREIGN KEY (course_id_id) REFERENCES course (id)');
         $this->addSql('ALTER TABLE thematic ADD CONSTRAINT FK_7C1CDF7296EF99BF FOREIGN KEY (course_id_id) REFERENCES course (id)');
@@ -50,9 +50,9 @@ final class Version20240408131348 extends AbstractMigration
         $this->addSql('ALTER TABLE exercise DROP FOREIGN KEY FK_AEDAD51C13BB01DE');
         $this->addSql('ALTER TABLE exercise DROP FOREIGN KEY FK_AEDAD51CFF174F9A');
         $this->addSql('ALTER TABLE exercise DROP FOREIGN KEY FK_AEDAD51CC23E42B3');
-        $this->addSql('ALTER TABLE exercise DROP FOREIGN KEY FK_AEDAD51C21B154DA');
-        $this->addSql('ALTER TABLE exercise DROP FOREIGN KEY FK_AEDAD51CC6EC65A9');
-        $this->addSql('ALTER TABLE exercise DROP FOREIGN KEY FK_AEDAD51C555BB088');
+        $this->addSql('ALTER TABLE exercise DROP FOREIGN KEY FK_AEDAD51C6E700FC1');
+        $this->addSql('ALTER TABLE exercise DROP FOREIGN KEY FK_AEDAD51CA85344B2');
+        $this->addSql('ALTER TABLE exercise DROP FOREIGN KEY FK_AEDAD51CB03A8386');
         $this->addSql('ALTER TABLE exercise_skill DROP FOREIGN KEY FK_7B0B13B5E934951A');
         $this->addSql('ALTER TABLE exercise_skill DROP FOREIGN KEY FK_7B0B13B55585C142');
         $this->addSql('ALTER TABLE skill DROP FOREIGN KEY FK_5E3DE47796EF99BF');

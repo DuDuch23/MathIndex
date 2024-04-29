@@ -444,8 +444,8 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
             $exercise->setProposedByType($data['proposed_by_type']);
             $exercise->setProposedByFirstName($data['proposed_by_first_name']);
             $exercise->setProposedByLastName($data['proposed_by_last_name']);
-            $exercise->setExerciseFileId($this->getReference($enonce));
-            $exercise->setCorrectionFileId($this->getReference($correction));
+            $exercise->setExerciceFile($this->getReference($enonce));
+            $exercise->setCorrectionFile($this->getReference($correction));
             $exercise->setCreatedById($this->getReference($userReference));
 
             $manager->persist($exercise);

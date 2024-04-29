@@ -1,8 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Panel admin{% endblock %}
+{% block title %}Panel admin - Gestion des utilisateurs{% endblock %}
 
 {% block body %}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
+{% endfor %}
 <div>
     <h1 class="mb-4">Gestion des contributeurs</h1>
     <label>Rechercher un contributeur par nom, prénom ou email :</label>
@@ -19,6 +29,10 @@
             </button>
         </form>
     </div>
+
+    {% if noUserFound is defined %}
+        <p>{{ noUserFound }}</p>
+    {% endif %}
     
     <table class="container-exercises w-full table-fixed mt-10">
         <thead class="thead-exercises">
@@ -30,7 +44,7 @@
                 <th class="table-size-clamp">Actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="text-gray-600">
             {% if users is defined %}
                 {% if users is not empty %}
                     {% for user in users %}

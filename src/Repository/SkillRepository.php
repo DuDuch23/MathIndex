@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Skill;
+use App\Repository\Traits\PaginateTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -20,6 +21,18 @@ class SkillRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Skill::class);
     }
+
+    public function searchSkillByName($searchTerm, $page, $itemsPerPage){
+        return $this->createQueryBuilder('s')
+            ->where('s.name = :searchTerm')
+            ->setParameter('searchTerm', $searchTerm)
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
+            ->getQuery()
+            ->getResult();
+    }
+
+    use PaginateTrait;
 
     //    /**
     //     * @return Skill[] Returns an array of Skill objects

@@ -1,0 +1,32 @@
+{{ form_start(form)}}
+<div class="all_container">
+
+    <div class="container_left">
+        {{ form_row(form.name) }}
+        {{ form_row(form.course_id) }}
+        {{ form_row(form.classroom_id) }}
+        {{ form_row(form.thematic_id) }}
+        {{ form_row(form.chapter) }}
+    </div>
+
+    <div class="container_right">
+        {{ form_row(form.skills) }}
+        {{ form_row(form.keywords) }}
+        {{ form_row(form.difficulty) }}
+        {{ form_row(form.duration) }}
+        
+    </div>
+
+</div>
+{{ form_row(form.origin_id) }}
+{{ form_row(form.origin_name) }}
+{{ form_row(form.origin_information) }}
+{{ form_row(form.proposed_by_type) }}
+{{ form_row(form.proposed_by_first_name) }}
+{{ form_row(form.proposed_by_last_name) }}
+{{ form_row(form.exerciceFile) }}
+{{ form_row(form.correctionFile) }}
+{{form_row(form.BtnSubmit)}}
+{# {{form_row(form.BtnContinue)}} #}
+
+{{ form_end(form)}}

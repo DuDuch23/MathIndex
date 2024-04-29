@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\File;
+use App\Entity\User;
 use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 
 #[ORM\Entity(repositoryClass: ExerciseRepository::class)]
@@ -18,19 +19,19 @@ class Exercise
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(nullable: true)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Course::class)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Course $course_id = null;
 
-    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Classroom::class)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Classroom $classroom_id = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Thematic::class)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Thematic $thematic_id = null;
 
     #[ORM\Column(length: 255)]
@@ -45,8 +46,8 @@ class Exercise
     #[ORM\Column]
     private ?float $duration = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Origin::class)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Origin $origin_id = null;
 
     #[ORM\Column(length: 255)]
@@ -65,18 +66,19 @@ class Exercise
     private ?string $proposed_by_last_name = null;
 
     #[ORM\OneToOne(targetEntity:File::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?File $exerciceFile = null;
     
     #[ORM\OneToOne(targetEntity:File::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?File $correctionFile = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'exercises', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name: 'created_by_id', referencedColumnName: 'id', nullable: true)]
     private ?User $created_by_id = null;
 
     #[ORM\ManyToMany(targetEntity: Skill::class)]
+    #[ORM\JoinColumn(nullable: true)]
     private Collection $skills;
 
     public function __construct()
@@ -94,7 +96,7 @@ class Exercise
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(?string $name): static
     {
         $this->name = $name;
 

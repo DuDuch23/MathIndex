@@ -29,8 +29,8 @@
                 <td>{{ exercise.difficulty }}</td>
                 <td>{{ exercise.thematicId.name }}</td>
                 <td>
-                    {% if exercise.correctionFileId %}
-                        <a href="{{ exercise.correctionFileId.name }}">Corrigé</a>
+                    {% if exercise.correctionFile %}
+                        <a href="{{ exercise.correctionFile.name }}">Corrigé</a>
                     {% endif %}
                 </td>
                 <td>

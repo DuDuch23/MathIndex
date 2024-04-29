@@ -3,25 +3,37 @@
 {% block title %}Panel admin - Gestion des classes{% endblock %}
 
 {% block body %}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
+{% endfor %}
+<div>
     <h1 class="mb-4">Gestion des Classes</h1>
     <label>Rechercher une classe par son nom :</label>
     <div class="flex">
-        <form class="form-group w-3/4 flex" action="{{ path('admin_panel_user') }}">
-            <input class="mr-10">
-            <input type="hidden" name="email">
-            <input type="hidden" name="lastName">
-            <input type="hidden" name="firstName">
+        <form class="form-group w-3/4 flex" action="{{ path('admin_panel_classroom') }}">
+            <input class="mr-10" name="searchTerm">
             <button class="btn" type="submit">
                 Rechercher
             </button>
         </form>
         <form class="form-group w-1/4 flex justify-center" action="{{ path('admin_panel_classroom_add') }}" method="post">
-            <button class="btn-add btn-add" type="submit">
+            <button class="btn btn-add" type="submit">
                 Ajouter +
             </button>
         </form>
     </div>
-    <div class="bg-white shadow-md rounded my-6">
+
+    {% if noClassroomFound is defined %}
+        <p>{{ noClassroomFound }}</p>
+    {% endif %}
+    
     <table class="container-exercises w-full table-fixed mt-10">
         <thead class="thead-exercises">
             <tr>
@@ -33,7 +45,7 @@
             {% if classrooms is defined %}
                 {% if classrooms is not empty %}
                     {% for classroom in classrooms %}
-                    <tr class="hover:bg-gray-100">
+                    <tr>
                         <td class="table-size-clamp info-exercise">{{ classroom.name }}</td>
                         <td class="flex align-center">
                             <form action="{{ path('admin_panel_classroom_edit', {id: classroom.id}) }}" method="get" class="mr-2">
@@ -64,6 +76,6 @@
                 countPages
             } only %}
         {% endif %}
-    </div>
     {% endif %}
+</div>
 {% endblock %}
