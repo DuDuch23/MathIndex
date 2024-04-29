@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class ExerciseType extends AbstractType
 {
@@ -38,12 +39,22 @@ class ExerciseType extends AbstractType
             'class' => Thematic::class,
             'choice_label' => 'name',
         ])
-        ->add('correctionFileId', EntityType::class, [
-            'class' => File::class,
-            'choice_label' => 'name',
-            'required' => false, // selon que le champ peut être laissé vide ou non
+        ->add('exercice_file_id', VichFileType::class, [
+            'required' => false,
+            'label' => 'Fichier d\'exercice',
+            'allow_delete' => true,
+            'download_uri' => true,
+            'mapped' => false,
+            'attr' => ['class' => 'form-control']
         ])
-
+        ->add('correction_file_id', VichFileType::class, [
+            'required' => false,
+            'label' => 'Fichier de correction',
+            'allow_delete' => true,
+            'download_uri' => true,
+            'mapped' => false,
+            'attr' => ['class' => 'form-control']
+        ])
         ->add('save', SubmitType::class, [
             'label' => 'Enregistrer',
             'attr' => [

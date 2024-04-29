@@ -261,24 +261,24 @@ class Exercise
         return $this;
     }
 
-    public function getExerciceFileId(): ?FileVich
+    public function getExerciceFileId(): ?File
     {
         return $this->exercice_file_id;
     }
 
-    public function setExerciseFileId(FileVich $exercice_file_id): static
+    public function setExerciseFileId(?File $exercice_file_id): self
     {
         $this->exercice_file_id = $exercice_file_id;
 
         return $this;
     }
 
-    public function getCorrectionFileId(): ?FileVich
+    public function getCorrectionFileId(): ?File
     {
         return $this->correction_file_id;
     }
 
-    public function setCorrectionFileId(FileVich $correction_file_id): static
+    public function setCorrectionFileId(?File $correction_file_id): self
     {
         $this->correction_file_id = $correction_file_id;
 
