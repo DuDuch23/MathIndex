@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Classroom;
 use App\Entity\Course;
 use App\Entity\Exercise;
-use App\Entity\File;
 use App\Entity\Origin;
 use App\Entity\Skill;
 use App\Entity\Thematic;
@@ -13,7 +12,6 @@ use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -228,16 +226,7 @@ class SoumettreType extends AbstractType
                     'class' => 'form-row',
                 ],
             ])
-            ->add('exercice_file_id', VichFileType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'row_attr' => [
-                    'class' => 'form-row',
-                ],
-                'mapped' => false,
-            ])
-            ->add('correction_file_id', VichFileType::class, [
+            ->add('exerciceFile', FileType::class, [
                 'attr' => [
                     'class' => 'form-control',
                 ],
@@ -245,9 +234,13 @@ class SoumettreType extends AbstractType
                     'class' => 'form-row',
                 ],
             ])
-            ->add('created_by_id', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
+            ->add('correctionFile', FileType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'row_attr' => [
+                    'class' => 'form-row',
+                ],
             ])
             ->add('skills', EntityType::class, [
                 'label' => false,
@@ -258,12 +251,6 @@ class SoumettreType extends AbstractType
             ])
             ->add('BtnSubmit', SubmitType::class, [
                 'label' => 'Enregistrer',
-                'attr' => [
-                'class' => 'btn',
-                ],
-            ])
-            ->add('BtnContinue', SubmitType::class, [
-                'label' => 'Continuer',
                 'attr' => [
                 'class' => 'btn',
                 ],

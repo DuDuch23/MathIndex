@@ -83,7 +83,7 @@
     {% if exercises is not empty %}
         {% if exercises is defined %}
             {% include "components/pagination.html.twig" with {
-                route: 'admin_panel_mathematique',
+                route: 'mathematique',
                 currentPage,
                 countPages
             } only %}
