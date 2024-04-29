@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\File;
+use Symfony\Component\HttpFoundation\File\File as FileVich;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 
 #[ORM\Entity(repositoryClass: ExerciseRepository::class)]
@@ -25,7 +27,7 @@ class Exercise
     #[ORM\JoinColumn(nullable: false)]
     private ?Course $course_id = null;
 
-    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Classroom $classroom_id = null;
 
@@ -66,11 +68,13 @@ class Exercise
 
     #[ORM\OneToOne(targetEntity:File::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?File $exerciceFile = null;
+    #[Vich\UploadableField(mapping: 'fichier', fileNameProperty: 'name')]
+    private ?File $exercice_file_id = null;
     
     #[ORM\OneToOne(targetEntity:File::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?File $correctionFile = null;
+    #[Vich\UploadableField(mapping: 'fichier', fileNameProperty: 'name')]
+    private ?File $correction_file_id = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -257,26 +261,26 @@ class Exercise
         return $this;
     }
 
-    public function getExerciceFile(): ?File
+    public function getExerciceFileId(): ?File
     {
-        return $this->exerciceFile;
+        return $this->exercice_file_id;
     }
 
-    public function setExerciceFile(File $file): static
+    public function setExerciseFileId(?File $exercice_file_id): self
     {
-        $this->exerciceFile = $file;
+        $this->exercice_file_id = $exercice_file_id;
 
         return $this;
     }
 
-    public function getCorrectionFile(): ?File
+    public function getCorrectionFileId(): ?File
     {
-        return $this->correctionFile;
+        return $this->correction_file_id;
     }
 
-    public function setCorrectionFile(File $correctionFile): static
+    public function setCorrectionFileId(?File $correction_file_id): self
     {
-        $this->correctionFile = $correctionFile;
+        $this->correction_file_id = $correction_file_id;
 
         return $this;
     }

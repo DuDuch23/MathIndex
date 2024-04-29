@@ -15,13 +15,44 @@ use Symfony\Component\Routing\Annotation\Route;
 class SkillsController extends AbstractController
 {
     #[Route('/skills', name: 'skills')]
-    public function index(SkillRepository $skillRepository): Response
+    public function index(SkillRepository $skillRepository, Request $request): Response
     {
+        $skills = [];
+        
+        // Pagination
+        $countPerPage = 8;
+        $countPages = 0;
+        $totalSkillsFound = 0;
+        $currentPage = $request->query->getInt('page', 1);
+        
+        // Initialisation de la recherche
+        $searchTerm = $request->query->get('searchTerm');
+
+        if($searchTerm)
+        {
+            $skills = $skillRepository->searchByEmailOrLastNameOrFirstName($searchTerm, $currentPage, $countPerPage);
+            $totalSkillsFound = count($skills);
+            $countPages = ceil($totalSkillsFound / $countPerPage);
+            $activatePaginate = true;
+        }
+        else {
+            $countSkills = $skillRepository->count([]);
+            $countPages = ceil($countSkills / $countPerPage);
+            $skills = $skillRepository->paginate('p', $currentPage, $countPerPage);
+        }
+    
+        if($currentPage > $countPages || $currentPage <= 0)
+        {
+            throw $this->createNotFoundException();
+        }
+
         $skills = $skillRepository->findAll();
 
 
         return $this->render('admin/skills/index.html.twig', [
             'skills' => $skills,
+            'countPages' => $countPages,
+            'currentPage' => $currentPage,
         ]);
     }
 
@@ -41,8 +72,6 @@ class SkillsController extends AbstractController
 
             return $this->redirectToRoute('admin_panel_skills');
         }
-
-        dd($form);
 
         return $this->render('admin/skills/edit.html.twig', [
             'skill' => $skill,
