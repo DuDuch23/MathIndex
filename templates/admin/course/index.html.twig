@@ -3,8 +3,8 @@
 {% block title %}Panel matières{% endblock %}
 {% block body %}
 <div>
-    <h1 class="mb-4">Gestion des contributeurs</h1>
-    <label>Rechercher un contributeur par nom, prénom ou email :</label>
+    <h1 class="mb-4">Gestion des Matières</h1>
+    <label>Rechercher une matières:</label>
     <div class="flex">
         <form class="form-group w-3/4 flex" action="{{ path('admin_panel_user') }}">
             <input class="mr-10" name="searchTerm">
@@ -12,7 +12,7 @@
                 Rechercher
             </button>
         </form>
-        <form class="form-group w-1/4 flex justify-center" action={{ path('admin_panel_user_add') }} method="post">
+        <form class="form-group w-1/4 flex justify-center" action={{ path('admin_panel_course_add') }} method="post">
             <button class="btn btn-add" type="submit">
                 Ajouter +
             </button>
