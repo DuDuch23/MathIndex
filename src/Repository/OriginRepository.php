@@ -6,7 +6,6 @@ use App\Entity\Origin;
 use App\Repository\Traits\PaginateTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Repository\Traits\PaginateTrait;
 
 /**
  * @extends ServiceEntityRepository<Origin>
