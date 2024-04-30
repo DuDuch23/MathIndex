@@ -6,6 +6,7 @@ use App\Entity\Skill;
 use App\Repository\Traits\PaginateTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Repository\Traits\PaginateTrait;
 
 /**
  * @extends ServiceEntityRepository<Skill>
@@ -58,4 +59,6 @@ class SkillRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    use PaginateTrait;
 }

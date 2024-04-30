@@ -259,24 +259,24 @@ class Exercise
         return $this;
     }
 
-    public function getExerciceFile(): ?File
+    public function getExerciceFileId(): ?File
     {
         return $this->exerciceFile;
     }
 
-    public function setExerciceFile(File $file): static
+    public function setExerciseFileId(?File $exerciceFile): self
     {
-        $this->exerciceFile = $file;
+        $this->exerciceFile = $exerciceFile;
 
         return $this;
     }
 
-    public function getCorrectionFile(): ?File
+    public function getCorrectionFileId(): ?File
     {
         return $this->correctionFile;
     }
 
-    public function setCorrectionFile(File $correctionFile): static
+    public function setCorrectionFileId(?File $correctionFile): self
     {
         $this->correctionFile = $correctionFile;
 

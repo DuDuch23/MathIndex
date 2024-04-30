@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="{{ asset('css/exercise.scss') }}">
 {% endblock %}
 
-
 {% block body %}
 <div class="">
     <h2>Vous pouvez modifier ou supprimer un de vos exercices.</h2>
@@ -33,9 +32,12 @@
                         <a href="{{ exercise.correctionFile.name }}">Corrigé</a>
                     {% endif %}
                 </td>
+
                 <td>
-                    <a href="{{ path('modifier_exercice', {'id': exercise.id}) }}">Modifier</a>
-                    <a href="{{ path('supprimer_exercice', {'id': exercise.id}) }}">Supprimer</a>
+                    <a href="{{ path('modifier_exercice', {'id': exercise.id}) }}">Modifier
+                    <img src="{{ asset('media/editer.png') }}" alt="Modifier" class="w-4 h-4"></a>
+                    <a href="{{ path('supprimer_exercice', {'id': exercise.id}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet exercice ?');">Supprimer
+                    <img src="{{ asset('media/delete.png') }}" alt="Suppression" class="w-4 h-4"></a>
                 </td>
             </tr>
             {% endfor %}

@@ -67,6 +67,15 @@
             </tbody>
         </table>
     </div>
+    {% if skills is not empty %}
+        {% if skills is defined %}
+            {% include "components/pagination.html.twig" with {
+                route: 'admin_panel_origin',
+                currentPage,
+                countPages
+            } only %}
+        {% endif %}
+    {% endif %}
 </div>
 
 {% endblock %}
