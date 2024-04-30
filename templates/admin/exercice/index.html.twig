@@ -1,25 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Panel exercices{% endblock %}
+{% block title %}Panel admin - Gestion des exercices{% endblock %}
 
 {% block body %}
-{# <p>dans la table exercices : name, classroom, thematique, keywords, origine name, created_by_id (type: users) -> afficher </p> #}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
+{% endfor %}
 <div>
-    <h1 class="mb-4">Gestion des contributeurs</h1>
-    <label>Rechercher un contributeur par nom, prénom ou email :</label>
+    <h1 class="mb-4">Gestion des exercices</h1>
+    <label>Rechercher un exercice par son nom :</label>
     <div class="flex">
-        <form class="form-group w-3/4 flex" action="{{ path('admin_panel_user') }}">
+        <form class="form-group w-3/4 flex" action="{{ path('admin_panel_exercice') }}">
             <input class="mr-10" name="searchTerm">
             <button class="btn" type="submit">
                 Rechercher
             </button>
         </form>
-        <form class="form-group w-1/4 flex justify-center" action="{{ path('admin_panel_user_add') }}" method="post">
+        <form class="form-group w-1/4 flex justify-center" action="{{ path('admin_panel_exercice_add') }}" method="post">
             <button class="btn btn-add" type="submit">
                 Ajouter +
             </button>
         </form>
     </div>
+
+    {% if noExerciceFound is defined %}
+        <p>{{ noExerciceFound }}</p>
+    {% endif %}
     
     <table class="container-exercises w-full table-fixed mt-10">
         <thead class="thead-exercises">
@@ -32,19 +45,30 @@
             </tr>
         </thead>
         <tbody>
-            {% if exercises is defined %}
-                {% if exercises is not empty %}
-                    {% for exercise in exercises %}
+            {% if exercices is defined %}
+                {% if exercices is not empty %}
+                    {% for exercice in exercices %}
                     <tr>
-                        <td class="table-size-clamp info-exercise">{{ exercise.name }}</td>
-                        <td class="table-size-clamp info-exercise">{{ exercise.classroomId.name }}</td>
-                        <td class="table-size-clamp info-exercise">{{ exercise.thematicId.name }}</td>
+                        <td class="table-size-clamp info-exercise">{{ exercice.name }}</td>
+                        <td class="table-size-clamp info-exercise">{{ exercice.classroomId.name }}</td>
+                        <td class="table-size-clamp info-exercise">{{ exercice.thematicId.name }}</td>
                         <td class="flex table-size-clamp info-exercise">
-                            <span class="keyword">{{ exercise.keywords }}</span>
+                            <span class="keyword">{{ exercice.keywords }}</span>
                         </td>
-                        <td class="table-size-clamp info-exercise">
-                            <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Exercice</span></span>
-                            <span class="flex align-center justify-content-around"><img src="{{ asset('media/telecharger.png') }}" style="width: 19px; height= 19px;"><span class="text-center">Corrigé</span></span>
+                        <td class="flex align-center">
+                            <form action="{{ path('admin_panel_exercice_edit', {id: exercice.id}) }}" method="get" class="mr-2">
+                                <button type="submit" class="flex items-center px-2 py-1 text-sm font-medium leading-5 text-gray-700 transition-colors duration-150 active:bg-gray-200 hover:bg-gray-100 focus:outline-none focus:shadow-outline-gray">
+                                    <img src="{{ asset('media/editer.png') }}" alt="Modifier" class="w-4 h-4 mr-2">
+                                    <span>Modifier</span>
+                                </button>
+                            </form>
+                            <form action="{{ path('admin_panel_exercice_delete', {id: exercice.id}) }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet exercice ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ exercice.id) }}">
+                                <button type="submit" class="flex items-center px-2 py-1 text-sm font-medium leading-5 text-gray-700 transition-colors duration-150 active:bg-gray-200 hover:bg-gray-100 focus:outline-none focus:shadow-outline-gray">
+                                    <img src="{{ asset('media/delete.png') }}" alt="Supprimer" class="w-4 h-4 mr-2">
+                                    <span>Supprimer</span>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     {% endfor %}
@@ -52,10 +76,10 @@
             {% endif %}
         </tbody>
     </table>
-    {% if exercises is not empty %}
-        {% if exercises is defined %}
+    {% if exercices is not empty %}
+        {% if exercices is defined %}
             {% include "components/pagination.html.twig" with {
-                route: 'mathematique',
+                route: 'admin_panel_exercice',
                 currentPage,
                 countPages
             } only %}

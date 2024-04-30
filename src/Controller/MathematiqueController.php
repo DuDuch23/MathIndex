@@ -13,14 +13,16 @@ class MathematiqueController extends AbstractController
     #[Route('/mathematique', name: 'mathematique')]
     public function index(ExerciseRepository $exerciseRepository, Request $request): Response
     {
-        $exercises = $exerciseRepository->findAll();
+        // Affichage des nouveautés, les 3 derniers exercices crées
         $nouveautes = $exerciseRepository->exerciseByThree();
-        $countPerPage = 8;
-        $countPages = 0;
-        $totalUsersFound = 0;
-        $currentPage = $request->query->getInt('page', 1);
-        $activatePaginate = false;
 
+        // Pagination
+        $countPerPage = 5;
+        $countPages = 0;
+        $currentPage = $request->query->getInt('page', 1);
+        $countExercises = $exerciseRepository->count([]);
+        $countPages = ceil($countExercises / $countPerPage);
+        $exercises = $exerciseRepository->paginate('p', $currentPage, $countPerPage); 
 
         return $this->render('mathematique/index.html.twig', [
             'exercises' => $exercises,

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Classroom;
+use App\Repository\Traits\PaginateTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -20,6 +21,18 @@ class ClassroomRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Classroom::class);
     }
+
+    public function searchClassroom($searchTerm, $page, $itemsPerPage){
+        return $this->createQueryBuilder('c')
+            ->where('c.name = :searchTerm')
+            ->setParameter('searchTerm', $searchTerm)
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
+            ->getQuery()
+            ->getResult();
+    }
+
+    use PaginateTrait;
 
 //    /**
 //     * @return Classroom[] Returns an array of Classroom objects

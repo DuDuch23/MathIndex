@@ -8,8 +8,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class OriginType extends AbstractType
 {
@@ -17,19 +18,20 @@ class OriginType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom de l\'origine',
-                'attr' => ['class' => 'form-control'],
+                'label' => 'Nom :',
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Le nom de l\'origine ne peut être vide.'
-                    ]),
+                    new NotBlank(),
                     new Length([
                         'min' => 2,
-                        'max' => 50,
-                        'minMessage' => 'Le nom de l\'origine doit contenir au moins {{ limit }} caractères.',
-                        'maxMessage' => 'Le nom de l\'origine ne peut contenir plus de {{ limit }} caractères.'
-                    ])
-                ]
+                        'max' => 255,
+                        'minMessage' => 'Le nom doit contenir {{ limit }} caractères au minimum.',
+                        'maxMessage' => 'Le nom ne doit pas excéder {{ limit }} caractères.',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z]+$/',
+                        'message' => 'Le nom ne doit contenir que des lettres.',
+                    ]),
+                ],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer',

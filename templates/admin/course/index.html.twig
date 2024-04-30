@@ -1,23 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Panel matières{% endblock %}
+{% block title %}Panel admin - Gestion des matières{% endblock %}
+
 {% block body %}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
+{% endfor %}
 <div>
-    <h1 class="mb-4">Gestion des contributeurs</h1>
-    <label>Rechercher un contributeur par nom, prénom ou email :</label>
+    <h1 class="mb-4">Gestion des matières</h1>
+    <label>Rechercher une matière par son nom :</label>
     <div class="flex">
-        <form class="form-group w-3/4 flex" action="{{ path('admin_panel_user') }}">
+        <form class="form-group w-3/4 flex" action="{{ path('admin_panel_course') }}">
             <input class="mr-10" name="searchTerm">
             <button class="btn" type="submit">
                 Rechercher
             </button>
         </form>
-        <form class="form-group w-1/4 flex justify-center" action={{ path('admin_panel_user_add') }} method="post">
+        <form class="form-group w-1/4 flex justify-center" action="{{ path('admin_panel_course_add') }}" method="post">
             <button class="btn btn-add" type="submit">
                 Ajouter +
             </button>
         </form>
     </div>
+
+    {% if noCourseFound is defined %}
+        <p>{{ noCourseFound }}</p>
+    {% endif %}
     
     <table class="container-exercises w-full table-fixed mt-10">
         <thead class="thead-exercises">
@@ -26,29 +41,40 @@
                 <th class="table-size-clamp">Actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="text-gray-600">
             {% if courses is defined %}
                 {% if courses is not empty %}
                     {% for course in courses %}
                     <tr>
                         <td class="table-size-clamp info-exercise">{{ course.name }}</td>
-                        <form action={{ path('admin_panel_course_edit', {id: course.id}) }} method="get" class="mr-2">
+                            <td class="flex align-center">
+                            <form action={{ path('admin_panel_course_edit', {id: course.id}) }} method="get" class="mr-2">
                                 <button type="submit" class="flex items-center px-2 py-1 text-sm font-medium leading-5 text-gray-700 transition-colors duration-150 active:bg-gray-200 hover:bg-gray-100 focus:outline-none focus:shadow-outline-gray">
                                     <img src={{ asset('media/editer.png') }} alt="Modifier" class="w-4 h-4 mr-2">
                                     <span>Modifier</span>
                                 </button>
                             </form>
-                        <form action={{ path('admin_panel_course_delete', {id: course.id}) }} method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette utilisateur ?');">
+                            <form action={{ path('admin_panel_course_delete', {id: course.id}) }} method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette utilisateur ?');">
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ course.id) }}">
                                 <button type="submit" class="flex items-center px-2 py-1 text-sm font-medium leading-5 text-gray-700 transition-colors duration-150 active:bg-gray-200 hover:bg-gray-100 focus:outline-none focus:shadow-outline-gray">
                                     <img src={{ asset('media/delete.png') }} alt="Supprimer" class="w-4 h-4 mr-2">
                                     <span>Supprimer</span>
                                 </button>
                             </form>
+                        </td>
                     </tr>
                     {% endfor %}
                 {% endif %}
             {% endif %}
         </tbody>
     </table>
+    {% if courses is not empty %}
+        {% if courses is defined %}
+            {% include "components/pagination.html.twig" with {
+                route: 'admin_panel_course',
+                currentPage,
+                countPages
+            } only %}
+        {% endif %}
+    {% endif %}
 {% endblock %}

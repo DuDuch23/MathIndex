@@ -32,7 +32,6 @@ class SoumettreController extends AbstractController
                 $this->addFlash('Erreur', 'Exercice soumis');
             }
             catch(Exception $e){
-                dd($e);
                 return $this->redirectToRoute('soumettre', [
                     'erreur' => "Erreur lors de la création de l'exercice.",
                 ]);

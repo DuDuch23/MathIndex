@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Origin;
+use App\Repository\Traits\PaginateTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\Traits\PaginateTrait;
@@ -21,6 +22,18 @@ class OriginRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Origin::class);
     }
+
+    public function searchOrigin($searchTerm, $page, $itemsPerPage){
+        return $this->createQueryBuilder('o')
+            ->where('o.name = :searchTerm')
+            ->setParameter('searchTerm', $searchTerm)
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
+            ->getQuery()
+            ->getResult();
+    }
+
+    use PaginateTrait;
 
 //    /**
 //     * @return Origin[] Returns an array of Origin objects

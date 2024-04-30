@@ -28,23 +28,8 @@
                 <td>{{ exercise.difficulty }}</td>
                 <td>{{ exercise.thematicId.name }}</td>
                 <td>
-                    {% if exercise.getExerciceFileId() %}
-                        <a href="{{ vich_uploader_asset(exercise, 'exercice_file_id') }}">
-                            <img src="{{ asset('media/editer.png') }}" alt="Exercice" class="w-4 h-4 mr-2">
-                            Exercice
-                        </a>
-                    {% else %}
-                        Pas de fichier d'exercice
-                    {% endif %}
-                
-                
-                    {% if exercise.getCorrectionFileId() %}
-                        <a href="{{ vich_uploader_asset(exercise, 'correction_file_id') }}">
-                            <img src="{{ asset('media/editer.png') }}" alt="Correction" class="w-4 h-4">
-                            Correction
-                        </a>
-                    {% else %}
-                        Pas de fichier de correction
+                    {% if exercise.correctionFile %}
+                        <a href="{{ exercise.correctionFile.name }}">Corrigé</a>
                     {% endif %}
                 </td>
 

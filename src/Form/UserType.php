@@ -40,13 +40,13 @@ class UserType extends AbstractType
                     ])
                 ],
             ])
-            ->add('last_name', TextType::class, [
+            ->add('lastName', TextType::class, [
                 'label' => 'Nom :',
                 'constraints' => [
                     new NotBlank(),
                     new Length([
                         'min' => 2,
-                        'max' => 255,
+                        'max' => 50,
                         'minMessage' => 'Le nom doit contenir {{ limit }} caractères au minimum.',
                         'maxMessage' => 'Le nom ne doit pas excéder {{ limit }} caractères.',
                     ]),
@@ -56,7 +56,7 @@ class UserType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('first_name', TextType::class, [
+            ->add('firstName', TextType::class, [
                 'label' => 'Prénom :',
                 'constraints' => [
                     new NotBlank(),
@@ -113,7 +113,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // 'data_class' => User::class,
+            'data_class' => User::class,
         ]);
     }
 }

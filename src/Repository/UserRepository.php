@@ -43,8 +43,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function searchByEmailOrLastNameOrFirstName($searchTerm, $page, $itemsPerPage){
         return $this->createQueryBuilder('u')
             ->where('u.email = :searchTerm')
-            ->orWhere('u.last_name = :searchTerm')
-            ->orWhere('u.first_name = :searchTerm')
+            ->orWhere('u.lastName = :searchTerm')
+            ->orWhere('u.firstName = :searchTerm')
             ->setParameter('searchTerm', $searchTerm)
             ->setFirstResult(($page -1) * $itemsPerPage)
             ->setMaxResults($itemsPerPage)

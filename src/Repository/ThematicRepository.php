@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Thematic;
+use App\Repository\Traits\PaginateTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -20,6 +21,18 @@ class ThematicRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Thematic::class);
     }
+
+    public function searchThematicByName($searchTerm, $page, $itemsPerPage){
+        return $this->createQueryBuilder('o')
+            ->where('o.name = :searchTerm')
+            ->setParameter('searchTerm', $searchTerm)
+            ->setFirstResult(($page -1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
+            ->getQuery()
+            ->getResult();
+    }
+
+    use PaginateTrait;
 
 //    /**
 //     * @return Thematic[] Returns an array of Thematic objects
