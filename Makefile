@@ -3,9 +3,11 @@
 # Dev stack: base + override (bind mounts, exposed ports, Mailpit, node watcher),
 # variable substitution from .env.docker (never mixed with the app's own .env).
 DC := docker compose --env-file .env.docker
-# Prod stack: base + hardening overlay, no dev override, no .env.docker —
-# secrets must already be exported in the shell/CI environment (see README.md).
-DC_PROD := docker compose -f compose.yaml -f compose.prod.yaml
+# Prod stack: base + hardening overlay, no dev override. Secrets come from
+# .env.prod (real values, created once on the server, never committed — see
+# CLAUDE.md). If you deploy via CI/CD instead and export real env vars
+# directly, drop --env-file and the flag below is simply unused.
+DC_PROD := docker compose --env-file .env.prod -f compose.yaml -f compose.prod.yaml
 
 .PHONY: help install up down dcu build bash logs fixtures migrate migration prod-build prod-up prod-down
 

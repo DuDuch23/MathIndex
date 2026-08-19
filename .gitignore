@@ -1,8 +1,6 @@
 
 ###> symfony/framework-bundle ###
-# NOTE: .env itself is intentionally tracked — it only holds safe, non-secret dev
-# defaults. Real secrets/overrides go in .env.local (gitignored) or, in production,
-# environment variables injected by Docker Compose / the hosting platform.
+/.env
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -15,6 +13,11 @@
 ###< symfony/framework-bundle ###
 
 ###> docker ###
+# Docker Compose variable-substitution files (see CLAUDE.md) — never
+# committed. .env.docker: dev-only placeholders. .env.prod: real production
+# secrets, created once directly on the server.
+.env.docker
+.env.prod
 .env.local.docker
 ###< docker ###
 

@@ -24,16 +24,28 @@ Variables `${...}` interpolées par `compose.yaml`/`compose.override.yaml` — *
 - `COMPOSE_APP_SECRET`, `COMPOSE_MAILER_DSN`
 - `HTTP_PORT` (port hôte exposé pour `web`, défaut `8080`)
 
-### Production
+### `.env.prod` (jamais committé, un seul fichier, vit uniquement sur le serveur)
 
-**Aucun fichier `.env*` n'est utilisé en production** — `compose.yaml` seul (combiné à `compose.prod.yaml`) exige ces variables en variables d'environnement réelles, injectées par la plateforme/CI, sans valeur par défaut :
+L'app elle-même n'a besoin d'aucun fichier `.env` en production — `app_prod` tourne uniquement avec de vraies variables d'environnement injectées par Docker Compose. `.env.prod` est donc le **seul** fichier à créer pour déployer : il fournit ces variables à `docker compose` (substitution `${...}`), qui les repasse ensuite au conteneur. Créé une fois, à la main, directement sur le serveur — jamais dans le repo.
 
-- `POSTGRES_PASSWORD`
-- `COMPOSE_APP_SECRET` (32+ caractères aléatoires, généré indépendamment des valeurs de dev)
-- `COMPOSE_MAILER_DSN`
-- `COMPOSE_DATABASE_URL` (optionnel — pour pointer vers une base externe plutôt que le service `database` du compose)
+```env
+POSTGRES_PASSWORD=<mot de passe long et aléatoire>
+COMPOSE_APP_SECRET=<32+ caractères aléatoires, généré indépendamment des valeurs de dev>
+COMPOSE_MAILER_DSN=<DSN mailer réel — smtp://... ou un provider transactionnel>
+HTTP_PORT=8080
+```
 
-Une variable manquante fait échouer `docker compose up` immédiatement (`Set COMPOSE_APP_SECRET ...`) plutôt que de démarrer avec une valeur par défaut non sécurisée.
+Génération de valeurs aléatoires : `openssl rand -hex 32`.
+
+`COMPOSE_DATABASE_URL` est optionnel, uniquement si vous pointez vers une base externe plutôt que le service `database` du compose.
+
+Déploiement :
+```bash
+make prod-build
+make prod-up
+```
+
+Une variable manquante dans `.env.prod` fait échouer `docker compose` immédiatement (`Set COMPOSE_APP_SECRET ...`) plutôt que de démarrer avec une valeur par défaut non sécurisée. `.env.prod` reste distinct de `.env.docker` (dev) pour ne jamais mélanger placeholders et vrais secrets.
 
 ## Architecture Docker
 
