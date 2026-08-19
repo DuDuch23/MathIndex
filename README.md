@@ -30,7 +30,6 @@ make install   # build les images, démarre toute la stack (dont le watcher d'as
 ```
 
 - **Application** : http://localhost:8080
-- **Mailpit** (emails interceptés en dev) : http://localhost:8025
 - **PostgreSQL** exposé sur `localhost:5432` (utilisateur/mot de passe : voir `.env.docker`)
 
 ## Commandes utiles

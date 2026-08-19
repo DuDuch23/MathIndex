@@ -48,11 +48,10 @@ migration: ## Generate a new migration from entity changes
 	$(DC) exec app php bin/console make:migration
 
 # --- Production -------------------------------------------------------------
-# Requires COMPOSE_APP_SECRET, POSTGRES_PASSWORD, COMPOSE_MAILER_DSN (and
-# optionally COMPOSE_DATABASE_URL to point at an external DB) already
-# exported in the environment — compose.yaml intentionally has no fallback
-# for these so a missing secret fails loudly instead of deploying silently
-# broken/insecure defaults.
+# Requires COMPOSE_APP_SECRET, POSTGRES_PASSWORD (and optionally
+# COMPOSE_DATABASE_URL to point at an external DB) in .env.prod — compose.yaml
+# intentionally has no fallback for these so a missing secret fails loudly
+# instead of deploying silently broken/insecure defaults.
 
 prod-build: ## Build production images
 	$(DC_PROD) build

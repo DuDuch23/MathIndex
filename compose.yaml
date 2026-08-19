@@ -9,18 +9,21 @@ name: mathindex
 # (the Makefile wraps both forms — see `make help`)
 #
 # Required in real production (no defaults on purpose — see README.md /
-# CLAUDE.md "Environment variables"): COMPOSE_APP_SECRET, COMPOSE_MAILER_DSN,
-# POSTGRES_PASSWORD. Never put real values for these in a committed file;
-# inject them via your platform/CI secrets.
+# CLAUDE.md "Environment variables"): COMPOSE_APP_SECRET, POSTGRES_PASSWORD.
+# Never put real values for these in a committed file; inject them via your
+# platform/CI secrets.
 #
 # Why "COMPOSE_" prefixes: `docker compose` auto-loads ./.env (if no
 # --env-file is given) for its own ${...} substitution — but ./.env is also
-# the Symfony app's own dotenv file, which already defines APP_SECRET,
-# DATABASE_URL and MAILER_DSN with dev-only, non-Docker values. Reusing those
-# exact names here would let the Symfony .env silently satisfy (with the
-# wrong value) the "required" checks below whenever someone runs a bare
-# `docker compose ...` instead of going through `make`/--env-file
-# .env.docker. The COMPOSE_ prefix guarantees no such collision is possible.
+# the Symfony app's own dotenv file, which already defines APP_SECRET and
+# DATABASE_URL with dev-only, non-Docker values. Reusing those exact names
+# here would let the Symfony .env silently satisfy (with the wrong value) the
+# "required" checks below whenever someone runs a bare `docker compose ...`
+# instead of going through `make`/--env-file .env.docker. The COMPOSE_ prefix
+# guarantees no such collision is possible.
+#
+# No mail provider is configured (see config/packages/mailer.yaml) — mail is
+# not needed by this app right now, so there is no MAILER_DSN here at all.
 
 services:
   database:
@@ -51,7 +54,6 @@ services:
       APP_ENV: prod
       APP_SECRET: ${COMPOSE_APP_SECRET:?Set COMPOSE_APP_SECRET (see README.md)}
       DATABASE_URL: ${COMPOSE_DATABASE_URL:-postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB:-app}?serverVersion=16&charset=utf8}
-      MAILER_DSN: ${COMPOSE_MAILER_DSN:?Set COMPOSE_MAILER_DSN (see README.md)}
       MESSENGER_TRANSPORT_DSN: ${COMPOSE_MESSENGER_TRANSPORT_DSN:-doctrine://default?auto_setup=0}
     volumes:
       - app_var:/app/var

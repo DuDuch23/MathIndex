@@ -9,9 +9,18 @@
 # with, there is no way for the dev overlay to add it back. Splitting prod
 # hardening into its own opt-in file sidesteps that entirely instead of
 # fighting the merge semantics.
+#
+# Each service also gets an explicit prod-specific `image:` name. Without
+# this, dev (target: app_dev, runs as root — see Dockerfile) and prod
+# (target: app_prod, non-root) both build into the same default tag
+# (mathindex-app:latest); building one silently overwrites the other's image,
+# so `docker compose run app ...` in dev can end up running the prod image
+# (wrong user, no dev tooling) with no obvious error — it just looks like a
+# permission bug.
 
 services:
   migrate:
+    image: mathindex-migrate-prod
     read_only: true
     tmpfs:
       - /tmp:mode=1777
@@ -19,6 +28,7 @@ services:
       - ALL
 
   app:
+    image: mathindex-app-prod
     read_only: true
     tmpfs:
       - /tmp:mode=1777
@@ -26,6 +36,7 @@ services:
       - ALL
 
   web:
+    image: mathindex-web-prod
     read_only: true
     # mode=1777: tmpfs mounts default to root-owned, which "web" (nginx_prod's
     # non-root "app" user) can't write into — nginx crash-loops trying to

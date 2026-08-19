@@ -1,3 +1,7 @@
 framework:
+    # No mail provider is configured for this project — messages are silently
+    # discarded rather than requiring a MAILER_DSN nobody has. If real email
+    # sending is needed later, point this back at %env(MAILER_DSN)% and add
+    # MAILER_DSN to .env / .env.docker / .env.prod.
     mailer:
-        dsn: '%env(MAILER_DSN)%'
+        dsn: 'null://null'

@@ -1,6 +1,6 @@
 # Auto-merged by `docker compose up` (no -f flags needed) for local development.
-# Adds: live source reload, exposed DB/mail ports, Mailpit, and the Node
-# service that watches/rebuilds Webpack Encore assets.
+# Adds: live source reload, exposed DB port, and the Node service that
+# watches/rebuilds Webpack Encore assets.
 #
 # `make prod-up` (compose.yaml + compose.prod.yaml, no override) gives the
 # hardened production topology instead.
@@ -10,21 +10,11 @@ services:
     ports:
       - "5432:5432"
 
-  mailer:
-    image: axllent/mailpit:v1.30
-    restart: unless-stopped
-    ports:
-      - "1025:1025" # SMTP
-      - "8025:8025" # Web UI: http://localhost:8025
-    security_opt:
-      - no-new-privileges:true
-
   migrate:
     build:
       target: app_dev
     environment:
       APP_ENV: dev
-      MAILER_DSN: smtp://mailer:1025
     volumes:
       - .:/app
       - vendor_dev:/app/vendor
@@ -32,8 +22,6 @@ services:
     depends_on:
       database:
         condition: service_healthy
-      mailer:
-        condition: service_started
 
   app:
     build:
@@ -41,7 +29,6 @@ services:
     environment:
       APP_ENV: dev
       APP_DEBUG: 1
-      MAILER_DSN: smtp://mailer:1025
       XDEBUG_MODE: ${XDEBUG_MODE:-off}
       XDEBUG_CLIENT_HOST: host.docker.internal
     volumes:
@@ -55,8 +42,6 @@ services:
         condition: service_healthy
       migrate:
         condition: service_completed_successfully
-      mailer:
-        condition: service_started
 
   web:
     ports:

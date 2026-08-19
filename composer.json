@@ -43,7 +43,6 @@
         "symfony/web-link": "7.4.*",
         "symfony/webpack-encore-bundle": "*",
         "symfony/yaml": "7.4.*",
-        "symfonycasts/verify-email-bundle": "^1.16",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
         "vich/uploader-bundle": "^2.3"
