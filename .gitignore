@@ -1,6 +1,8 @@
 
 ###> symfony/framework-bundle ###
-/.env
+# NOTE: .env itself is intentionally tracked — it only holds safe, non-secret dev
+# defaults. Real secrets/overrides go in .env.local (gitignored) or, in production,
+# environment variables injected by Docker Compose / the hosting platform.
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -11,6 +13,10 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+###> docker ###
+.env.local.docker
+###< docker ###
 
 ###> phpunit/phpunit ###
 /phpunit.xml

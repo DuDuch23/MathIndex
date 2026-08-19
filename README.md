@@ -2,64 +2,74 @@
 
 **MathIndex** est un projet de fin d'année BTS SIO, développé en utilisant le framework **Symfony**. Ce projet vise à fournir une plateforme éducative axée sur les mathématiques, facilitant la gestion des exercices, des cours et des évaluations pour les étudiants et les enseignants.
 
-## Identifiants
+## Stack
 
-Pour accéder à différentes parties de l'application, voici les identifiants par défaut :
+- **Backend** : Symfony 7.4 (PHP 8.4), Doctrine ORM, PostgreSQL 16
+- **Frontend** : Webpack Encore, Sass, Stimulus/Turbo
+- **Upload de fichiers** : VichUploaderBundle
+- **Docker** : PHP-FPM + Nginx, images séparées pour le développement et la production (voir [CLAUDE.md](CLAUDE.md))
 
-| Email                    | Mot de passe | Rôles           |
-|--------------------------|--------------|-----------------|
-| jane.s@example.com       | password2    | ROLE_ADMIN      |
-| john.d@gmail.com         | password1    | ROLE_CONTRIBUTEUR |
+## Identifiants de développement
 
-## Commandes Utiles
+Ces comptes sont créés par `make fixtures` (jeu de données de développement uniquement — **jamais utilisés en production**) :
 
-Pour simplifier la gestion du projet, vous pouvez utiliser les commandes suivantes :
+| Email                  | Mot de passe    | Rôle          |
+|-------------------------|-----------------|---------------|
+| admin@gmail.com          | AdminPassword   | ROLE_ADMIN    |
+| teacherM@gmail.com       | compteTeacherM  | ROLE_TEACHER  |
+| student@gmail.com        | compteStudent   | ROLE_STUDENT  |
 
-- `make install` : Installe toutes les dépendances, configure la base de données, exécute les migrations et charge les fixtures.
-- `make dcu` : Arrête, supprime et relance les conteneurs Docker pour redémarrer le projet.
-- `make fixtures` : Charge les fixtures dans la base de données.
-- `make bash` : Ouvre un terminal bash dans le conteneur Symfony.
+(voir `src/DataFixtures/UserFixtures.php` pour la liste complète)
 
-## Gestion des fichiers avec VichUploaderBundle
+## Démarrage rapide (Docker, développement)
 
-MathIndex utilise **VichUploaderBundle** pour gérer l'upload et le stockage de fichiers. Ce bundle intégré avec Symfony permet de simplifier la gestion des fichiers attachés aux entités, comme les documents d'exercices et les corrections, en automatisant le processus d'upload et en fournissant un accès facile aux fichiers stockés.
+Prérequis : Docker Desktop.
 
-## Installation avec Docker
+```bash
+make install   # build les images, démarre toute la stack (dont le watcher d'assets), migre la base, charge les fixtures
+```
 
-Pour utiliser Docker dans votre environnement de développement :
+- **Application** : http://localhost:8080
+- **Mailpit** (emails interceptés en dev) : http://localhost:8025
+- **PostgreSQL** exposé sur `localhost:5432` (utilisateur/mot de passe : voir `.env.docker`)
 
-1. Installez Docker sur votre machine.
-2. Lancez le projet en exécutant `make install` à la racine du projet.
+## Commandes utiles
 
-### Initialisation détaillée avec Docker
+| Commande | Effet |
+|---|---|
+| `make install` | Build + démarre la stack dev, migre la base, charge les fixtures |
+| `make up` | Démarre la stack dev |
+| `make down` | Arrête la stack dev |
+| `make dcu` | Arrête, reconstruit et relance la stack dev |
+| `make bash` | Ouvre un shell dans le conteneur PHP |
+| `make logs` | Suit les logs de tous les services |
+| `make fixtures` | Recharge les fixtures |
+| `make migrate` | Applique les migrations en attente |
+| `make migration` | Génère une migration à partir des changements d'entités |
+| `make prod-build` / `make prod-up` / `make prod-down` | Équivalents pour la stack de production (voir CLAUDE.md pour les secrets requis) |
 
-- Lancez tous les conteneurs avec `docker compose up`.
-- Accédez au terminal du conteneur Symfony avec `docker compose exec symfony bash` et exécutez :
-  - `composer install`
-  - `php bin/console doctrine:database:create`
-  - `php bin/console doctrine:schema:update --force`
-  - `php bin/console doctrine:fixtures:load -n`
-- Pour les assets, dans le conteneur Node : 
-  - `docker compose exec node npm run dev`
+Voir `make help` pour la liste complète, et [CLAUDE.md](CLAUDE.md) pour l'architecture Docker détaillée (dev vs prod) et les variables d'environnement requises.
 
 ## Installation sans Docker
 
-Si vous préférez une installation locale sans Docker :
+1. Installer les dépendances : `composer install`
+2. Copier `.env` en `.env.local` et adapter `DATABASE_URL` vers votre PostgreSQL local
+3. Compiler les assets :
+   ```bash
+   npm install
+   npm run watch
+   ```
+4. Base de données :
+   ```bash
+   php bin/console doctrine:database:create
+   php bin/console doctrine:migrations:migrate
+   php bin/console doctrine:fixtures:load
+   ```
+5. Lancer le serveur : `symfony server:start` (ou `php -S 127.0.0.1:8000 -t public`)
 
-1. Installez les dépendances avec `composer install`.
-2. Compilez les fichiers Sass :
-   - `npm init`
-   - `npm install`
-   - `npm run watch`
-3. Gérez la base de données :
-   - `symfony console doctrine:database:create`
-   - `symfony console doctrine:schema:update`
-   - `symfony console doctrine:fixtures:load`
+## Gestion des fichiers avec VichUploaderBundle
 
-## Accès au projet
-
-- **Application Web** : `http://127.0.0.1:8001`
-- **Base de données** (via phpMyAdmin) : `http://127.0.0.1:8888`
+MathIndex utilise **VichUploaderBundle** pour gérer l'upload et le stockage de fichiers (documents d'exercices et corrections). Les uploads sont restreints aux PDF et images (voir `App\Entity\File`) et servis via `public/fichier/`.
 
 ## Auteurs
 
@@ -67,3 +77,40 @@ Si vous préférez une installation locale sans Docker :
 - **Killian D**
 - **Killian O**
 - **Alexandre**
+
+
+server {
+    root /data/coffeeshop;
+    index index.html index.php;
+
+    listen 443 ssl;
+    server_name coffeeshop.alexandre-duchemin.fr www.coffeeshop.alexandre-duchemin.fr;
+
+    # certbot remplit ça automatiquement (ssl_certificate / ssl_certificate_key)
+
+    location / {
+        proxy_pass http://127.0.0.1:8081/;
+        proxy_http_version 1.1;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    ssl_certificate /etc/letsencrypt/live/coffeeshop.alexandre-duchemin.fr/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/coffeeshop.alexandre-duchemin.fr/privkey.pem; # managed by Certbot
+}
+
+server {
+    if ($host = coffeeshop.alexandre-duchemin.fr) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    listen 80;
+    server_name coffeeshop.alexandre-duchemin.fr;
+    return 301 https://$host$request_uri;
+
+
+}

@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Exercise;
-use App\Form\ExerciseType;
+use App\Form\SoumettreType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ExerciseRepository;
 
@@ -27,8 +27,8 @@ class ExercicesController extends AbstractController
     #[Route('/exercices/modifier/{id}', name: 'modifier_exercice')]
     public function modifier(Request $request, Exercise $exercise, EntityManagerInterface $entityManager): Response
     {
-        // Création du formulaire en utilisant le formulaire ExerciseType et l'entité Exercise
-        $form = $this->createForm(ExerciseType::class, $exercise);
+        // Création du formulaire en utilisant le formulaire SoumettreType et l'entité Exercise
+        $form = $this->createForm(SoumettreType::class, $exercise);
 
         // Traitement de la requête
         $form->handleRequest($request);
@@ -47,7 +47,7 @@ class ExercicesController extends AbstractController
         ]);
     }
 
-    #[Route('/exercices/supprimer/{id}', name: 'supprimer_exercice')]
+    #[Route('/exercices/supprimer/{id}', name: 'supprimer_exercice', methods: ['POST'])]
 public function supprimer(Exercise $exercise, EntityManagerInterface $entityManager, Request $request): Response
 {
     // Vérifiez si le token CSRF est valide ici

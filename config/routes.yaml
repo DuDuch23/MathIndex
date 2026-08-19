@@ -1,12 +1,15 @@
+# ../src/Controller/ is scanned recursively, so this single import already
+# picks up App\Controller\Admin\* too — those controllers declare their own
+# complete '/panel' prefix via a class-level #[Route(path: '/panel', ...)]
+# attribute. A second "admin_controllers" import used to also load the same
+# classes with an extra 'admin' prefix stacked on top, silently overriding
+# these routes (last-loaded wins on a name collision) so the real path ended
+# up as /admin/panel/... instead of /panel/... — while access_control,
+# templates and every route() call in this codebase all assumed /panel/...
+# See config/packages/security.yaml for the access_control rule this must
+# stay in sync with.
 public_controllers:
     resource:
         path: ../src/Controller/
         namespace: App\Controller
-    type: attribute
-
-admin_controllers:
-    resource:
-        path: ../src/Controller/Admin
-        namespace: App\Controller\Admin
-    prefix: 'admin'
     type: attribute

@@ -39,46 +39,51 @@ class RechercheController extends AbstractController
         // Déclaration de l'activation de la pagination
         $activatePaginate = false;
 
+        // IMPORTANT: switch(true) matches the *first* truthy case, so the cases must be
+        // ordered from most specific (all filters set) to least specific (a single filter).
+        // The previous ordering put the single-filter cases before the two-filter
+        // combinations, which meant e.g. "classroom + keywords" would always be caught by
+        // the "classroom only" case first and silently drop the keywords filter.
         switch (true) {
-            
+
             case ($getClassroomName && $getThematicName && $getKeywords):
                 $foundExercices = $exerciseRepository->searchExerciceByClassroomThematicKeywords($getClassroomName, $getThematicName, $getKeywords, $currentPage, $countPerPage);
                 $totalExerciseFound = count($foundExercices);
                 $countPages = ceil($totalExerciseFound / $countPerPage);
                 $activatePaginate = true;
                 break;
-            case ($getClassroomName);
-                $foundExercices = $exerciseRepository->searchExerciceByClassroom($getClassroomName, $currentPage, $countPerPage);
-                $totalExerciseFound = count($foundExercices);
-                $countPages = ceil($totalExerciseFound / $countPerPage);
-                $activatePaginate = true;
-                break;
-            case ($getThematicName);
-                $foundExercices = $exerciseRepository->searchExerciceByThematic($getThematicName, $currentPage, $countPerPage);
-                $totalExerciseFound = count($foundExercices);
-                $countPages = ceil($totalExerciseFound / $countPerPage);
-                $activatePaginate = true;
-                break;  
-            case ($getKeywords);
-                $foundExercices = $exerciseRepository->searchExerciceByKeywords($getKeywords, $currentPage, $countPerPage);
-                $totalExerciseFound = count($foundExercices);
-                $countPages = ceil($totalExerciseFound / $countPerPage);
-                $activatePaginate = true;
-                break;
-            case ($getClassroomName && $getThematicName);
+            case ($getClassroomName && $getThematicName):
                 $foundExercices = $exerciseRepository->searchExerciceByClassroomThematic($getClassroomName, $getThematicName, $currentPage, $countPerPage);
                 $totalExerciseFound = count($foundExercices);
                 $countPages = ceil($totalExerciseFound / $countPerPage);
                 $activatePaginate = true;
                 break;
-            case ($getClassroomName && $getKeywords);
+            case ($getClassroomName && $getKeywords):
                 $foundExercices = $exerciseRepository->searchExerciceByClassroomcKeywords($getClassroomName, $getKeywords, $currentPage, $countPerPage);
                 $totalExerciseFound = count($foundExercices);
                 $countPages = ceil($totalExerciseFound / $countPerPage);
                 $activatePaginate = true;
                 break;
-            case ($getThematicName && $getKeywords);
+            case ($getThematicName && $getKeywords):
                 $foundExercices = $exerciseRepository->searchExerciceByThematicKeywords($getThematicName, $getKeywords, $currentPage, $countPerPage);
+                $totalExerciseFound = count($foundExercices);
+                $countPages = ceil($totalExerciseFound / $countPerPage);
+                $activatePaginate = true;
+                break;
+            case ($getClassroomName):
+                $foundExercices = $exerciseRepository->searchExerciceByClassroom($getClassroomName, $currentPage, $countPerPage);
+                $totalExerciseFound = count($foundExercices);
+                $countPages = ceil($totalExerciseFound / $countPerPage);
+                $activatePaginate = true;
+                break;
+            case ($getThematicName):
+                $foundExercices = $exerciseRepository->searchExerciceByThematic($getThematicName, $currentPage, $countPerPage);
+                $totalExerciseFound = count($foundExercices);
+                $countPages = ceil($totalExerciseFound / $countPerPage);
+                $activatePaginate = true;
+                break;
+            case ($getKeywords):
+                $foundExercices = $exerciseRepository->searchExerciceByKeywords($getKeywords, $currentPage, $countPerPage);
                 $totalExerciseFound = count($foundExercices);
                 $countPages = ceil($totalExerciseFound / $countPerPage);
                 $activatePaginate = true;

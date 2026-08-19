@@ -73,7 +73,7 @@ class UserFixtures extends Fixture
             ],
         ];
     
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         foreach(self::USER as $attributes)
         {

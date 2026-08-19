@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Course;
 use App\Entity\Thematic;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -53,7 +54,7 @@ class ThematicFixtures extends Fixture implements DependentFixtureInterface
             $thematic->setName($attributes['name']);
 
             $courseReference = array_rand(CourseFixtures::COURSE);
-            $thematic->setCourseId($this->getReference($courseReference));
+            $thematic->setCourseId($this->getReference($courseReference, Course::class));
 
             $manager->persist($thematic);
 
@@ -63,7 +64,7 @@ class ThematicFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return[
             CourseFixtures::class,

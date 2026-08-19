@@ -1,14 +1,82 @@
-version: '3'
+# Auto-merged by `docker compose up` (no -f flags needed) for local development.
+# Adds: live source reload, exposed DB/mail ports, Mailpit, and the Node
+# service that watches/rebuilds Webpack Encore assets.
+#
+# `make prod-up` (compose.yaml + compose.prod.yaml, no override) gives the
+# hardened production topology instead.
 
 services:
-###> doctrine/doctrine-bundle ###
   database:
     ports:
-      - "5432"
-###< doctrine/doctrine-bundle ###
+      - "5432:5432"
 
-###> symfony/mailer ###
   mailer:
-    image: schickling/mailcatcher
-    ports: ["1025", "1080"]
-###< symfony/mailer ###
+    image: axllent/mailpit:v1.30
+    restart: unless-stopped
+    ports:
+      - "1025:1025" # SMTP
+      - "8025:8025" # Web UI: http://localhost:8025
+    security_opt:
+      - no-new-privileges:true
+
+  migrate:
+    build:
+      target: app_dev
+    environment:
+      APP_ENV: dev
+      MAILER_DSN: smtp://mailer:1025
+    volumes:
+      - .:/app
+      - vendor_dev:/app/vendor
+      - var_dev:/app/var
+    depends_on:
+      database:
+        condition: service_healthy
+      mailer:
+        condition: service_started
+
+  app:
+    build:
+      target: app_dev
+    environment:
+      APP_ENV: dev
+      APP_DEBUG: 1
+      MAILER_DSN: smtp://mailer:1025
+      XDEBUG_MODE: ${XDEBUG_MODE:-off}
+      XDEBUG_CLIENT_HOST: host.docker.internal
+    volumes:
+      - .:/app
+      - vendor_dev:/app/vendor
+      - var_dev:/app/var
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      database:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+      mailer:
+        condition: service_started
+
+  web:
+    ports:
+      - "${HTTP_PORT:-8080}:8080"
+    volumes:
+      - ./public:/app/public:ro
+
+  # Webpack Encore in watch mode; rebuilds public/build/ on every asset
+  # change, which the "web" and "app" containers pick up live via the
+  # ./public bind mount above.
+  node:
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm ci && npm run watch"
+    volumes:
+      - .:/app
+      - node_modules_dev:/app/node_modules
+    restart: unless-stopped
+
+volumes:
+  vendor_dev:
+  var_dev:
+  node_modules_dev:

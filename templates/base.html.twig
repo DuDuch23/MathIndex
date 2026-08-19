@@ -109,7 +109,8 @@
                                 end item-nav
                         =====================-->
 
-                        {% if is_granted('ROLE_CONTRIBUTEUR') or is_granted('ROLE_ADMIN') %}
+                        {# ROLE_ADMIN inherits ROLE_TEACHER via role_hierarchy (config/packages/security.yaml) #}
+                        {% if is_granted('ROLE_TEACHER') %}
 
                         <!--==================
                                 item-nav

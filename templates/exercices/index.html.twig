@@ -36,8 +36,11 @@
                 <td>
                     <a href="{{ path('modifier_exercice', {'id': exercise.id}) }}">Modifier
                     <img src="{{ asset('media/editer.png') }}" alt="Modifier" class="w-4 h-4"></a>
-                    <a href="{{ path('supprimer_exercice', {'id': exercise.id}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet exercice ?');">Supprimer
-                    <img src="{{ asset('media/delete.png') }}" alt="Suppression" class="w-4 h-4"></a>
+                    <form action="{{ path('supprimer_exercice', {'id': exercise.id}) }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet exercice ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ exercise.id) }}">
+                        <button type="submit">Supprimer
+                        <img src="{{ asset('media/delete.png') }}" alt="Suppression" class="w-4 h-4"></button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}

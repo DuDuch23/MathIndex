@@ -136,21 +136,22 @@ class CourseController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/course/delete/{id}', name: 'course_delete', methods: 'DELETE')]
+    #[Route(path: '/course/delete/{id}', name: 'course_delete', methods: ['POST'])]
     public function delete(Request $request, Course $course, EntityManagerInterface $entityManager, LoggerInterface $logger): Response
     {
-        $token = $request->request->get('csrf_token');
+        if (!$this->isCsrfTokenValid('delete' . $course->getId(), $request->request->get('_token'))) {
+            $this->addFlash('error', 'Jeton CSRF invalide, impossible de supprimer la matière.');
 
-        if (!$this->isCsrfTokenValid('delete-course', $token)) {
-            throw $this->createAccessDeniedException();
+            return $this->redirectToRoute('admin_panel_course');
         }
 
         try {
             $entityManager->remove($course);
             $entityManager->flush();
+            $this->addFlash('success', 'La matière a été supprimée avec succès.');
         } catch (Exception $e) {
             $logger->error($e->getMessage());
-            $this->addFlash('error', 'Impossible de supprimer l\'utilisateur.');
+            $this->addFlash('error', 'Impossible de supprimer la matière.');
         }
 
         return $this->redirectToRoute('admin_panel_course');

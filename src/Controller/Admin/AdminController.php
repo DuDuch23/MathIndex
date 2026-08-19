@@ -104,7 +104,7 @@ class AdminController extends AbstractController
     }
 
     #[Route(path: '/user/edit/{id}', name: 'user_edit', methods: ['GET', 'POST'])]
-    public function editUser(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPassword): Response
+    public function editUser(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPassword, LoggerInterface $logger): Response
     {
         $form = $this->createForm(UserType::class, $user, [
             'method' => 'POST',
@@ -130,7 +130,8 @@ class AdminController extends AbstractController
                 $this->addFlash('error', 'Le formulaire contient des erreurs');
             }
         }catch(Exception $e){
-            echo $e;
+            $logger->error($e->getMessage(), ['exception' => $e]);
+            $this->addFlash('error', 'Une erreur est survenue lors de la modification de l\'utilisateur.');
         }
 
         return $this->render('admin/user/edit_user.html.twig', [

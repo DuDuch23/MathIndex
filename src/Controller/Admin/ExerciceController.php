@@ -107,7 +107,7 @@ class ExerciceController extends AbstractController
     }
 
     #[Route(path: '/exercice/edit/{id}', name: 'exercice_edit', methods: ['GET', 'POST'])]
-    public function editCourse(Request $request, Exercise $exercice, EntityManagerInterface $entityManager): Response
+    public function editCourse(Request $request, Exercise $exercice, EntityManagerInterface $entityManager, LoggerInterface $logger): Response
     {
         $form = $this->createForm(SoumettreType::class, $exercice, [
             'method' => 'POST',
@@ -128,7 +128,8 @@ class ExerciceController extends AbstractController
                 $this->addFlash('error', 'Le formulaire contient des erreurs');
             }
         }catch(Exception $e){
-            echo $e;
+            $logger->error($e->getMessage(), ['exception' => $e]);
+            $this->addFlash('error', 'Une erreur est survenue lors de la modification de l\'exercice.');
         }
 
         return $this->render('admin/exercice/edit.html.twig', [

@@ -24,7 +24,7 @@ class ClassroomFixtures extends Fixture
         ],
     ];
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         foreach($this::CLASSROOM as $code => $attributes)
         {

@@ -2,6 +2,10 @@ security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+    # ROLE_ADMIN inherits every other role so a single IsGranted('ROLE_ADMIN') or role_hierarchy
+    # check is enough anywhere ROLE_TEACHER/ROLE_STUDENT is required.
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_TEACHER, ROLE_STUDENT]
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         # used to reload user from session & other features (e.g. switch_user)
@@ -33,9 +37,16 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
+    #
+    # IMPORTANT: the admin back-office is served under /panel (see the
+    # #[Route(path: '/panel', ...)] prefix on every App\Controller\Admin\*
+    # controller), NOT /admin. A rule targeting ^/admin never matches and
+    # leaves the entire admin panel (user/course/classroom/exercise/... CRUD)
+    # reachable without authentication.
     access_control:
-        - { path: ^/admin, roles: [ROLE_ADMIN] }
-        - { path: ^/profile, roles: [ROLE_CONTRIBUTEUR] }
+        - { path: ^/panel, roles: [ROLE_ADMIN] }
+        - { path: ^/exercices, roles: [ROLE_TEACHER] }
+        - { path: ^/soumettre, roles: [ROLE_TEACHER] }
 
 when@test:
     security:

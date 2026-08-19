@@ -107,7 +107,7 @@ class SkillsController extends AbstractController
     }
 
     #[Route(path: '/skill/edit/{id}', name: 'skill_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Skill $skill, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Skill $skill, EntityManagerInterface $entityManager, LoggerInterface $logger): Response
     {
         $form = $this->createForm(SkillType::class, $skill, [
             'method' => 'POST',
@@ -127,7 +127,8 @@ class SkillsController extends AbstractController
                 $this->addFlash('error', 'Le formulaire contient des erreurs');
             }
         }catch(Exception $e){
-            echo $e;
+            $logger->error($e->getMessage(), ['exception' => $e]);
+            $this->addFlash('error', 'Une erreur est survenue lors de la modification de la compétence.');
         }
 
         return $this->render('admin/skills/edit.html.twig', [

@@ -1,0 +1,39 @@
+# Production hardening overlay — combine with the base file explicitly:
+#   docker compose -f compose.yaml -f compose.prod.yaml up -d
+# (never auto-merged, unlike compose.override.yaml, so a plain `docker
+# compose up` can't accidentally run "hardened but with dev secrets").
+#
+# Kept separate from compose.yaml because Docker Compose merges list-type
+# keys (cap_drop, tmpfs, ...) by concatenation, not replacement: once a
+# capability is dropped in a file that compose.override.yaml also merges
+# with, there is no way for the dev overlay to add it back. Splitting prod
+# hardening into its own opt-in file sidesteps that entirely instead of
+# fighting the merge semantics.
+
+services:
+  migrate:
+    read_only: true
+    tmpfs:
+      - /tmp:mode=1777
+    cap_drop:
+      - ALL
+
+  app:
+    read_only: true
+    tmpfs:
+      - /tmp:mode=1777
+    cap_drop:
+      - ALL
+
+  web:
+    read_only: true
+    # mode=1777: tmpfs mounts default to root-owned, which "web" (nginx_prod's
+    # non-root "app" user) can't write into — nginx crash-loops trying to
+    # mkdir e.g. /var/cache/nginx/client_temp. World-writable + sticky bit
+    # (same as /tmp) fixes it without needing to know nginx's exact uid.
+    tmpfs:
+      - /tmp:mode=1777
+      - /var/cache/nginx:mode=1777
+      - /var/run:mode=1777
+    cap_drop:
+      - ALL

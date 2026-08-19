@@ -8,7 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+// Table explicitly named "users", not "user" — PostgreSQL treats USER as a
+// reserved keyword (it's the pseudo-constant behind CURRENT_USER), so
+// unquoted DML like the ORM's own generated INSERTs fails with a syntax
+// error against a table actually named "user".
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: 'users')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -139,10 +144,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setRole(string $role): static
     {
-        if (!in_array($role, $this->roles)) {
-            $this->roles[] = $role;
-        }
-    
+        // Replaces the role rather than appending to $roles: previously this only ever
+        // added, so editing an existing user's role via the admin form left their old
+        // role(s) in place and the user ended up with both instead of just the new one.
+        $this->roles = [$role];
+
         return $this;
     }
 

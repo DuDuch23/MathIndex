@@ -1,0 +1,30 @@
+.git
+.gitignore
+.github
+
+# Secrets / local env overrides never belong in an image. The base .env (safe,
+# non-secret dev defaults) is excluded too: production config must come from
+# real environment variables (see compose.yaml / README.md), not a shipped file.
+.env
+.env.*
+!.env.test
+
+var/
+vendor/
+node_modules/
+public/build/
+public/bundles/
+public/assets/
+
+# PHP tooling / editor cruft
+.phpunit.result.cache
+phpunit.xml
+.idea/
+.vscode/
+
+# Note: docker/ is NOT ignored — the Dockerfile COPYs files from it
+# (docker/php/conf.d/*.ini, docker/php/docker-entrypoint.sh,
+# docker/nginx/conf.d/default.conf) and needs them in the build context.
+Dockerfile
+compose*.yaml
+Makefile

@@ -1,21 +1,93 @@
-version: '3'
+name: mathindex
+
+# Base stack: image builds, service wiring, dependencies. Works standalone but
+# is not hardened by itself — combine it with the matching overlay:
+#
+#   Dev (default):  docker compose up                 (auto-merges compose.override.yaml)
+#   Production:     docker compose -f compose.yaml -f compose.prod.yaml up -d
+#
+# (the Makefile wraps both forms — see `make help`)
+#
+# Required in real production (no defaults on purpose — see README.md /
+# CLAUDE.md "Environment variables"): COMPOSE_APP_SECRET, COMPOSE_MAILER_DSN,
+# POSTGRES_PASSWORD. Never put real values for these in a committed file;
+# inject them via your platform/CI secrets.
+#
+# Why "COMPOSE_" prefixes: `docker compose` auto-loads ./.env (if no
+# --env-file is given) for its own ${...} substitution — but ./.env is also
+# the Symfony app's own dotenv file, which already defines APP_SECRET,
+# DATABASE_URL and MAILER_DSN with dev-only, non-Docker values. Reusing those
+# exact names here would let the Symfony .env silently satisfy (with the
+# wrong value) the "required" checks below whenever someone runs a bare
+# `docker compose ...` instead of going through `make`/--env-file
+# .env.docker. The COMPOSE_ prefix guarantees no such collision is possible.
 
 services:
-###> doctrine/doctrine-bundle ###
   database:
-    image: postgres:${POSTGRES_VERSION:-15}-alpine
+    image: postgres:16-alpine
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
       POSTGRES_USER: ${POSTGRES_USER:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD (see README.md)}
     volumes:
       - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-app} -d $${POSTGRES_DB:-app}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+  migrate:
+    build:
+      context: .
+      target: app_prod
+    depends_on:
+      database:
+        condition: service_healthy
+    environment: &app_env
+      APP_ENV: prod
+      APP_SECRET: ${COMPOSE_APP_SECRET:?Set COMPOSE_APP_SECRET (see README.md)}
+      DATABASE_URL: ${COMPOSE_DATABASE_URL:-postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB:-app}?serverVersion=16&charset=utf8}
+      MAILER_DSN: ${COMPOSE_MAILER_DSN:?Set COMPOSE_MAILER_DSN (see README.md)}
+      MESSENGER_TRANSPORT_DSN: ${COMPOSE_MESSENGER_TRANSPORT_DSN:-doctrine://default?auto_setup=0}
+    volumes:
+      - app_var:/app/var
+    command: ["php", "bin/console", "doctrine:migrations:migrate", "--no-interaction"]
+    restart: "no"
+    security_opt:
+      - no-new-privileges:true
+
+  app:
+    build:
+      context: .
+      target: app_prod
+    depends_on:
+      database:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    environment: *app_env
+    volumes:
+      - app_var:/app/var
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      target: nginx_prod
+    depends_on:
+      - app
+    ports:
+      - "${HTTP_PORT:-8080}:8080"
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
 
 volumes:
-###> doctrine/doctrine-bundle ###
   database_data:
-###< doctrine/doctrine-bundle ###
+  app_var:

@@ -24,7 +24,7 @@ class CourseFixtures extends Fixture
         ],
     ];
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         foreach($this::COURSE as $code => $attributes)
         {

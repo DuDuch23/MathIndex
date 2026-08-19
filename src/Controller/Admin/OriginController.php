@@ -108,7 +108,7 @@ class OriginController extends AbstractController
 
 
     #[Route(path: '/origin/edit/{id}', name: 'origin_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Origin $origin, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Origin $origin, EntityManagerInterface $entityManager, LoggerInterface $logger): Response
     {
         $form = $this->createForm(OriginType::class, $origin, [
             'method' => 'POST',
@@ -128,7 +128,8 @@ class OriginController extends AbstractController
                 $this->addFlash('error', 'Le formulaire contient des erreurs');
             }
         }catch(Exception $e){
-            echo $e;
+            $logger->error($e->getMessage(), ['exception' => $e]);
+            $this->addFlash('error', 'Une erreur est survenue lors de la modification de l\'origine.');
         }
 
         return $this->render('admin/origin/edit.html.twig', [

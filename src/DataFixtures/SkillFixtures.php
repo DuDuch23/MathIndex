@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Course;
 use App\Entity\Skill;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -45,7 +46,7 @@ class SkillFixtures extends Fixture implements DependentFixtureInterface
             $skill->setName($attributes['name']);
 
             $courseReference = array_rand(CourseFixtures::COURSE);
-            $skill->setCourseId($this->getReference($courseReference));
+            $skill->setCourseId($this->getReference($courseReference, Course::class));
 
             $manager->persist($skill);
 
@@ -55,7 +56,7 @@ class SkillFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return[
             CourseFixtures::class,

@@ -2,14 +2,20 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Classroom;
+use App\Entity\Course;
 use App\Entity\Exercise;
+use App\Entity\File;
+use App\Entity\Origin;
+use App\Entity\Thematic;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class ExerciseFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $dataExercise = [
             [
@@ -431,22 +437,22 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
             $randomUser = $userData[array_rand($userData)];
             $userReference = $randomUser['last_name'] . '-' . $randomUser['first_name'];
             $exercise->setName($data['name']);
-            $exercise->setCourseId($this->getReference($courseReference));
-            $exercise->setClassroomId($this->getReference($classroomReference));
-            $exercise->setThematicId($this->getReference($thematicReference));
+            $exercise->setCourseId($this->getReference($courseReference, Course::class));
+            $exercise->setClassroomId($this->getReference($classroomReference, Classroom::class));
+            $exercise->setThematicId($this->getReference($thematicReference, Thematic::class));
             $exercise->setChapter($data['chapter']);
             $exercise->setKeywords($data['keywords']);
             $exercise->setDifficulty($data['difficulty']);
             $exercise->setDuration($data['duration']);
-            $exercise->setOriginId($this->getReference($originReference));
+            $exercise->setOriginId($this->getReference($originReference, Origin::class));
             $exercise->setOriginName($data['origin_name']);
             $exercise->setOriginInformation($data['origin_information']);
             $exercise->setProposedByType($data['proposed_by_type']);
             $exercise->setProposedByFirstName($data['proposed_by_first_name']);
             $exercise->setProposedByLastName($data['proposed_by_last_name']);
-            $exercise->setExerciceFile($this->getReference($enonce));
-            $exercise->setCorrectionFile($this->getReference($correction));
-            $exercise->setCreatedById($this->getReference($userReference));
+            $exercise->setExerciceFile($this->getReference((string) $enonce, File::class));
+            $exercise->setCorrectionFile($this->getReference((string) $correction, File::class));
+            $exercise->setCreatedById($this->getReference($userReference, User::class));
 
             $manager->persist($exercise);
         }
@@ -454,7 +460,7 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return[
             CourseFixtures::class,

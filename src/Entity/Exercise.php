@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\File;
 use App\Entity\User;
-use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
+use Vich\UploaderBundle\Mapping\Attribute\Uploadable;
 
 #[ORM\Entity(repositoryClass: ExerciseRepository::class)]
 #[Uploadable]
@@ -259,24 +259,24 @@ class Exercise
         return $this;
     }
 
-    public function getExerciceFileId(): ?File
+    public function getExerciceFile(): ?File
     {
         return $this->exerciceFile;
     }
 
-    public function setExerciseFileId(?File $exerciceFile): self
+    public function setExerciceFile(?File $exerciceFile): self
     {
         $this->exerciceFile = $exerciceFile;
 
         return $this;
     }
 
-    public function getCorrectionFileId(): ?File
+    public function getCorrectionFile(): ?File
     {
         return $this->correctionFile;
     }
 
-    public function setCorrectionFileId(?File $correctionFile): self
+    public function setCorrectionFile(?File $correctionFile): self
     {
         $this->correctionFile = $correctionFile;
 

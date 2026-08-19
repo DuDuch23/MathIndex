@@ -107,7 +107,7 @@ class ClassroomController extends AbstractController
     }
     
     #[Route(path: '/classroom/edit/{id}', name: 'classroom_edit', methods: ['GET', 'POST'])]
-    public function editClassroom(Request $request, Classroom $classroom, EntityManagerInterface $entityManager): Response
+    public function editClassroom(Request $request, Classroom $classroom, EntityManagerInterface $entityManager, LoggerInterface $logger): Response
     {
         $form = $this->createForm(ClassroomType::class, $classroom, [
             'method' => 'POST',
@@ -128,7 +128,8 @@ class ClassroomController extends AbstractController
                 $this->addFlash('error', 'Le formulaire contient des erreurs');
             }
         }catch(Exception $e){
-            echo $e;
+            $logger->error($e->getMessage(), ['exception' => $e]);
+            $this->addFlash('error', 'Une erreur est survenue lors de la modification de la classe.');
         }
 
         return $this->render('admin/classroom/edit.html.twig', [

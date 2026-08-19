@@ -108,7 +108,7 @@ class ThematicController extends AbstractController
 
 
     #[Route(path: '/thematic/edit/{id}', name: 'thematic_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Thematic $thematic, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Thematic $thematic, EntityManagerInterface $entityManager, LoggerInterface $logger): Response
     {
         $form = $this->createForm(ThematicType::class, $thematic, [
             'method' => 'POST',
@@ -128,7 +128,8 @@ class ThematicController extends AbstractController
                 $this->addFlash('error', 'Le formulaire contient des erreurs');
             }
         }catch(Exception $e){
-            echo $e;
+            $logger->error($e->getMessage(), ['exception' => $e]);
+            $this->addFlash('error', 'Une erreur est survenue lors de la modification de la thématique.');
         }
 
         return $this->render('admin/thematic/edit.html.twig', [

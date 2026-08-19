@@ -1,0 +1,52 @@
+# MathIndex
+
+Symfony 7.4 (PHP 8.4) / Doctrine ORM / PostgreSQL 16 / Webpack Encore. Voir [README.md](README.md) pour la présentation générale et les commandes.
+
+## Environment variables
+
+### `.env` (committé, valeurs de dev non sensibles)
+
+| Variable | Rôle |
+|---|---|
+| `APP_ENV` | `dev` en local |
+| `APP_SECRET` | Signe sessions/CSRF. Valeur de dev committée intentionnellement (voir commentaire dans le fichier) — **jamais réutilisée en prod** |
+| `DATABASE_URL` | Connexion PostgreSQL pour un usage hors Docker (`127.0.0.1:5432`) |
+| `MESSENGER_TRANSPORT_DSN` | Transport Doctrine pour Messenger |
+| `MAILER_DSN` | Pointe vers Mailpit (`smtp://mailer:1025`) quand la stack Docker dev tourne |
+
+`.env.local` (non committé) surcharge ces valeurs si besoin en dev hors Docker.
+
+### `.env.docker` (committé, substitution Docker Compose dev uniquement)
+
+Variables `${...}` interpolées par `compose.yaml`/`compose.override.yaml` — **distinctes** de celles de `.env` (voir le commentaire en tête de `compose.yaml` : `docker compose` charge par défaut `./.env` pour ses propres substitutions si `--env-file` n'est pas précisé, donc les secrets Compose sont préfixés `COMPOSE_*` pour ne jamais entrer en collision avec les variables du même nom dans le `.env` de l'app). Toujours invoqué via le Makefile (`docker compose --env-file .env.docker ...`), jamais manuellement sans ce flag.
+
+- `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`
+- `COMPOSE_APP_SECRET`, `COMPOSE_MAILER_DSN`
+- `HTTP_PORT` (port hôte exposé pour `web`, défaut `8080`)
+
+### Production
+
+**Aucun fichier `.env*` n'est utilisé en production** — `compose.yaml` seul (combiné à `compose.prod.yaml`) exige ces variables en variables d'environnement réelles, injectées par la plateforme/CI, sans valeur par défaut :
+
+- `POSTGRES_PASSWORD`
+- `COMPOSE_APP_SECRET` (32+ caractères aléatoires, généré indépendamment des valeurs de dev)
+- `COMPOSE_MAILER_DSN`
+- `COMPOSE_DATABASE_URL` (optionnel — pour pointer vers une base externe plutôt que le service `database` du compose)
+
+Une variable manquante fait échouer `docker compose up` immédiatement (`Set COMPOSE_APP_SECRET ...`) plutôt que de démarrer avec une valeur par défaut non sécurisée.
+
+## Architecture Docker
+
+- `Dockerfile` multi-stage : `vendor` (composer, prod uniquement), `frontend_build` (Webpack Encore), `app_prod` (PHP-FPM non-root, immuable), `app_dev` (root — voir note ci-dessous), `nginx_prod` (assets baked-in, aucun volume).
+- `compose.yaml` : socle (builds, dépendances, wiring). Ne suffit pas seul en prod sans son overlay de durcissement.
+- `compose.override.yaml` : auto-fusionné par `docker compose up` — bind mounts, ports exposés, Mailpit, watcher Node.
+- `compose.prod.yaml` : overlay de durcissement prod (`read_only`, `cap_drop: [ALL]`, `tmpfs`), combiné explicitement (`make prod-up`), **jamais** auto-fusionné. Séparé du socle exprès : Docker Compose fusionne les clés de type liste (`cap_drop`, `tmpfs`) par concaténation, pas par remplacement — si ces restrictions vivaient dans `compose.yaml`, `compose.override.yaml` ne pourrait pas les retirer pour le développement.
+- `docker/nginx/conf.d/default.conf` : seul `index.php` est routé vers PHP-FPM ; toute autre requête `*.php` (ex. un nom de fichier deviné sous un dossier d'upload) est rejetée en 404 sans jamais atteindre PHP-FPM — c'est la protection de fond contre une éventuelle exécution de fichier uploadé.
+
+**Pourquoi `app_dev` tourne en root** : Docker Desktop pour Windows ne préserve pas de façon fiable les droits d'écriture de l'utilisateur uid 1000 du conteneur sur les sous-répertoires qu'il crée lui-même à l'intérieur d'un bind mount (`mkdir`/écriture ultérieure échouent en `Permission denied` après un aller-retour host↔conteneur). `app_prod`/`nginx_prod` — ce qui est réellement déployé — restent non-root ; seul le conteneur de dev local, qui ne monte jamais que l'arborescence source bind-mountée, tourne en root.
+
+## Points connus / dette restante
+
+- **`npm audit`** : 8 vulnérabilités restantes (7 moderate, 1 high) après `npm audit fix`, toutes dans l'outillage de build dev-only (`webpack-dev-server`, `webpack-notifier`, `css-minimizer-webpack-plugin` — aucune ne s'exécute en production). La résolution complète nécessite `npm audit fix --force`, qui bascule `@symfony/webpack-encore` vers une version majeure (7.x) non testée dans cette session — à valider séparément avant de l'appliquer.
+- **`config/packages/csrf.yaml`** (recipe Symfony pour la CSRF "stateless") a été retiré : il générait un jeton CSRF invalide en environnement de conteneur (chaîne littérale au lieu d'un jeton aléatoire), cassant le login. L'app utilise la protection CSRF classique basée sur la session, cohérente avec le reste du code existant (`isCsrfTokenValid()` un peu partout).
+- Deux valeurs `APP_SECRET` et une chaîne de connexion DB ont été committées puis supprimées dans l'historique Git (commits `b1bd625`/`22fabf5`/`6845634`). Elles ne sont plus utilisées nulle part dans le code actuel, mais restent lisibles dans `git log`/`git show` pour quiconque a accès au dépôt — si ce dépôt devient public ou change de visibilité, envisager de purger l'historique (`git filter-repo`) ou simplement s'assurer qu'aucune de ces valeurs n'est jamais réutilisée.
