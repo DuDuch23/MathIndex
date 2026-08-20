@@ -4,6 +4,17 @@ framework:
     #csrf_protection: true
     handle_all_throwables: true
 
+    # Production sits behind a host-level nginx reverse proxy (Docker's "web"
+    # port is published on 127.0.0.1 only — see compose.yaml). Without this,
+    # Symfony sees every request as coming from the proxy over plain HTTP,
+    # which breaks cookie_secure: auto below (session cookie never gets the
+    # Secure flag) and makes generated absolute URLs use http:// instead of
+    # https://. 'REMOTE_ADDR' resolves dynamically to whatever peer address
+    # Docker's network delivers, since that's never literally 127.0.0.1
+    # once traffic is NATed through the published port.
+    trusted_proxies: '127.0.0.1,REMOTE_ADDR'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port']
+
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.
     session:

@@ -85,7 +85,11 @@ services:
     depends_on:
       - app
     ports:
-      - "${HTTP_PORT:-8080}:8080"
+      # 127.0.0.1-only: this port must never be reachable directly from the
+      # internet in production — only through the host's own reverse proxy
+      # (nginx + certbot), which is what actually terminates TLS. Binding to
+      # all interfaces here would let anyone bypass HTTPS entirely.
+      - "127.0.0.1:${HTTP_PORT:-8080}:8080"
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
