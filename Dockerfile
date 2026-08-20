@@ -33,7 +33,8 @@ FROM php:${PHP_VERSION}-fpm-alpine AS php_base
 # headers, since apk garbage-collects a virtual group's otherwise-unused
 # dependencies, leaving the compiled extensions unable to load their .so at
 # runtime ("Unable to load dynamic library ... No such file or directory").
-RUN apk add --no-cache bash icu-libs libpq libzip \
+RUN apk update && apk upgrade --no-cache \
+    && apk add --no-cache bash icu-libs libpq libzip \
     && apk add --no-cache --virtual .build-deps \
         icu-dev \
         libzip-dev \
@@ -162,7 +163,14 @@ CMD ["php-fpm"]
 # ---------------------------------------------------------------------------
 # nginx_prod: static/production web server, no runtime volumes
 # ---------------------------------------------------------------------------
-FROM nginx:1.27-alpine AS nginx_prod
+FROM nginx:1.31-alpine AS nginx_prod
+
+# `apk upgrade` pulls whatever patched package versions exist in this Alpine
+# release *at build time*, independently of how stale the base image tag
+# itself is — a Trivy scan found several HIGH/CRITICAL CVEs (libxml2, musl,
+# nghttp2, zlib) in the OS packages baked into nginx:1.27-alpine; rebuilding
+# regularly keeps this current instead of just fixing it once.
+RUN apk update && apk upgrade --no-cache
 
 RUN addgroup -g 1000 app 2>/dev/null; adduser -D -u 1000 -G app app 2>/dev/null || true
 
