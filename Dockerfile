@@ -85,6 +85,12 @@ RUN npm ci
 
 COPY webpack.config.js postcss.config.js tailwind.config.js ./
 COPY assets/ assets/
+# tailwind.config.js's content glob ("./templates/**/*.html.twig") is scanned
+# at build time to decide which utility classes to keep — without templates/
+# present here, Tailwind finds zero files to scan and purges almost the
+# entire utility stylesheet in the production build (classes only referenced
+# from Twig, e.g. responsive md:* variants, silently disappear).
+COPY templates/ templates/
 RUN npm run build
 
 
